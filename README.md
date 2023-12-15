@@ -1,70 +1,57 @@
-# Getting Started with Create React App
+# Guide d'installation et de démarrage pour un projet React déjà téléchargé
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Ce guide vous aidera à lancer un projet React préalablement téléchargé sur votre machine en installant les packages requis et en exécutant `npm start` pour le faire fonctionner en local.
 
-## Available Scripts
+## Prérequis
 
-In the project directory, you can run:
+Assurez-vous d'avoir Node.js installé sur votre machine. Si ce n'est pas le cas, vous pouvez télécharger et installer Node.js en suivant les étapes ci-dessous.
 
-### `npm start`
+### Installation de Node.js
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. **Téléchargement de Node.js :**
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+   - Rendez-vous sur le [site officiel de Node.js](https://nodejs.org).
+   - Téléchargez la version recommandée pour votre système d'exploitation (Windows, macOS, Linux).
+   - Suivez les instructions du programme d'installation pour installer Node.js.
 
-### `npm test`
+2. **Vérification de l'installation :**
+   - Ouvrez votre terminal (ou invite de commande sur Windows).
+   - Tapez les commandes suivantes pour vérifier si Node.js et npm (le gestionnaire de paquets de Node.js) sont installés et pour voir leurs versions :
+     ```
+     node -v
+     npm -v
+     ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Installation des dépendances du projet
 
-### `npm run build`
+1. **Accédez au répertoire du projet :**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   - Ouvrez votre terminal.
+   - Utilisez la commande `cd` pour naviguer jusqu'au répertoire du projet téléchargé.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. **Installation des packages nécessaires :**
+   - Une fois dans le répertoire du projet, exécutez la commande suivante pour installer toutes les dépendances :
+     ```
+     npm i
+     ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Démarrage du projet React en local
 
-### `npm run eject`
+Une fois les dépendances installées, suivez ces étapes pour lancer le projet en local :
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. **Démarrage du serveur de développement :**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   - Utilisez la commande suivante pour lancer le projet en mode développement :
+     ```
+     npm start
+     ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+2. **Accès à l'application :**
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+   - Après avoir démarré le serveur, ouvrez un navigateur web et allez à l'adresse suivante :
+     ```
+     http://localhost:3000/
+     ```
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+3. **Arrêt du serveur de développement :**
+   - Pour arrêter le serveur de développement, retournez dans votre terminal et utilisez `Ctrl + C`.
