@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./index.css";
 
 // Import des pages
-import Home from "./pages/Home/Home";
+import Landing from "./pages/Landing/Landing";
 import About from "./pages/About/About";
 import Members from "./pages/Members/Members";
 import MemberCard from "./pages/MemberCard/MemberCard";
@@ -18,7 +18,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path="/" element={<Home />} />
+        <Route exact path="/" element={<Landing />} />
         <Route path="/About" element={<About />} />
         <Route path="/Members" element={<Members />} />
         <Route path="/Members/:id" element={<MemberCard />} />

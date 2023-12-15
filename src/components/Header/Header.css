@@ -1,0 +1,98 @@
+header {
+    display: flex;
+    height: 8%;
+    justify-content: space-between;
+    padding: 0.5em 2em;
+    border-bottom: solid 1px var(--light-primary);
+}
+
+img {
+    height: 65px;
+}
+
+img:hover {
+    cursor: pointer;
+}
+
+.extendNav {
+    display: flex;
+    width: 40%; 
+    align-items: center;
+}
+
+nav {
+    display: flex;
+    gap: 2.5em;
+}
+
+nav a {
+    color: black;
+}
+
+nav a:hover {
+    color: var(--secondary);
+}
+
+a {
+    text-decoration: none; /* Pour supprimer le soulignement par défaut */
+    position: relative; /* Permet d'utiliser position:absolute sur l'élément enfant */
+}
+
+a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; /* Ajuste la position verticale du soulignement */
+    left: 5px; /* Ajuste le décalage horizontal du soulignement */
+    width: calc(100% - 10px); /* Ajuste la largeur du soulignement en fonction du décalage */
+    height: 2px; /* Ajuste l'épaisseur du soulignement */
+    background-color: var(--secondary); /* Couleur du soulignement */
+    visibility: hidden; /* Cache le soulignement par défaut */
+    transform: scaleX(0); /* Réduit la largeur du soulignement à 0 */
+    transition: transform 0.5s ease, visibility 0.5s ease; /* Animation du soulignement */
+}
+
+a:hover::after {
+    visibility: visible; /* Rend le soulignement visible au survol */
+    transform: scaleX(1); /* Agrandit la largeur du soulignement */
+    text-decoration: none; /* Supprime le soulignement par défaut du texte */
+    text-decoration-skip-ink: none; /* Évite que le soulignement coupe les lettres */
+    text-decoration-position: under; /* Place le soulignement sous le texte */
+}
+
+i{
+font-size: 42px;
+color: var(--primary);
+position: relative;
+}
+
+i:hover {
+    color: var(--secondary);
+    cursor: pointer;
+}
+
+.tooltip {
+    visibility: hidden;
+    width: fit-content;
+    background-color: var(--secondary);
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: calc(100% + 5px); /* Place l'infobulle au-dessus de l'icône */
+    left: 50%; /* Centre l'infobulle horizontalement */
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .fa-circle-user:hover + .tooltip {
+    visibility: visible;
+    opacity: 1;
+  }
+
+hr {
+    display: flex;
+    align-self: normal;
+}

@@ -9,6 +9,19 @@
     --accent2: #DE1BE3;
 
     /* Police d'ecriture */
-    --body: 'Hind', sans-serif;
     --heading: 'Poppins', sans-serif;
+    --body: 'Hind', sans-serif;
+  }
+
+
+  h1, h2, h3, h4 {
+    font-family: var(--heading);
+    text-transform: uppercase;
+  }
+
+  a, p {
+    font-family: var(--body);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 22px;
   }
