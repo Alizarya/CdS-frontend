@@ -1,0 +1,14 @@
+/* Variables de base pour le design */
+:root {
+    /* Couleurs */
+    --primary: #1790E3;
+    --dark-primary: #2370A5;
+    --light-primary: #E8F4FD;
+    --secondary: #E36B18;
+    --accent1: #0a9400;
+    --accent2: #DE1BE3;
+
+    /* Police d'ecriture */
+    --body: 'Hind', sans-serif;
+    --heading: 'Poppins', sans-serif;
+  }
