@@ -25,3 +25,8 @@
     font-weight: 500;
     font-size: 22px;
   }
+
+  body {
+    max-width: 120em;
+    margin: 0;
+  }

@@ -1,0 +1,13 @@
+.landing {
+    width: 100%;
+}
+
+.home {
+    position: relative;
+  }
+
+.homeImg {
+    width: 100%;
+    border-bottom: 20px solid var(--secondary);
+}
+

@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 function Header() {
   return (
     <header>
-        <img src="./images\Landing\logo banniere café des sciences.jpg" alt="logo du café des sciences"/>
+        <Link to="/"> <img className="logoNav" src="./images\Landing\logo banniere café des sciences.jpg" alt="logo du café des sciences"/></Link>
         <div className="extendNav">
             <nav>
                 <Link to="/About"> A Propos </Link>
