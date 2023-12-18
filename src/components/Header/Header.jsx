@@ -6,9 +6,16 @@ import { Link } from "react-router-dom";
 
 // Création de la fonction composant du header
 function Header() {
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+    });
+  };
+
   return (
     <header>
-        <Link to="/"> <img className="logoNav" src="./images\Landing\logo banniere café des sciences.jpg" alt="logo du café des sciences"/></Link>
+        <Link to="/" onClick={scrollToTop}> <img className="logoNav" src="./images\Landing\logo banniere café des sciences.jpg" alt="logo du café des sciences"/></Link>
         <div className="extendNav">
             <nav>
                 <Link to="/About"> A Propos </Link>
