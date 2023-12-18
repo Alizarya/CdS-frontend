@@ -5,6 +5,7 @@
     --dark-primary: #2370A5;
     --light-primary: #E8F4FD;
     --secondary: #E36B18;
+    --light-secondary: #e3927b;
     --accent1: #0a9400;
     --accent2: #DE1BE3;
 
@@ -29,4 +30,8 @@
   body {
     max-width: 120em;
     margin: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
