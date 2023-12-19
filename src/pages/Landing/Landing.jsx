@@ -93,6 +93,13 @@ function Landing() {
 
         <section className="contact" id="contact">
               <ContactForm />
+              <aside>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <div className="changeFormBtn">
+                  <Button texte="candidater"/>
+                  <Button texte="p-marrainnage"/>
+                </div>
+              </aside>
         </section>
 
         <Footer/>
