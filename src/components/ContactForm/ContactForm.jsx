@@ -35,7 +35,7 @@ function ContactForm() {
   };
 
   return (
-    <section className="contact" id="contact">
+    <>
       <form onSubmit={handleSubmit}>
         <div className="contactFixed">
           <label htmlFor="name">Prénom / Nom / Pseudo</label>
@@ -83,7 +83,7 @@ function ContactForm() {
         <Button type="submit" texte="Envoyer votre message" />
       </form>
       <hr></hr>
-    </section>
+      </>
   );
 }
 

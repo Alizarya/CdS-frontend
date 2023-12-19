@@ -2,7 +2,7 @@ footer {
     background-color: var(--dark-primary);
     color: var(--light-primary);
     padding: 4em;
-    margin-top: 8em;
+    margin-top: 10em;
 }
 
 footer a {

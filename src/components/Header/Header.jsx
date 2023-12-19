@@ -2,10 +2,23 @@
 import "./Header.css";
 
 // Import des composants
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 // Création de la fonction composant du header
 function Header() {
+
+  const location = useLocation();
+
+   const scrollToAnchor = (anchorName) => {
+    if (location.pathname !== '/') {
+      window.location.href = `/#${anchorName}`;
+    } else {
+      const anchorElement = document.getElementById(anchorName);
+      if (anchorElement) {
+        anchorElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  };
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -20,8 +33,9 @@ function Header() {
             <nav>
                 <Link to="/About"> A Propos </Link>
                 <Link to="/Members"> Nos membres </Link>
-                <Link to="/Support"> Nous soutenir </Link>
-                <Link to="/Contact"> Nous contacter </Link>
+                <Link to="/#support" onClick={() => scrollToAnchor('support')}> Nous soutenir </Link>
+                <Link to="/#contact" onClick={() => scrollToAnchor('contact')}> Nous contacter </Link>
+
             </nav>
             <hr></hr>
             <i className="fa-solid fa-circle-user" id="icon" title="Se connecter"></i>
