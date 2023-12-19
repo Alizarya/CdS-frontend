@@ -9,7 +9,11 @@ import Button from "../Button/Button"
 import DataContactFields from "../../data/DataContactFields";
 
 function ContactForm() {
-  const [formData, setFormData] = useState({ /* ...votre état de formData */ });
+
+  //________________________________________
+  // Gestion des données des formulaires
+  const initialFormData = {};
+  const [formData, setFormData] = useState(initialFormData);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,11 +25,63 @@ function ContactForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData); // ajouter l'envoi au back
+    console.log(formData); // Envoi au backend à mettre ici
 
-    // Réinitialise les champs après la soumission du formulaire
-    setFormData({ /* ...réinitialisation des valeurs de formData */ });
+    // Réinitialise les champs du formulaire après la soumission
+    const emptyFormData = {};
+    Object.keys(formData).forEach((key) => {
+      emptyFormData[key] = "";
+    });
+    setFormData(emptyFormData);
   };
+
+  //________________________________________
+  // Gestion des boutons de contact
+  const handleMessageClick = () => {
+    const contactCandidacies = document.querySelectorAll('.contactCandidacy');
+    const contactSponsors = document.querySelectorAll('.contactSponsor');
+    const contactMessages = document.querySelectorAll('.contactMessage');
+    contactCandidacies.forEach((contactCandidacy) => {
+      contactCandidacy.style.display = 'none';
+    });
+    contactSponsors.forEach((contactSponsor) => {
+      contactSponsor.style.display = 'none';
+    });
+    contactMessages.forEach((contactMessage) => {
+      contactMessage.style.display = 'flex';
+    });
+  };
+  
+  const handleCandidacyClick = () => {
+    const contactSponsors = document.querySelectorAll('.contactSponsor');
+    const contactCandidacies = document.querySelectorAll('.contactCandidacy');
+    const contactMessages = document.querySelectorAll('.contactMessage');
+    contactSponsors.forEach((contactSponsor) => {
+      contactSponsor.style.display = 'none';
+    });
+    contactCandidacies.forEach((contactCandidacy) => {
+      contactCandidacy.style.display = 'flex';
+    });
+    contactMessages.forEach((contactMessage) => {
+      contactMessage.style.display = 'none';
+    });
+  };
+  
+  const handleSponsorClick = () => {
+    const contactCandidacies = document.querySelectorAll('.contactCandidacy');
+    const contactSponsors = document.querySelectorAll('.contactSponsor');
+    const contactMessages = document.querySelectorAll('.contactMessage');
+    contactCandidacies.forEach((contactCandidacy) => {
+      contactCandidacy.style.display = 'none';
+    });
+    contactSponsors.forEach((contactSponsor) => {
+      contactSponsor.style.display = 'flex';
+    });
+    contactMessages.forEach((contactMessage) => {
+      contactMessage.style.display = 'none';
+    });
+  };
+  
 
   return (
     <>
@@ -33,7 +89,7 @@ function ContactForm() {
         {DataContactFields.map((field, index) => (
           <div className={field.className} key={index}>
             <label htmlFor={field.id}>{field.title}</label>
-            {field.type === 'textarea' ? (
+            {field.type === "textarea" ? (
               <textarea
                 id={field.id}
                 name={field.name}
@@ -53,9 +109,19 @@ function ContactForm() {
         ))}
         <Button type="submit" texte="Envoyer votre message" />
       </form>
+      
       <hr></hr>
+
+      <aside>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <div className="changeFormBtn">
+            <Button texte="message" onClick={handleMessageClick} />
+            <Button texte="candidater" onClick={handleCandidacyClick} />
+            <Button texte="p-marrainnage" onClick={handleSponsorClick} />
+        </div>
+        </aside>
     </>
   );
-}
+};
 
 export default ContactForm;

@@ -12,6 +12,7 @@ import Footer from "../../components/Footer/Footer";
 import Button from "../../components/Button/Button";
 import ContactForm from "../../components/ContactForm/ContactForm";
 
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 
@@ -22,7 +23,6 @@ function Landing() {
     const randomIndex = Math.floor(Math.random() * DataMembers.length);
     return DataMembers[randomIndex];
   };
-
   const randomMember = getRandomMember();
 
     return (
@@ -95,13 +95,7 @@ function Landing() {
 
         <section className="contact" id="contact">
               <ContactForm />
-              <aside>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                <div className="changeFormBtn">
-                  <Button texte="candidater"/>
-                  <Button texte="p-marrainnage"/>
-                </div>
-              </aside>
+              
         </section>
 
         <Footer/>

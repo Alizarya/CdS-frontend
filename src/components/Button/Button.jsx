@@ -2,7 +2,13 @@ import "./Button.css"
 
 import { Link } from 'react-router-dom';
 
-const Button = ({ texte, to, icon, openNewTab, type }) => {
+const Button = ({ texte, to, icon, openNewTab, type, onClick }) => {
+  const handleClick = (e) => {
+    if (onClick) {
+      onClick(e);
+    }
+  };
+
   if (to) {
     const linkProps = openNewTab ? { target: '_blank', rel: 'noopener noreferrer' } : {};
     return (
@@ -13,7 +19,7 @@ const Button = ({ texte, to, icon, openNewTab, type }) => {
     );
   } else {
     return (
-      <button type={type} className="button-cta">
+      <button type={type} className="button-cta" onClick={handleClick}>
         {icon && <i className={icon}></i>}
         {texte}
       </button>
