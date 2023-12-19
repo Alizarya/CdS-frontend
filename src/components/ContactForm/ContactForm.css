@@ -1,0 +1,36 @@
+.contact form {
+    padding: 5% 20% 1% 20%;
+
+}
+
+.contact form div{
+    display: flex;
+    flex-direction: column;
+}
+
+.contactFixed {
+    width: 50%;
+}
+
+.contact form textarea {
+    height: 10em;
+}
+
+.contact label {
+    margin-top: 1em;
+    margin-bottom: 0.2em;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.contact form .button-cta {
+    position: absolute;
+    margin-top: 1em;
+}
+
+.contact hr {
+    height: 20px;
+    background-color: var(--secondary); 
+    border: none; 
+    margin: 20px 0; 
+}

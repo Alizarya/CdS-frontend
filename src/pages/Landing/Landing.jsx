@@ -10,6 +10,7 @@ import DataSocials from "../../data/DataSocials";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Button from "../../components/Button/Button";
+import ContactForm from "../../components/ContactForm/ContactForm";
 
 
 function Landing() {
@@ -91,7 +92,7 @@ function Landing() {
         </section>
 
         <section className="contact" id="contact">
-
+              <ContactForm />
         </section>
 
         <Footer/>
