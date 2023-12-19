@@ -4,12 +4,12 @@ import "./Landing.css";
 // Import des données
 import DataMembers from "../../data/DataMembers";
 import SocialsLogos from "../../data/DataSocialsLogo";
+import DataSocials from "../../data/DataSocials";
 
 // Import des composants
 import Header from "../../components/Header/Header";
 import Button from "../../components/Button/Button";
 
-import { Link } from 'react-router-dom';
 
 function Landing() {
 
@@ -27,7 +27,7 @@ function Landing() {
         <Header />
 
         <section className="home">
-          <img className="homeImg" src="/images/Landing/groupe.jpg" alt="Le café des science lors de PlayAzur, photo de groupe" />
+          <img className="homeImg" src="/images/Landing/groupe.jpg" alt="Le café des science lors de PlayAzur, en groupe" />
           <Button texte="Découvrir nos membres" to="/members" />
         </section>
 
@@ -39,7 +39,7 @@ function Landing() {
                 <div className="landingMemberCardImgContainer">
                   <img className="landingMemberCardImg"
                     src={randomMember.image}
-                    alt={`photo de profil de ${randomMember.pseudo || randomMember.name}`}
+                    alt={`profil de ${randomMember.pseudo || randomMember.name}`}
                   />
                   <p class="landingMemberCardImgBorder"></p>
                 </div>
@@ -57,7 +57,7 @@ function Landing() {
 
                 <div className="landingMemberCardInfoSocial">
                   {Object.keys(randomMember.links).map((link, index) => (
-                    <a key={index} href={randomMember.links[link]} target="_blank">
+                    <a key={index} href={randomMember.links[link]} target="_blank" rel="noreferrer">
                       {SocialsLogos[link] && (
                         <i className={SocialsLogos[link]} />
                       )}
@@ -71,8 +71,23 @@ function Landing() {
         </section>
 
         <section className="support" id="support">
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
-          <img className="supportImg" src="/images/Landing/logo-web-bleu.png" alt="Logo de HelloAsso" />
+          <div className="helloasso">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
+            <img className="supportImg" src="/images/Landing/logo-web-bleu.png" alt="Logo de HelloAsso" />
+          </div>
+
+          <div className="socials">
+            {DataSocials.map((social, index) => (
+              <Button
+                key={index}
+                to={social.link}
+                icon={social.icon}
+                texte={social.title}
+                openNewTab={true} 
+              />
+            ))}
+          </div>
+
         </section>
 
     </div>

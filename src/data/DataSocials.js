@@ -2,7 +2,7 @@ const DataSocials = [
   {
     id: "fg4858465",
     title: "Instagram",
-    link: "https://www.instagram.com/cafesciences/?hl=fr",
+    link: "https://www.instagram.com/cafesciences/",
     icon: "fa-brands fa-square-instagram",
   },
 
@@ -18,6 +18,13 @@ const DataSocials = [
     title: "Facebook",
     link: "https://www.facebook.com/cafesciences/",
     icon: "fa-brands fa-square-facebook",
+  },
+
+  {
+    id: "fds654658",
+    title: "Threads",
+    link: "https://www.threads.net/@cafesciences",
+    icon: "fa-brands fa-square-threads",
   },
 
   {
