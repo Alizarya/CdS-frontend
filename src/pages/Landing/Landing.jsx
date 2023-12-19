@@ -8,6 +8,7 @@ import DataSocials from "../../data/DataSocials";
 
 // Import des composants
 import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 import Button from "../../components/Button/Button";
 
 
@@ -87,8 +88,13 @@ function Landing() {
               />
             ))}
           </div>
+        </section>
+
+        <section className="contact" id="contact">
 
         </section>
+
+        <Footer/>
 
     </div>
 
