@@ -3,13 +3,17 @@
 
 }
 
-.contact form div{
+.contactEntry {
     display: flex;
     flex-direction: column;
 }
 
 .contactFixed {
     width: 50%;
+}
+
+.contactCandidacy, .contactSponsor {
+    display: none;
 }
 
 .contact form textarea {

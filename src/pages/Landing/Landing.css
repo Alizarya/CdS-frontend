@@ -149,11 +149,16 @@
     gap: 4em;
     align-items: center;
     border-bottom: 20px solid var(--secondary);
+    width: 100%;
 }
 
-.helloasso img {
-    max-width: 50%;
+.helloasso a {
+    width: 60%;
     height: 100%;
+}
+
+.helloasso a img, .helloasso p  {
+    width: 35%;
 }
 
 .socials {
@@ -210,3 +215,4 @@
       font-size: 22px;
       margin-right: 1.1em;
   }
+

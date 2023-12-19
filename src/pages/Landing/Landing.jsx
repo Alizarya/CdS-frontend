@@ -12,6 +12,8 @@ import Footer from "../../components/Footer/Footer";
 import Button from "../../components/Button/Button";
 import ContactForm from "../../components/ContactForm/ContactForm";
 
+import { Link } from "react-router-dom";
+
 
 function Landing() {
 
@@ -75,7 +77,7 @@ function Landing() {
         <section className="support" id="support">
           <div className="helloasso">
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
-            <img className="supportImg" src="/images/Landing/logo-web-bleu.png" alt="Logo de HelloAsso" />
+            <Link to="https://www.helloasso.com/associations/c-fetiers-des-sciences"> <img className="supportImg" src="/images/Landing/logo-web-bleu.png" alt="Logo de HelloAsso" /></Link>
           </div>
 
           <div className="socials">
