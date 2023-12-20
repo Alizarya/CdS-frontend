@@ -1,0 +1,81 @@
+.members-container {
+    background-color: var(--light-primary);
+    margin: 0;
+}
+
+.members-section {
+    width: 90%;
+    display: flex;
+    margin: auto;
+
+}
+
+/*_________________________________*/
+/* Partie gauche - les tags et la recherche */
+
+.members-aside {
+    width: 30%;
+    background-color: white;
+    border-radius: 2em;
+    height: 75vh;
+    margin-top: 5vh;
+    position: fixed;
+}
+
+
+/*_________________________________*/
+/* Partie droite - les membres */
+.members-article {
+    width: 70%;
+    margin-left: 40%;
+    margin-top: 5vh;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.member-card {
+    background-color: var(--dark-primary);
+    border-radius: 2em 2em 0 0;
+    display: flex;
+    align-items: center;
+    padding: 1em 2em 1.2em 2em;
+    gap: 2em;
+    border-bottom: 10px solid var(--secondary);
+    color: white;
+}
+
+.member-card img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 2em;
+}
+
+.member-card h2 {
+    font-size: 34px;
+}
+
+.member-card h2, .member-card h3 {
+    text-align: center;
+    margin: 0;
+
+}
+
+.members-relative {
+    position: relative;
+}
+
+.members-article .button-cta {
+    position: absolute;
+    right: 0;
+    bottom: 0px;
+    transform: scale(0.5);
+    transform-origin: bottom right;
+}
+
+li {
+    color: var(--dark-primary);
+    font-family: var(--body);
+    font-weight: 800;
+}

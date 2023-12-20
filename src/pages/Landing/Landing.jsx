@@ -11,6 +11,7 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Button from "../../components/Button/Button";
 import ContactForm from "../../components/ContactForm/ContactForm";
+import Tags from "../../components/Tags/Tags";
 
 import { Link } from "react-router-dom";
 
@@ -55,7 +56,7 @@ function Landing() {
                 ) : (
                   <h2>{randomMember.name}</h2>
                 )}
-                <p className="tags">{randomMember.tags}</p>
+                <Tags memberId={randomMember.id} />
                 <p>{randomMember.shortdescription}</p>
 
                 <div className="landingMemberCardInfoSocial">

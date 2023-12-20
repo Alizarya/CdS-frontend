@@ -10,6 +10,7 @@ function Login() {
     const [userCode, setUserCode] = useState('');
     const [userMail, setUserMail] = useState('');
     const [userPassword, setUserPassword] = useState('');
+    const [isAgreed, setIsAgreed] = useState(false);
 
     const handleSignUp = () => {
         // En attente du back
@@ -56,6 +57,19 @@ function Login() {
                                 required
                             />
                         </div>
+                        <div className="form-group">
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={isAgreed}
+                                onChange={(e) => setIsAgreed(e.target.checked)}
+                                required
+                            />
+                            <span className="checkbox-text">
+                            Je m'engage à respecter le règlement du café.
+                            </span>
+                        </label>
+                    </div>
                         <Button type="submit" texte="S'inscrire"/>
                     </form>
                     <Link to="/"><i class="fa-solid fa-house"></i>Retourner à l'accueil</Link>

@@ -34,3 +34,12 @@ main {
 .signup-container a i {
     margin-right: 0.5em;
 }
+
+.checkbox-label {
+    display: block;
+    margin-top: 1em;
+}
+
+.checkbox-text {
+    margin-left: 0.5em;
+}
