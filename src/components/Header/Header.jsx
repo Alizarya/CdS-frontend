@@ -38,7 +38,8 @@ function Header() {
 
             </nav>
             <hr></hr>
-            <i className="fa-solid fa-circle-user" id="icon" title="Se connecter"></i>
+            <Link to="/Login"> <i className="fa-solid fa-circle-user" id="icon" title="Se connecter"></i> </Link>
+            
         </div>
     </header>
   );

@@ -12,7 +12,6 @@ import Footer from "../../components/Footer/Footer";
 import Button from "../../components/Button/Button";
 import ContactForm from "../../components/ContactForm/ContactForm";
 
-import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 
