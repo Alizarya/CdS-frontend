@@ -1,0 +1,24 @@
+.error404-container {
+    margin: auto;
+    text-align: center;
+}
+
+.error404-container h1 {
+    color: var(--secondary);
+    font-size: 150px;
+    margin-bottom: 0.01em;
+}
+
+.error404-container a {
+    color: black;
+    font-style: italic;
+}
+
+.error404-container a i {
+    margin-right: 0.5em;
+}
+
+.error404-container a:hover {
+    color: var(--secondary);
+    text-decoration: underline;
+}

@@ -30,3 +30,7 @@ main {
     color: var(--secondary);
     text-decoration: underline;
 }
+
+.login-container a i {
+    margin-right: 0.5em;
+}
