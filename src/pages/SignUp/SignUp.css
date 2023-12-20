@@ -1,0 +1,32 @@
+main {
+    margin-top: 5em;
+}
+
+.signup-container {
+    width: 30%;
+    margin: auto;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2em;
+}
+
+.signup-container form .button-cta {
+    margin-top: 1em;
+}
+
+.signup-container form {
+    margin: 3em 0 6em 0;
+}
+
+.signup-container a {
+    color: black;
+    font-style: italic;
+}
+
+.signup-container a:hover {
+    color: var(--secondary);
+    text-decoration: underline;
+}
