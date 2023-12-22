@@ -11,35 +11,38 @@ import Button from "../../components/Button/Button"
 import DataMembers from "../../data/DataMembers"
 
 function Members() {
-     // Gestion de la recherche
-     const [searchTerm, setSearchTerm] = useState('');
+
+    // Gestion du champs de recherche
+    const [searchTerm, setSearchTerm] = useState('');
+    const filteredMembers = DataMembers.filter((member) => {
+        // Concaténe toutes les données du membre dans une chaîne de caractères
+        const memberData = Object.values(member).join(' ').toLowerCase();
+        return memberData.includes(searchTerm.toLowerCase());
+    });
 
     return (
         <>
-            
             <Header />
             <main className="members-container">
                 <section className="members-section">
-
-                <aside className="members-aside">
-                <div class="search-box">
-                    <div class="input-container">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <input
-                            type="text"
-                            placeholder="Rechercher un thème"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
-                </div>
-                    <Tags searchTerm={searchTerm} />
-                </aside>
-
+                    <aside className="members-aside">
+                        <div className="search-box">
+                            <div className="input-container">
+                                <i className="fa-solid fa-magnifying-glass"></i>
+                                <input
+                                    type="text"
+                                    placeholder="Rechercher un thème"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                        <Tags searchTerm={searchTerm} />
+                    </aside>
                     <article className="members-article">
-                        {DataMembers.map((member) => (
-                            <div className="members-relative">
-                                <div key={member.id} className="member-card">
+                        {filteredMembers.map((member) => (
+                            <div className="members-relative" key={member.id}>
+                                <div className="member-card">
                                     <img src={member.image} alt={member.name} />
                                     <div className="member-card-info">
                                         {member.pseudo ? (
@@ -51,8 +54,6 @@ function Members() {
                                         <p>{member.shortdescription}</p>
                                         <Tags memberId={member.id} />
                                     </div>
-
-
                                 </div>
                                 <Button texte={`Découvrir ${member.pseudo || member.name}`} />
                             </div>
