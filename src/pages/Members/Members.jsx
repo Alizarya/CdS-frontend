@@ -6,6 +6,7 @@ import Header from  "../../components/Header/Header"
 import Tags from "../../components/Tags/Tags";
 import React, { useState } from 'react';
 import Button from "../../components/Button/Button"
+import { Link } from "react-router-dom";
 
 // Import des données 
 import DataMembers from "../../data/DataMembers"
@@ -14,6 +15,7 @@ function Members() {
 
     // Gestion du champs de recherche
     const [searchTerm, setSearchTerm] = useState('');
+
     const filteredMembers = DataMembers.filter((member) => {
         // Concaténe toutes les données du membre dans une chaîne de caractères
         const memberData = Object.values(member).join(' ').toLowerCase();
@@ -55,7 +57,9 @@ function Members() {
                                         <Tags memberId={member.id} />
                                     </div>
                                 </div>
-                                <Button texte={`Découvrir ${member.pseudo || member.name}`} />
+                                <Link to={`/Members/${member.id}`}>
+                                    <Button texte={`Découvrir ${member.pseudo || member.name}`} />
+                                </Link>
                             </div>
                         ))}
                     </article>
