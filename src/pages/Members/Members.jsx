@@ -16,10 +16,17 @@ function Members() {
     // Gestion du champs de recherche
     const [searchTerm, setSearchTerm] = useState('');
 
+    const handleTagClick = (tag) => {
+        setSearchTerm(tag);
+    };
+
     const filteredMembers = DataMembers.filter((member) => {
-        // Concaténe toutes les données du membre dans une chaîne de caractères
-        const memberData = Object.values(member).join(' ').toLowerCase();
-        return memberData.includes(searchTerm.toLowerCase());
+        const searchWords = searchTerm.toLowerCase().split(' ').filter(word => word.trim() !== '');
+
+        return searchWords.every((word) => {
+            const memberData = Object.values(member).join(' ').toLowerCase();
+            return memberData.includes(word);
+        });
     });
 
     return (
@@ -28,19 +35,22 @@ function Members() {
             <main className="members-container">
                 <section className="members-section">
                     <aside className="members-aside">
-                        <div className="search-box">
-                            <div className="input-container">
-                                <i className="fa-solid fa-magnifying-glass"></i>
-                                <input
-                                    type="text"
-                                    placeholder="Rechercher un thème"
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                />
+                            <div className="search-box">
+                                <div className="input-container">
+                                    <i className="fa-solid fa-magnifying-glass"></i>
+                                    <input
+                                        type="text"
+                                        placeholder="Rechercher un thème"
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                    />
+                                </div>
                             </div>
-                        </div>
-                        <Tags searchTerm={searchTerm} />
-                    </aside>
+                            <Tags
+                                searchTerm={searchTerm}
+                                onTagClick={handleTagClick} // Ajout de la fonction de gestion des clics sur les tags
+                            />
+                        </aside>
                     <article className="members-article">
                         {filteredMembers.map((member) => (
                             <div className="members-relative" key={member.id}>

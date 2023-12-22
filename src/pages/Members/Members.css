@@ -75,6 +75,10 @@
     top: 3em
 }
 
+.members-aside .tag-item:hover {
+    cursor: pointer;
+}
+
 /*_________________________________*/
 /* Partie droite - les membres */
 .members-article {
