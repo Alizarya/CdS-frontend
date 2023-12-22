@@ -4,6 +4,9 @@ import "./Header.css";
 // Import des composants
 import { Link, useLocation } from "react-router-dom";
 
+// Import des besoins
+import logo from "./logo banniere café des sciences.jpg"
+
 // Création de la fonction composant du header
 function Header() {
 
@@ -28,7 +31,7 @@ function Header() {
 
   return (
     <header>
-        <Link to="/" onClick={scrollToTop}> <img className="logoNav" src="./images\Landing\logo banniere café des sciences.jpg" alt="logo du café des sciences"/></Link>
+        <Link to="/" onClick={scrollToTop}> <img className="logoNav" src={logo} alt="logo du café des sciences"/></Link>
         <div className="extendNav">
             <nav>
                 <Link to="/About"> A Propos </Link>

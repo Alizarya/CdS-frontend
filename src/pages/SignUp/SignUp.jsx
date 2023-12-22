@@ -22,7 +22,7 @@ function Login() {
     return (
         <>
             <Header/>
-            <main>
+            <main className="main-signup">
                 <div className="signup-container">
                     <h2>Inscription à l'espace membre</h2>
                     <p>Si vous ne possédez pas de code d'inscription, veuillez vous adresser au bureau de l'association pour l'obtenir.</p>

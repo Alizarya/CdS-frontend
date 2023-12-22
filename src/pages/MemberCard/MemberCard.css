@@ -1,0 +1,118 @@
+.memberCard-details {
+    background-color: var(--light-primary);
+    margin: auto;
+    height: 90vh;
+    position: relative;
+}
+
+.memberCard-section {
+    width: 90%;
+    display: flex;
+    background-color: var(--dark-primary);
+    border-radius: 2em;
+    height: 80vh;
+    box-shadow: -10px 0px 20px rgba(0, 0, 0, 0.5), 0px 10px 20px rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 50%;
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+}
+
+.member-image {
+    width: 30%;
+    background-color: white;
+    border-radius: 2em 2em 2em 0;
+    height: 80vh;
+    position: fixed;
+    color: var(--dark-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.member-image img {
+    border-radius: 20em;
+    object-fit: cover;
+    width: 300px;
+    height: 300px;
+    margin: 5em;
+    box-shadow: -10px 0px 20px rgba(0, 0, 0, 0.5), 0px 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.member-image .social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.member-image .social-links a {
+    color: var(--dark-primary);
+    font-size: 32px;
+}
+
+.member-image .social-links a:hover {
+    color: var(--secondary);
+    text-decoration: underline;
+}
+
+.social-links i {
+    margin-right: 0.5em;
+}
+
+
+/* Gestion des infos de droite */
+
+.member-info {
+    width: 70%;
+    margin-left: 40%;
+    margin-right: 8em;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    overflow-y: auto;
+}
+
+.member-info h2 {
+    font-size: 34px;
+    margin-top: 2em ;
+}
+
+.member-info h2, .member-info h3 {
+    text-align: center;
+
+
+}
+
+.memberCard-section .tags-container {
+    display: flex;
+    justify-content: center;
+}
+
+.member-info a {
+    color: white;
+}
+
+.content-links {
+    display: flex;
+}
+
+.content-links img {
+    width: 250px;
+}
+
+
+/* Gestion de la barre de scroll */
+/* Pour les navigateurs WebKit (comme Chrome, Safari) */
+.member-info::-webkit-scrollbar {
+    width: 0; 
+  }
+  
+  /* Pour Firefox */
+  .member-info {
+    scrollbar-width: none; 
+  }
+  
+  /* Pour Internet Explorer et Edge */
+  .member-info {
+    -ms-overflow-style: none; 
+  }

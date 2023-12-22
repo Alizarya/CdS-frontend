@@ -19,7 +19,7 @@ function Login() {
     return (
         <>
             <Header/>
-            <main>
+            <main className="main-login">
                 <div className="login-container">
                     <h2>Connexion à l'espace membre</h2>
                     <p>Si vous ne possédez pas de compte membre, veuillez vous adresser au bureau de l'association pour obtenir de l'aide.</p>
