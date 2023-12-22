@@ -6,7 +6,6 @@ import DataMembers from "../../data/DataMembers"
 
 function Tags({ memberId }) {
     let tagsToDisplay = [];
-    
 
     if (memberId) {
         const member = DataMembers.find(member => member.id === memberId);

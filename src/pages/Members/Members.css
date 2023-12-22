@@ -17,11 +17,63 @@
     width: 30%;
     background-color: white;
     border-radius: 2em;
-    height: 75vh;
+    height: 80vh;
     margin-top: 5vh;
     position: fixed;
 }
 
+.search-box {
+    position: relative;
+    width: 80%; 
+    top: 2em;
+    margin: auto;
+}
+
+.input-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.input-container i {
+    position: absolute;
+    top: 46%;
+    left: 10px; 
+    transform: translateY(-50%);
+    color: #999; 
+}
+
+.input-container input {
+    width: 100%;
+    padding-left: 40px;
+}
+
+.input-container input:focus + label,
+.input-container input:not(:placeholder-shown) + label {
+    display: none;
+}
+
+.input-container label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-left: 35px;
+    line-height: 38px; 
+    color: #999; 
+    transition: 0.2s ease-out;
+    pointer-events: none;
+}
+
+.input-container input:placeholder-shown + label {
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.2s ease-out;
+}
+
+.members-aside .tags-container {
+    position: relative;
+    top: 3em
+}
 
 /*_________________________________*/
 /* Partie droite - les membres */

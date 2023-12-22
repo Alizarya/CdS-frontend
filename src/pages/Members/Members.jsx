@@ -22,8 +22,9 @@ function Members() {
                 <section className="members-section">
 
                 <aside className="members-aside">
-                    <div className="search-box">
-                        <i className="fa-solid fa-magnifying-glass"></i>
+                <div class="search-box">
+                    <div class="input-container">
+                        <i class="fa-solid fa-magnifying-glass"></i>
                         <input
                             type="text"
                             placeholder="Rechercher un thème"
@@ -31,6 +32,7 @@ function Members() {
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
+                </div>
                     <Tags searchTerm={searchTerm} />
                 </aside>
 
