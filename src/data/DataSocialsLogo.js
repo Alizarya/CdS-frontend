@@ -9,6 +9,8 @@ const SocialsLogos = {
   facebook: "fa-brands fa-square-facebook",
   instagram: "fa-brands fa-square-instagram",
   threads: "fa-brands fa-square-threads",
+  linkedin: "fa-brands fa-linkedin",
+  podcast: "fa-solid fa-podcast",
   tip: "fa-solid fa-circle-dollar-to-slot",
   other: "fa-solid fa-brain",
 };

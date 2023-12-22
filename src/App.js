@@ -21,7 +21,7 @@ function App() {
         <Route exact path="/" element={<Landing />} />
         <Route path="/About" element={<Error404 />} />
         <Route path="/Members" element={<Members />} />
-        <Route path="/Members/:id" element={<MemberCard />} />
+        <Route path="/Members/:id/*" element={<MemberCard />} />
         <Route path="/*" element={<Error404 />} />
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/Login" element={<Login />} />

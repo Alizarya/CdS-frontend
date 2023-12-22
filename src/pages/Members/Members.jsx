@@ -13,7 +13,11 @@ import DataMembers from "../../data/DataMembers"
 
 function Members() {
 
-    // Gestion du champs de recherche
+    const handleMemberClick = (member) => {
+        console.log("Clicked Member:", member); // Vérifiez si le membre est correctement cliqué
+    };
+
+    // Gestion du champs de recherche et des tags
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleTagClick = (tag) => {
@@ -48,9 +52,10 @@ function Members() {
                             </div>
                             <Tags
                                 searchTerm={searchTerm}
-                                onTagClick={handleTagClick} // Ajout de la fonction de gestion des clics sur les tags
+                                onTagClick={handleTagClick} 
                             />
                         </aside>
+                        
                     <article className="members-article">
                         {filteredMembers.map((member) => (
                             <div className="members-relative" key={member.id}>
@@ -67,9 +72,13 @@ function Members() {
                                         <Tags memberId={member.id} />
                                     </div>
                                 </div>
-                                <Link to={`/Members/${member.id}`}>
-                                    <Button texte={`Découvrir ${member.pseudo || member.name}`} />
+                                <Link to={{
+                                pathname: `/Members/${member.id}`,
+                                state: { memberData: member } 
+                                }}>
+                                <Button texte={`Découvrir ${member.pseudo || member.name}`} />
                                 </Link>
+
                             </div>
                         ))}
                     </article>
