@@ -2,11 +2,9 @@
 import "./Login.css"
 
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import Button from "../../components/Button/Button";
 import { loginUser } from "../../utils/userConnexion";
-
 
 function Login() {
     const [userMail, setUserMail] = useState('');
@@ -17,19 +15,25 @@ function Login() {
 
         try {
             const response = await loginUser(userMail, userPassword);
-            console.log('Connexion réussie:', response);
 
-            // Redirection après la connexion réussie ici
+            if (response && response.token) {
+                // Stockage du token dans localStorage
+                localStorage.setItem('token', response.token);
+
+                // Redirection vers /dashboard après la connexion réussie
+                window.location.href = '/dashboard';
+            } else {
+                console.error(response);
+            }
 
         } catch (error) {
             console.error('Erreur de connexion:', error);
-            // Gestion de l'erreur de connexion ici 
         }
     };
 
     return (
         <>
-            <Header/>
+            <Header />
             <main className="main-login">
                 <div className="login-container">
                     <h2>Connexion à l'espace membre</h2>
@@ -55,11 +59,8 @@ function Login() {
                                 required
                             />
                         </div>
-                        <Button type="submit" texte="Se connecter"/>
+                        <Button type="submit" texte="Se connecter" />
                     </form>
-                    <Link to="/resetPassword"><i className="fa-solid fa-key"></i>Mot de passe oublié ?</Link>
-                    <br></br><br></br>
-                    <Link to="/"><i className="fa-solid fa-house"></i>Retourner à l'accueil</Link>
                 </div>
             </main>
         </>

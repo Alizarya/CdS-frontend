@@ -29,7 +29,7 @@ export async function loginUser(email, password) {
 
     // Enregistrement du token dans le localStorage côté client
     localStorage.setItem("token", response.data.token);
-    console.log(response.data.token);
+    console.log("token :", response.data.token);
 
     return response.data;
   } catch (error) {
@@ -38,8 +38,7 @@ export async function loginUser(email, password) {
 }
 
 //____________________________________________
-// Mdp oublié ou perdu
-
+// Réinitialisation du mdp
 export async function resetPass(email) {
   try {
     const response = await axios.post(`${URL}reset-password`, {
