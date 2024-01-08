@@ -6,17 +6,25 @@ import { Link } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import Button from "../../components/Button/Button";
 
-function Login() {
+import { registerUser } from "../../utils/userConnexion"
+
+function SignUp() {
     const [userCode, setUserCode] = useState('');
     const [userMail, setUserMail] = useState('');
     const [userPassword, setUserPassword] = useState('');
     const [isAgreed, setIsAgreed] = useState(false);
 
-    const handleSignUp = () => {
-        // En attente du back
-        console.log(userCode)
-        console.log(userMail);
-        console.log(userPassword);
+    const handleSignUp = async (e) => {
+        e.preventDefault(); // Empêcher le comportement par défaut du formulaire
+
+        try {
+            const response = await registerUser(userCode, userMail, userPassword, isAgreed);
+            console.log('Réponse du serveur:', response);
+            // Gérer la réponse du serveur ici, par exemple, afficher un message de confirmation
+        } catch (error) {
+            console.error('Erreur lors de l\'inscription:', error);
+            // Gérer les erreurs ici, par exemple, afficher un message d'erreur à l'utilisateur
+        }
     };
 
     return (
@@ -79,4 +87,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default SignUp;

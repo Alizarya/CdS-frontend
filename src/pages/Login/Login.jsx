@@ -5,15 +5,26 @@ import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import Button from "../../components/Button/Button";
+import { loginUser } from "../../utils/userConnexion";
+
 
 function Login() {
     const [userMail, setUserMail] = useState('');
     const [userPassword, setUserPassword] = useState('');
 
-    const handleLogin = () => {
-        // En attente du back
-        console.log('Adresse e-mail:', userMail);
-        console.log('Mot de passe:', userPassword);
+    const handleLogin = async (e) => {
+        e.preventDefault(); 
+
+        try {
+            const response = await loginUser(userMail, userPassword);
+            console.log('Connexion réussie:', response);
+
+            // Redirection après la connexion réussie ici
+
+        } catch (error) {
+            console.error('Erreur de connexion:', error);
+            // Gestion de l'erreur de connexion ici 
+        }
     };
 
     return (
