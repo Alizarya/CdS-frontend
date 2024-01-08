@@ -57,7 +57,9 @@ function Login() {
                         </div>
                         <Button type="submit" texte="Se connecter"/>
                     </form>
-                    <Link to="/"><i class="fa-solid fa-house"></i>Retourner à l'accueil</Link>
+                    <Link to="/resetPassword"><i className="fa-solid fa-key"></i>Mot de passe oublié ?</Link>
+                    <br></br><br></br>
+                    <Link to="/"><i className="fa-solid fa-house"></i>Retourner à l'accueil</Link>
                 </div>
             </main>
         </>
