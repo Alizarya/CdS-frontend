@@ -36,3 +36,18 @@ export async function loginUser(email, password) {
     throw error.response.data;
   }
 }
+
+//____________________________________________
+// Mdp oublié ou perdu
+
+export async function resetPass(email) {
+  try {
+    const response = await axios.post(`${URL}reset-password`, {
+      email,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+}

@@ -11,6 +11,7 @@ import MemberCard from "./pages/MemberCard/MemberCard";
 import Error404 from "./pages/Error404/Error404";
 import SignUp from "./pages/SignUp/SignUp";
 import Login from "./pages/Login/Login";
+import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import Dashboard from "./pages/Dashboard/Dashboard";
 
 // Création des routes
@@ -25,6 +26,7 @@ function App() {
         <Route path="/*" element={<Error404 />} />
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/Login" element={<Login />} />
+        <Route path="/ResetPassword" element={<ResetPassword />} />
         <Route path="/Dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
