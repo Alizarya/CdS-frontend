@@ -13,7 +13,13 @@ function ResetPassword() {
     const handleReset = async (e) => {
         e.preventDefault(); 
 
-        console.log("mot de passe res")
+        try {
+            const response = await resetPass(userMail);
+            console.log('Réinitialisation réussie:', response);
+
+        } catch (error) {
+            console.error('Erreur lors de la réinitialisation du mot de passe:', error);
+        }
     };
 
     return (
