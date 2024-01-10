@@ -3,6 +3,7 @@ const SocialsLogos = {
   blog: "fa-solid fa-square-pen",
   youtube: "fa-brands fa-square-youtube",
   twitch: "fa-brands fa-twitch",
+  tiktok: "fa-brands fa-tiktok",
   twitter: "fa-brands fa-square-x-twitter",
   bluesky: "fa-solid fa-square",
   mastodon: "fa-brands fa-mastodon",

@@ -40,13 +40,16 @@ function Landing() {
           <div className="landingMemberCard">
             {randomMember && (
               <>
-                <div className="landingMemberCardImgContainer">
-                  <img className="landingMemberCardImg"
-                    src={randomMember.image}
-                    alt={`profil de ${randomMember.pseudo || randomMember.name}`}
-                  />
-                  <p class="landingMemberCardImgBorder"></p>
-                </div>
+                <Link to={`/Members/${randomMember.id}`}>
+                  <div className="landingMemberCardImgContainer">
+                    <img
+                      className="landingMemberCardImg"
+                      src={randomMember.image}
+                      alt={`profil de ${randomMember.pseudo || randomMember.name}`}
+                    />
+                    <p className="landingMemberCardImgBorder"></p>
+                  </div>
+                </Link>
                 <div className="landingMemberCardInfo">
                 {randomMember.pseudo ? (
                   <>

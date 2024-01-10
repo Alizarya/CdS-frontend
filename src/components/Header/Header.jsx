@@ -18,7 +18,7 @@ function Header() {
     } else {
       const anchorElement = document.getElementById(anchorName);
       if (anchorElement) {
-        anchorElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        anchorElement.scrollIntoView();
       }
     }
   };
