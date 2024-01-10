@@ -38,11 +38,27 @@ export async function loginUser(email, password) {
 }
 
 //____________________________________________
-// Réinitialisation du mdp
-export async function resetPass(email) {
+// Demande d'envoi de mail pour réinitialisation du mdp
+export async function mailToResetPassword(email) {
   try {
     const response = await axios.post(`${URL}reset-password`, {
       email,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error.response.data;
+  }
+}
+
+//____________________________________________
+// Réinitialisation du mdp
+export async function resetPassword(resetToken, newEmail, newPassword) {
+  try {
+    const response = await axios.patch(`${URL}reset-password`, {
+      resetToken,
+      email: newEmail,
+      password: newPassword,
     });
 
     return response.data;

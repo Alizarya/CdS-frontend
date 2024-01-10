@@ -12,6 +12,7 @@ import Error404 from "./pages/Error404/Error404";
 import SignUp from "./pages/SignUp/SignUp";
 import Login from "./pages/Login/Login";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
+import ResetThePassword from "./pages/ResetThePassword/ResetThePassword";
 import Dashboard from "./pages/Dashboard/Dashboard";
 
 // Création des routes
@@ -27,6 +28,10 @@ function App() {
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/ResetPassword" element={<ResetPassword />} />
+        <Route
+          path="/ResetPassword/:resetToken"
+          element={<ResetThePassword />}
+        />
         <Route path="/Dashboard" element={<Dashboard />} />
       </Routes>
     </Router>

@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import Header from "../../components/Header/Header";
 import Button from "../../components/Button/Button";
 import { loginUser } from "../../utils/userConnexion";
+import { Link } from "react-router-dom";
 
 function Login() {
     const [userMail, setUserMail] = useState('');
@@ -61,6 +62,8 @@ function Login() {
                         </div>
                         <Button type="submit" texte="Se connecter" />
                     </form>
+                    <Link to="/ResetPassword"><i class="fa-solid fa-key"></i>Mot de passe oublié ?</Link><br></br><br></br>
+                    <Link to="/"><i class="fa-solid fa-house"></i>Retourner à l'accueil</Link>
                 </div>
             </main>
         </>
