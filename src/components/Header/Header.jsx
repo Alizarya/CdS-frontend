@@ -3,6 +3,7 @@ import "./Header.css";
 
 // Import des composants
 import { Link, useLocation } from "react-router-dom";
+import React, { useEffect } from 'react';
 
 // Import des besoins
 import logo from "./logo banniere café des sciences.jpg"
@@ -12,22 +13,27 @@ function Header() {
 
   const location = useLocation();
 
-   const scrollToAnchor = (anchorName) => {
-    if (location.pathname !== '/') {
-      window.location.href = `/#${anchorName}`;
-    } else {
-      const anchorElement = document.getElementById(anchorName);
-      if (anchorElement) {
-        anchorElement.scrollIntoView();
-      }
-    }
-  };
-
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
+      behavior: 'smooth',
     });
   };
+
+  const scrollToAnchor = (anchorName) => {
+    const anchorElement = document.getElementById(anchorName);
+    if (anchorElement) {
+      anchorElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  useEffect(() => {
+    // Vérifier si une ancre est présente dans l'URL au chargement de la page
+    const hash = location.hash.substring(1);
+    if (hash) {
+      scrollToAnchor(hash);
+    }
+  }, [location.hash]);
 
   return (
     <header>
