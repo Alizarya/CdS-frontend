@@ -27,7 +27,7 @@ function App() {
     <Router>
       <Routes>
         <Route exact path="/" element={<Landing />} />
-        <Route path="/About" element={<Error404 />} />
+        <Route path="/About" element={<About />} />
         <Route path="/Members" element={<Members />} />
         <Route path="/Members/:id" element={<MemberCard />} />
         <Route path="/*" element={<Error404 />} />
