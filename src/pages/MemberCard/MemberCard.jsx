@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import Header from "../../components/Header/Header";
 import Tags from "../../components/Tags/Tags"
 import Error404 from "../Error404/Error404"
+import Button from "../../components/Button/Button"
 
 // Import des données
 import DataMembers from '../../data/DataMembers';
@@ -83,6 +84,7 @@ function MemberCard() {
                         )}
                     </div>
                 </section>
+                <Button texte="Découvrir les autres membres" to="/Members" />
             </main>
         </>
     );

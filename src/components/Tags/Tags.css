@@ -1,13 +1,12 @@
 .tag-item {
     list-style: none;
-    padding: 5px 10px;
     display: inline-block;
     margin: 5px;
     background-image: url('./tag.png');
-    background-size: 150px 40px; 
+    background-size: 200px 115px; 
     background-repeat: no-repeat;
     background-position: center;
-    padding-left: 50px; 
+    padding: 50px;
     line-height: 1.5; 
     font-size: 22px; 
 }

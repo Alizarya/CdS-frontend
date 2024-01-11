@@ -31,7 +31,7 @@ function Landing() {
         <Header />
 
         <section className="home">
-          <img className="homeImg" src="/images/Landing/groupe.jpg" alt="Le café des science lors de PlayAzur, en groupe" />
+          <img className="homeImg" src="/images/Landing/groupe.webp" alt="Le café des science lors de PlayAzur, en groupe" />
           <Button texte="Découvrir nos membres" to="/members" />
         </section>
 
