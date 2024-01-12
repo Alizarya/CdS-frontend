@@ -42,6 +42,7 @@ function Header() {
             <nav>
                 <Link to="/About"> A Propos </Link>
                 <Link to="/Members"> Nos membres </Link>
+                <Link to="/JoinUs"> Nous rejoindre </Link>
                 <Link to="/#support" onClick={() => scrollToAnchor('support')}> Nous soutenir </Link>
                 <Link to="/#contact" onClick={() => scrollToAnchor('contact')}> Nous contacter </Link>
 

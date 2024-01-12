@@ -54,6 +54,7 @@ function MemberCard() {
                                 </a>
                             ))}
                         </div>
+                        <Tags memberId={member.id} />
                     </div>
                     <div className="member-info">
                         {pseudo ? (
@@ -64,7 +65,7 @@ function MemberCard() {
                         ) : (
                             <h2>{name}</h2>
                         )}
-                        <Tags memberId={member.id} />
+                        
                         <p>{description}</p>
                         {content && (
                             <div className="content-links">

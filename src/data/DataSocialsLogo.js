@@ -12,8 +12,8 @@ const SocialsLogos = {
   threads: "fa-brands fa-square-threads",
   linkedin: "fa-brands fa-linkedin",
   podcast: "fa-solid fa-podcast",
-  tip: "fa-solid fa-circle-dollar-to-slot",
-  other: "fa-solid fa-brain",
+  financement: "fa-solid fa-circle-dollar-to-slot",
+  autres: "fa-solid fa-brain",
 };
 
 export default SocialsLogos;

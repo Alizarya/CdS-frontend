@@ -26,7 +26,7 @@ const DataMembers = [
       },
       two: {
         image:
-          "https://static.lpnt.fr/images/2021/10/06/22290110lpw-22290331-article-twitch-donnees-piratage-jpg_8284871_1250x625.jpg",
+          "https://img.freepik.com/free-photo/color-year-illustrated_23-2151106276.jpg?t=st=1705064086~exp=1705067686~hmac=0a5939863ae0141df8984b0a6326b1a8184922ec39520567512993396a5b3a32&w=740",
         link: "https://www.twitch.tv",
         title: "Video Twitch",
         description: "Voici la vidéo Twitch de Lorem Ipsum",

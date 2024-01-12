@@ -12,6 +12,7 @@ import "./index.css";
 // Import des pages
 import Landing from "./pages/Landing/Landing";
 import About from "./pages/About/About";
+import JoinUs from "./pages/JoinUs/JoinUs";
 import Members from "./pages/Members/Members";
 import MemberCard from "./pages/MemberCard/MemberCard";
 import Error404 from "./pages/Error404/Error404";
@@ -28,6 +29,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Landing />} />
         <Route path="/About" element={<About />} />
+        <Route path="/JoinUs" element={<JoinUs />} />
         <Route path="/Members" element={<Members />} />
         <Route path="/Members/:id" element={<MemberCard />} />
         <Route path="/*" element={<Error404 />} />
