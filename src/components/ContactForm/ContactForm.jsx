@@ -5,11 +5,7 @@ import "./ContactForm.css"
 import React, { useState } from "react";
 import Button from "../Button/Button"
 
-// Import des datas
-import DataContactFields from "../../data/DataContactFields";
-
 function ContactForm() {
-
   //________________________________________
   // Gestion des données des formulaires
   const initialFormData = {};
@@ -35,93 +31,118 @@ function ContactForm() {
     setFormData(emptyFormData);
   };
 
-  //________________________________________
-  // Gestion des boutons de contact
-  const handleMessageClick = () => {
-    const contactCandidacies = document.querySelectorAll('.contactCandidacy');
-    const contactSponsors = document.querySelectorAll('.contactSponsor');
-    const contactMessages = document.querySelectorAll('.contactMessage');
-    contactCandidacies.forEach((contactCandidacy) => {
-      contactCandidacy.style.display = 'none';
-    });
-    contactSponsors.forEach((contactSponsor) => {
-      contactSponsor.style.display = 'none';
-    });
-    contactMessages.forEach((contactMessage) => {
-      contactMessage.style.display = 'flex';
-    });
-  };
-  
-  const handleCandidacyClick = () => {
-    const contactSponsors = document.querySelectorAll('.contactSponsor');
-    const contactCandidacies = document.querySelectorAll('.contactCandidacy');
-    const contactMessages = document.querySelectorAll('.contactMessage');
-    contactSponsors.forEach((contactSponsor) => {
-      contactSponsor.style.display = 'none';
-    });
-    contactCandidacies.forEach((contactCandidacy) => {
-      contactCandidacy.style.display = 'flex';
-    });
-    contactMessages.forEach((contactMessage) => {
-      contactMessage.style.display = 'none';
-    });
-  };
-  
-  const handleSponsorClick = () => {
-    const contactCandidacies = document.querySelectorAll('.contactCandidacy');
-    const contactSponsors = document.querySelectorAll('.contactSponsor');
-    const contactMessages = document.querySelectorAll('.contactMessage');
-    contactCandidacies.forEach((contactCandidacy) => {
-      contactCandidacy.style.display = 'none';
-    });
-    contactSponsors.forEach((contactSponsor) => {
-      contactSponsor.style.display = 'flex';
-    });
-    contactMessages.forEach((contactMessage) => {
-      contactMessage.style.display = 'none';
-    });
-  };
-  
-
   return (
     <>
       <form onSubmit={handleSubmit}>
-        {DataContactFields.map((field, index) => (
-          <div className={field.className} key={index}>
-            <label htmlFor={field.id}>{field.title}</label>
-            {field.type === "textarea" ? (
-              <textarea
-                id={field.id}
-                name={field.name}
-                value={formData[field.name]}
-                onChange={handleChange}
-              ></textarea>
-            ) : (
+        {/* Prénom / Nom / Pseudo */}
+        <div className="contactEntry contactFixed">
+          <label htmlFor="name">Prénom / Nom / Pseudo *</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        {/* Genre */}
+        <div className="contactEntry contactFixed">
+          <label>Genre</label>
+          <div className="genderBtn">
+            <label>
               <input
-                type={field.type}
-                id={field.id}
-                name={field.name}
-                value={formData[field.name]}
+                type="radio"
+                name="gender"
+                value="female"
+                checked={formData.gender === "female"}
                 onChange={handleChange}
               />
-            )}
+              Femme
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="gender"
+                value="male"
+                checked={formData.gender === "male"}
+                onChange={handleChange}
+              />
+              Homme
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="gender"
+                value="nonBinary"
+                checked={formData.gender === "nonBinary"}
+                onChange={handleChange}
+              />
+              Non binaire
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="gender"
+                value="other"
+                checked={formData.gender === "other"}
+                onChange={handleChange}
+              />
+              Autre
+            </label>
           </div>
-        ))}
+        </div>
+
+        {/* Adresse e-mail */}
+        <div className="contactEntry contactFixed">
+          <label htmlFor="email">Adresse e-mail *</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        {/* Objet du message */}
+        <div className="contactEntry contactFixed">
+          <label htmlFor="subject">Objet du message *</label>
+          <input
+            type="text"
+            id="subject"
+            name="subject"
+            value={formData.subject}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        {/* Message */}
+        <div className="contactEntry contactMessage">
+          <label htmlFor="message">Message *</label>
+          <textarea
+            id="message"
+            name="message"
+            value={formData.message}
+            onChange={handleChange}
+            required
+          ></textarea>
+        </div>
+
         <Button type="submit" texte="Envoyer votre message" />
       </form>
-      
+
       <hr></hr>
 
       <aside>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <div className="changeFormBtn">
-            <Button texte="message" onClick={handleMessageClick} />
-            <Button texte="candidater" onClick={handleCandidacyClick} />
-            <Button texte="p-marrainnage" onClick={handleSponsorClick} />
-        </div>
-        </aside>
+        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      </aside>
     </>
   );
-};
+}
 
 export default ContactForm;

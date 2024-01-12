@@ -53,25 +53,26 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end; 
-    height: 17.9em;
+    height: 26em;
     border-radius: 2em;
     box-shadow: -2px 2px 10px black;
   }
 
   .contact aside p {
     padding: 1em 2em 1em 2em;
+    text-align: center;
   }
 
-  .changeFormBtn {
-    position: relative;
+
+  .genderBtn {
     display: flex;
-    scale: 0.7;
-    gap: 2em;
-    left: 3.3em;
-    top: 2.5em;
-}
+    justify-content: space-between;
+  }
 
+  .genderBtn label {
+    margin: 0;
+  }
 
-.changeFormBtn .button-cta {
-      font-size: 22px;
+  .genderBtn label input {
+    margin-right: 0.5em;
   }
