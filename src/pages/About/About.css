@@ -1,0 +1,47 @@
+.about {
+    max-width: 90em;
+    margin: auto;
+    margin-top: 2em;
+}
+
+.about h2 {
+    color: var(--dark-primary);
+}
+
+.about-paragraph {
+    display: flex;
+    gap: 2em;
+    width: 100%;
+    align-items: center;
+    margin-top: 2em;
+}
+
+.about-paragraph-text {
+    width: 60%;
+}
+
+.about-paragrph-img {
+    width: 40%;
+    height: min-content;
+}
+
+.about-paragraph-asso {
+    margin-top: 2em;
+}
+
+.about-paragraph-asso p {
+    margin: 0;
+}
+
+.about-paragraph-asso a {
+    color: var(--primary);
+}
+
+.about-paragraph-asso a:hover {
+    color: var(--secondary);
+    text-decoration: underline;
+}
+
+.about-paragraph-asso h3 {
+    color: var(--dark-primary);
+}

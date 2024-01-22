@@ -31,7 +31,8 @@ function Landing() {
         <Header />
 
         <section className="home">
-          <img className="homeImg" src="/images/Landing/groupe.webp" alt="Le café des science lors de PlayAzur, en groupe" />
+          <h1 className="banner">C'est fort de sciences !</h1>
+          <img className="homeImg" src="/images/Landing/goupePA.jpg" alt="Le café des science lors de PlayAzur, en groupe" />
           <Button texte="Découvrir nos membres" to="/members" />
         </section>
 
@@ -84,7 +85,7 @@ function Landing() {
               <p>Si vous appréciez notre travail, n’hésitez pas à faire un <b>don</b> ! </p>
               <p>Il servira à couvrir les frais de fonctionnement courants (serveur, site web..) ou pourra être utilisé pour financer un projet spécifique !</p>
             </div>
-              <Link to="https://www.helloasso.com/associations/c-fetiers-des-sciences"> 
+              <Link to="https://www.helloasso.com/associations/c-fetiers-des-sciences" target="_blank" rel="noopener noreferrer"> 
                 <img className="supportImg" src="/images/Landing/logo-web-bleu.png" alt="Logo de HelloAsso" />
                 <p className="supportTxt">Faire un don</p>
               </Link>          

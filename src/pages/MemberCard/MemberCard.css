@@ -17,6 +17,9 @@
     left: 50%; 
     transform: translate(-50%, -50%); 
     border-bottom: 20px solid var(--secondary);
+    background-image: url("../../../public/images/Doodles/sciences7.png");
+  background-position: center center;
+  background-repeat: repeat;
 }
 
 .memberCard-details .button-cta {

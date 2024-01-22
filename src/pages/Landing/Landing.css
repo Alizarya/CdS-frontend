@@ -8,7 +8,21 @@
 .home {
     position: relative;
     z-index: 1;
+    width: 100%;
   }
+
+  .banner {
+  background-color: var(--dark-primary); /* Couleur dark-primary sans opacité */
+  color: white;
+  margin: 0;
+  text-align: center;
+  padding: 0.4em;
+  width: 100%;
+  font-size: 50px;
+  background-image: url("../../../public/images/Doodles/sciences.png");
+  background-position: center center;
+  background-repeat: repeat;
+}
 
 .homeImg {
     width: 100%;
@@ -29,6 +43,9 @@
     background-color: var(--dark-primary);
     margin-top: -2em;
     position: relative;
+    background-image: url("../../../public/images/Doodles/sciences5.png");
+  background-position: center center;
+  background-repeat: repeat;
 }
 
 .loupe {
