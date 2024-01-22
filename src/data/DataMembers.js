@@ -178,7 +178,6 @@ const DataMembers = [
       instagram: "https://www.instagram.com/",
       twitter: "https://www.x.com",
       website: "https://www.vinted.fr",
-      tip: "https://www.kisskissbankbank.com/",
       mastodon: "https://joinmastodon.org/fr",
     },
     shortdescription:

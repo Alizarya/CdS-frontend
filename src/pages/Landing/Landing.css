@@ -152,16 +152,34 @@
 }
 
 .helloasso a {
-    width: 60%;
+    width: 40%;
 }
 
-.helloasso p {
-    width: 35%;
+.helloasso-text {
+    width: 60%;
+}
+.helloasso a {
+    display: flex;
+    flex-direction: column;
+    align-items:flex-end;
 }
 
 .helloasso a img {
     width: 100%;
 }
+
+.helloasso a p {
+    font-size: 20px;
+    color: var(--primary);
+    margin: 0;
+}
+
+.helloasso a:hover p {
+    color: var(--secondary);
+    text-decoration: underline;
+}
+
+
 
 .socials {
  display: flex;

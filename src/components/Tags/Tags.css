@@ -2,11 +2,23 @@
     list-style: none;
     display: inline-block;
     margin: 5px;
+    position: relative; /* Position relative pour permettre le positionnement absolu de l'image */
+    background-color: white; 
+    border: 3px solid var(--secondary); 
+    border-radius: 0.2em; 
+    padding: 0 15px;
+    font-size: 16px;
+  }
+  
+  .tag-item::before {
+    content: ""; /* Ajout d'un pseudo-élément pour l'image */
+    position: absolute; /* Positionnement absolu par rapport à l'élément parent (.tag-item) */
+    top: -24px; /* Aligner en haut */
+    left: -40px; /* Aligner à droite */
     background-image: url('./tag.png');
-    background-size: 200px 115px; 
+    background-size: 50px 35px;
     background-repeat: no-repeat;
-    background-position: center;
-    padding: 50px 20px;
-    line-height: 1.5; 
-    font-size: 22px; 
-}
+    width: 50px; /* Largeur de l'image */
+    height: 35px; /* Hauteur de l'image */
+  }
+  

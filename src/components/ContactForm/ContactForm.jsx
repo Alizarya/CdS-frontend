@@ -3,6 +3,7 @@ import "./ContactForm.css"
 
 // Import des composants
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 import Button from "../Button/Button"
 
 function ContactForm() {
@@ -140,6 +141,7 @@ function ContactForm() {
       <aside>
         <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
         <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <Link to="/JoinUs">Lien vers la page de candidature</Link>
       </aside>
     </>
   );

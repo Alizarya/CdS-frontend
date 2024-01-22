@@ -79,8 +79,15 @@ function Landing() {
 
         <section className="support" id="support">
           <div className="helloasso">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
-            <Link to="https://www.helloasso.com/associations/c-fetiers-des-sciences"> <img className="supportImg" src="/images/Landing/logo-web-bleu.png" alt="Logo de HelloAsso" /></Link>
+            <div className="helloasso-text">
+              <p>Le Café des sciences ne fonctionne que grâce aux cotisations de ses membres et à leur travail <b>bénévole</b>.</p>
+              <p>Si vous appréciez notre travail, n’hésitez pas à faire un <b>don</b> ! </p>
+              <p>Il servira à couvrir les frais de fonctionnement courants (serveur, site web..) ou pourra être utilisé pour financer un projet spécifique !</p>
+            </div>
+              <Link to="https://www.helloasso.com/associations/c-fetiers-des-sciences"> 
+                <img className="supportImg" src="/images/Landing/logo-web-bleu.png" alt="Logo de HelloAsso" />
+                <p className="supportTxt">Faire un don</p>
+                </Link>          
           </div>
 
           <div className="socials">
