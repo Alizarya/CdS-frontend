@@ -139,9 +139,9 @@ function ContactForm() {
       <hr></hr>
 
       <aside>
-        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <Link to="/JoinUs">Lien vers la page de candidature</Link>
+        <p> Pour nous contacter, merci d’utiliser le formulaire ci-contre ou d’envoyer un email à <b>association[at]cafe-sciences[point]org</b></p>
+        <p> Si vous souhaitez rejoindre l’association, veuillez prendre connaissance des conditions et du formulaire de contact sur notre page
+        <Link to="/JoinUs"><em>"Nous rejoindre"</em></Link>.</p>
       </aside>
     </>
   );

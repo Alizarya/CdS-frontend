@@ -87,7 +87,7 @@ function Landing() {
               <Link to="https://www.helloasso.com/associations/c-fetiers-des-sciences"> 
                 <img className="supportImg" src="/images/Landing/logo-web-bleu.png" alt="Logo de HelloAsso" />
                 <p className="supportTxt">Faire un don</p>
-                </Link>          
+              </Link>          
           </div>
 
           <div className="socials">
