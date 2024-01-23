@@ -5,6 +5,7 @@ import "./ContactForm.css"
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 import Button from "../Button/Button"
+import Pen from "./pen.png"
 
 function ContactForm() {
   //________________________________________
@@ -138,9 +139,10 @@ function ContactForm() {
 
       <hr></hr>
 
-      <aside>
+      <aside className="aside-contact">
+        <img src={Pen} alt="Pen Doodle" />
         <p> Pour nous contacter, merci d’utiliser le formulaire ci-contre ou d’envoyer un email à <b>association[at]cafe-sciences[point]org</b></p>
-        <p> Si vous souhaitez rejoindre l’association, veuillez prendre connaissance des conditions et du formulaire de contact sur notre page
+        <p> Si vous souhaitez rejoindre l’association, veuillez prendre connaissance des conditions et du formulaire de <br></br> contact sur notre page<br></br>
         <Link to="/JoinUs"><em>"Nous rejoindre"</em></Link>.</p>
       </aside>
     </>

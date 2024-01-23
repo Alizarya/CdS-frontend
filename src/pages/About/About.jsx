@@ -20,7 +20,7 @@ function About() {
                 <div className="about-paragraph">
                     <div className="about-paragraph-text">
                         <h2>Une plateforme en ligne de vulgarisation scientifique</h2>
-                        <p>Pour le grand public, le Café des Sciences représente avant tout un site web, celui-ci même que vous parcourez actuellement. Il agglomère une diversité de contenus dédiés à la vulgarisation scientifique sous des formats divers et variés. Chaque contributeur et chaque contributrice présente sur ce site voit sa production soumise à une évaluation rigoureuse, garantissant ainsi la fiabilité des informations présentées. Il est toutefois important de noter que les vulgarisateurs et vulgarisatrices, bien que passionné·e·s, sont souvent des amateurs et des amatrices et ne possèdent pas toujours une expertise spécialisée dans les domaines qu'ils abordent.</p>
+                        <p>Pour le grand public, le Café des Sciences représente avant tout un site web, celui-ci même que vous parcourez actuellement. Il agglomère une diversité de contenus dédiés à la vulgarisation scientifique sous des formats divers et variés. Chaque contributeur et chaque contributrice présente sur ce site voit sa production soumise à une évaluation rigoureuse, garantissant ainsi la fiabilité des informations présentées. Il est toutefois important de noter que les vulgarisateurs et vulgarisatrices, bien que passionné·e·s, sont souvent des amateurs et des amatrices et ne possèdent pas toujours une expertise spécialisée dans les domaines qu'ils et elles  abordent.</p>
                     </div>
                     <img className="about-paragrph-img" src={logo} alt="logo du café des sciences" />
                 </div>

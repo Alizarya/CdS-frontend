@@ -18,7 +18,7 @@ function Legal() {
                     <ul>
                         <li>Propriétaire : Association C@FETIERS DES SCIENCES (siège social à Nantes 44100)</li>
                         <li>Responsable publication : Dounia SAEZ – association@cafe-sciences.org</li>
-                        <li>Hébergeur : Gandi SAS – 63-65 boulevard Masséna Paris (75013) FRANCE.</li>
+                        <li>Hébergeur : O2Switch – Chemin des Pardiaux, 63000 Clermont-Ferrand, FRANCE.</li>
                     </ul>
 
                     <h2>2. Conditions générales d’utilisation du site et des services proposés.</h2>

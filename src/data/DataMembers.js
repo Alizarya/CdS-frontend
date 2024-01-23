@@ -1,42 +1,41 @@
 const DataMembers = [
   {
     id: "c67ab8a7",
-    pseudo: "Latin en folie",
-    name: "Lorem Ipsum",
+    pseudo: "Les explorers",
+    name: "Terence",
     image:
-      "https://img.freepik.com/photos-premium/portrait-chercheur-laboratoire-feminin-confiant-positif-lunettes-blouse-blanche-debout-bras-croises_274679-10314.jpg?w=900",
-    tags: ["Biologie", "Chimie", "Sciences"],
+      "https://ugc.production.linktr.ee/99693349-fc9a-4f09-a1dd-9a6bbd57d558_Capture-d-e-cran-2024-01-17-a--01.07.56-min.png?io=true&size=avatar-v1_0",
+    tags: ["Biologie", "Neurosciences", "Sciences du vivant"],
     links: {
-      instagram: "https://www.instagram.com/",
-      twitter: "https://www.x.com",
-      website: "https://www.vinted.fr",
+      youtube: "https://www.youtube.com/channel/UC1QfxJ9W8aRRMyCuv7avc0g",
+      instagram: "https://www.instagram.com/explorersfr",
+      website: "https://www.linktr.ee/explorersfr",
     },
     shortdescription:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+      "Les Explorers est un collectif de vulgarisateurices scientifiques multidisciplinaire.",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+      "Nous mettons l'exploration au service du partage des sciences à travers des formats innovants à l'interface entre la science, la culture (musique, cinéma, art, aventure, voyage, etc.) et les citoyen·nes. Nous avons réalisé le projet plusieurs fois nominé Cell Worlds, reconnu par la communauté scientifique internationale. Nous sommes membres du Café des Sciences, nous collaborons avec Jamy (Epicurieux), et nous avons été 2 fois lauréats de la bourse CNC Savoirs & Cultures.",
 
     content: {
       one: {
-        image:
-          "https://thumbor.comeup.com/unsafe/fit-in/630x400/filters:quality(90):no_upscale()/uploads/media/picture/2022-01-10/miniature-youtube-5-euros-61db6e98249f3.png",
-        link: "https://www.youtube.com",
-        title: "Video Youtube",
-        description: "Voici la vidéo youtube de Lorem Ipsum",
+        image: "https://img.youtube.com/vi/TR3tXKHE6-A/maxresdefault.jpg",
+        link: "https://youtu.be/TR3tXKHE6-A?si=Ylau-5RCWNrQa9pG",
+        title: "Cell Worlds, Mondes Cellulaires",
+        description:
+          "Tout ce que vous allez voir est réel, vivant, microscopique. Plongez au cœur de vos cellules.",
       },
       two: {
-        image:
-          "https://img.freepik.com/free-photo/color-year-illustrated_23-2151106276.jpg?t=st=1705064086~exp=1705067686~hmac=0a5939863ae0141df8984b0a6326b1a8184922ec39520567512993396a5b3a32&w=740",
-        link: "https://www.twitch.tv",
-        title: "Video Twitch",
-        description: "Voici la vidéo Twitch de Lorem Ipsum",
+        image: "https://img.youtube.com/vi/65hdbic9Jk4/maxresdefault.jpg",
+        link: "https://youtu.be/65hdbic9Jk4?si=O_QmWT1rxkiB48AG",
+        title: "Le cerveau face à la peur du noir",
+        description:
+          "Épisode 3 de la série-documentaire Méandres autour des neurosciences et du patrimoine oublié.",
       },
       three: {
-        image:
-          "https://uploads-ssl.webflow.com/5d26423fb77ae083e4ddd2e3/5d26423fb77ae01ee3ddd509_blogging.jpg",
-        link: "https://www.vinted.fr",
-        title: "Lien blog",
-        description: "Voici le lien blog de Lorem Ipsum",
+        image: "https://img.youtube.com/vi/-ewBLVNj3sI/0.jpg",
+        link: "https://youtu.be/-ewBLVNj3sI?si=9JTLnGn2wdGC8Tsm",
+        title: "Faut-il croire en la DÉTOX ?",
+        description: "",
       },
     },
   },

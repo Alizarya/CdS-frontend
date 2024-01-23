@@ -10,15 +10,5 @@
     font-size: 16px;
   }
   
-  .tag-item::before {
-    content: ""; /* Ajout d'un pseudo-élément pour l'image */
-    position: absolute; /* Positionnement absolu par rapport à l'élément parent (.tag-item) */
-    top: -24px; /* Aligner en haut */
-    left: -40px; /* Aligner à droite */
-    background-image: url('./tag.png');
-    background-size: 50px 35px;
-    background-repeat: no-repeat;
-    width: 50px; /* Largeur de l'image */
-    height: 35px; /* Hauteur de l'image */
-  }
+
   
