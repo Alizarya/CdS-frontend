@@ -1,0 +1,28 @@
+.regulations {
+    max-width: 90em;
+    margin: auto;
+    margin-top: 2em;
+}
+
+.regulations-pdf {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 4em;
+}
+
+.regulations-pdf a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--primary);
+    gap: 1em;
+}
+
+.regulations-pdf a:hover {
+    color: var(--secondary);
+    text-decoration: underline;
+}
+
+.regulations-pdf i {
+    font-size: 100px;
+}

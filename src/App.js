@@ -15,6 +15,7 @@ import About from "./pages/About/About";
 import JoinUs from "./pages/JoinUs/JoinUs";
 import Members from "./pages/Members/Members";
 import MemberCard from "./pages/MemberCard/MemberCard";
+import Regulations from "./pages/Regulations/Regulations";
 import Error404 from "./pages/Error404/Error404";
 import SignUp from "./pages/SignUp/SignUp";
 import Login from "./pages/Login/Login";
@@ -32,6 +33,7 @@ function App() {
         <Route path="/JoinUs" element={<JoinUs />} />
         <Route path="/Members" element={<Members />} />
         <Route path="/Members/:id" element={<MemberCard />} />
+        <Route path="/Regulations" element={<Regulations />} />
         <Route path="/*" element={<Error404 />} />
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/Login" element={<Login />} />
