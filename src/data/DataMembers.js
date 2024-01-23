@@ -100,7 +100,7 @@ const DataMembers = [
       youtube: "https://www.youtube.com",
       instagram: "https://www.x.com",
       website: "https://www.vinted.fr",
-      tip: "https://fr.tipeee.com/",
+      financement: "https://fr.tipeee.com/",
     },
 
     content: {
@@ -134,7 +134,7 @@ const DataMembers = [
     name: "Maya Patel",
     image:
       "https://img.freepik.com/photos-premium/recherche-forestiere-scientifique-testent-echantillon-eau-pour-inspection-ecosysteme-environnement-science-environnementaliste-durable-professionnelle-effectuant-examen-empreinte-carbone_590464-216543.jpg?w=826",
-    tags: ["Chimie", "Éducation scientifique", "Expériences", "Molécules"],
+    tags: ["Chimie", "Expériences", "Molécules"],
     shortdescription:
       "Découvrez la magie de la chimie avec Maya. Des expériences fascinantes à la portée de tous et toutes !",
     description:
@@ -144,7 +144,6 @@ const DataMembers = [
       youtube: "https://www.youtube.com",
       instagram: "https://www.x.com",
       website: "https://www.vinted.fr",
-      tip: "https://fr.tipeee.com/",
     },
 
     content: {
@@ -188,7 +187,6 @@ const DataMembers = [
       youtube: "https://www.youtube.com",
       instagram: "https://www.x.com",
       website: "https://www.vinted.fr",
-      tip: "https://fr.tipeee.com/",
     },
 
     content: {
@@ -232,7 +230,7 @@ const DataMembers = [
       youtube: "https://www.youtube.com",
       instagram: "https://www.x.com",
       website: "https://www.vinted.fr",
-      tip: "https://fr.tipeee.com/",
+      financement: "https://fr.tipeee.com/",
     },
 
     content: {

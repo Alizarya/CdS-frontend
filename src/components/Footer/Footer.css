@@ -1,6 +1,6 @@
 footer {
     background-color: var(--dark-primary);
-    color: var(--light-primary);
+    color: white;
     padding: 4em;
     margin-top: 10em;
     background-image: url("../../../public/images/Doodles/sciences.png");
@@ -9,5 +9,9 @@ footer {
 }
 
 footer a {
-    color: var(--light-primary);
+    color: white;
+}
+
+footer a:hover {
+    text-decoration: underline;
 }

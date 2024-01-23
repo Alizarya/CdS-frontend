@@ -77,7 +77,7 @@ function MemberCard() {
                                         rel="noopener noreferrer"
                                     >
                                         <img src={item.image} alt={item.title} />
-                                        <h3>{item.title}</h3>
+                                        <h4>{item.title}</h4>
                                         <p>{item.description}</p>
                                     </a>
                                 ))}
