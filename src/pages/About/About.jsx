@@ -4,7 +4,9 @@ import "./About.css"
 import Header from "../../components/Header/Header"
 import logo from "./logo banniere café des sciences.jpg"
 import groupe from "./louise sudour.png"
+import Footer from "../../components/Footer/Footer"
 
+import DataBureau from "../../data/DataBureau"
 import { Link } from "react-router-dom";
 
 function About() {
@@ -27,25 +29,27 @@ function About() {
                     <img className="about-paragrph-img" src={groupe} alt="café des science au festival Double Sciences" />
                     <div className="about-paragraph-text">
                     <h2>Une communauté de vulgarisateurs et de vulgarisatrices</h2>
-                    <p>En parallèle de sa présence en ligne, le Café des Sciences constitue également une communauté dynamique de vulgarisateurs et de vulgaristrices. Cette communauté s'engage dans des échanges sur l'actualité de la médiation scientifique et coordonne divers projets, tels que des festivals scientifiques, la publication de recueils collectifs, ainsi que la conception de sites web dédiés à des publics spécifiques, à l'instar de <Link to="https://kidiscience.cafe-sciences.org/" target="blank" rel="noopener noreferrer"></Link>Kidiscience destiné aux enfants.</p>
+                    <p>En parallèle de sa présence en ligne, le Café des Sciences constitue également une communauté dynamique de vulgarisateurs et de vulgaristrices. Cette communauté s'engage dans des échanges sur l'actualité de la médiation scientifique et coordonne divers projets, tels que des festivals scientifiques, la publication de recueils collectifs, ainsi que la conception de sites web dédiés à des publics spécifiques, à l'instar de <Link to="https://kidiscience.cafe-sciences.org/" target="blank" rel="noopener noreferrer">Kidiscience</Link> destiné aux enfants.</p>
                     </div>
                 </div>
                 <div className="about-paragraph-asso">
                     <h2>Mais c'est aussi une association !</h2>
                     <p>Le Café des Sciences, initiative lancée il y a plus de 10 ans par Matthieu, Tom Roud et Enro, s'est ancré dans le paysage de la vulgarisation scientifique en ligne. Fondé sur la passion partagée pour la diffusion du savoir scientifique, il s'est structuré en tant qu'association loi 1901, évoluant au fil des années pour devenir une référence. </p>
-                    <p>Vous souhaitez nous rejoindre ? <Link to="/JoinUs">On vous explique comment ici !</Link> </p>
-                    <h3>Composition du bureau pour l’année 2024 :</h3>
-                    <ul>
-                        <li>Dounia Saez, présidente</li>
-                        <li>Terence Saulnier, vice-président</li>
-                        <li>Nicolas Minier, trésorier</li>
-                        <li>Pierre Rambourg, secrétaire</li>
-                    </ul>
+                    <p>Vous souhaitez rejoindre l'asso ? <Link to="/JoinUs">On vous explique comment ici !</Link> </p>
+                    <h3>Composition du bureau pour l’année 2024</h3>
+                    <p className="padisparaitre">(En attente de confirmation de vote)</p>
+                    <div className="bureau">
+                        {DataBureau.map((person) => (
+                            <div key={person.id} className="bureau-person">
+                                <img src={person.image} alt={`Avatar de ${person.nom}, ${person.fonction}`} />
+                                <p>{`${person.nom}, ${person.fonction}`}</p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-
-                
             </div>
         </main>
+        <Footer/>
         </>
     )
 }

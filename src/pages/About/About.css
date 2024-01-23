@@ -26,22 +26,58 @@
 }
 
 .about-paragraph-asso {
-    margin-top: 2em;
+    margin-top: 3em;
 }
 
 .about-paragraph-asso p {
     margin: 0;
 }
 
-.about-paragraph-asso a {
+.about a {
     color: var(--primary);
 }
 
-.about-paragraph-asso a:hover {
+.about  a:hover {
     color: var(--secondary);
     text-decoration: underline;
 }
 
 .about-paragraph-asso h3 {
     color: var(--dark-primary);
+    text-align: center;
+    margin-top: 2em;
+}
+
+.padisparaitre {
+    text-align: center;
+}
+
+.bureau-person {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.bureau {
+    display: flex;
+    gap: 2%;
+}
+
+.bureau-person {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+}
+
+.bureau-person p {
+    color: var(--dark-primary);
+    font-weight: bolder;
+}
+
+.bureau-person img {
+    max-width: 80%;
+    border-radius: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
 }

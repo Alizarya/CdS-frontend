@@ -3,6 +3,9 @@ footer {
     color: var(--light-primary);
     padding: 4em;
     margin-top: 10em;
+    background-image: url("../../../public/images/Doodles/sciences.png");
+    background-position: center center;
+    background-repeat: repeat;
 }
 
 footer a {

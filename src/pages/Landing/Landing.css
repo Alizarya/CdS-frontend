@@ -12,12 +12,11 @@
   }
 
   .banner {
-  background-color: var(--dark-primary); /* Couleur dark-primary sans opacité */
+  background-color: var(--dark-primary); 
   color: white;
   margin: 0;
   text-align: center;
   padding: 0.4em;
-  width: 100%;
   font-size: 50px;
   background-image: url("../../../public/images/Doodles/sciences.png");
   background-position: center center;
