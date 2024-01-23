@@ -1,0 +1,9 @@
+.legal {
+    max-width: 90em;
+    margin: auto;
+    margin-top: 2em;
+}
+
+.legal h2 {
+    color: var(--dark-primary);
+}
