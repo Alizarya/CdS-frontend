@@ -102,20 +102,19 @@
 }
 
 .member-card img {
-    width: 250px;
-    height: 250px;
+    width: 150px;
+    height: 150px;
     object-fit: cover;
     border-radius: 2em;
 }
 
 .member-card h2 {
-    font-size: 34px;
+    font-size: 24px;
 }
 
-.member-card h2, .member-card h3 {
+.member-card h2{
     text-align: center;
     margin: 0;
-
 }
 
 .members-relative {
@@ -134,4 +133,14 @@ li {
     color: var(--dark-primary);
     font-family: var(--body);
     font-weight: 800;
+}
+
+.member-card-info .tags-container .tags-list {
+    margin: 0 ;
+    text-align: center;
+    padding: 0;
+}
+
+.member-card-info p {
+    margin: 0.3em 0;
 }

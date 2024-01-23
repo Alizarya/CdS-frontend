@@ -36,7 +36,6 @@ function Members() {
         });
     };
     
-    
 
     const filteredMembers = DataMembers.filter((member) => {
         const searchWords = searchTerm.toLowerCase().split(' ').filter(word => word.trim() !== '');
@@ -46,6 +45,9 @@ function Members() {
             return memberData.includes(word);
         });
     });
+
+    // Mélanger le map
+    const shuffledMembers = [...filteredMembers].sort(() => Math.random() - 0.5);
 
     return (
         <>
@@ -70,32 +72,30 @@ function Members() {
                             />
                         </aside>
                         
-                    <article className="members-article">
-                        {filteredMembers.map((member) => (
-                            <div className="members-relative" key={member.id}>
-                                <div className="member-card">
-                                    <img src={member.image} alt={member.name} />
-                                    <div className="member-card-info">
-                                        {member.pseudo ? (
-                                            <h2>{member.pseudo}</h2>
-                                        ) : (
-                                            <h2>{member.name}</h2>
-                                        )}
-                                        {member.pseudo && <h3>{member.name}</h3>}
-                                        <p>{member.shortdescription}</p>
-                                        <Tags memberId={member.id} />
+                        <article className="members-article">
+                            {shuffledMembers.map((member) => (
+                                <div className="members-relative" key={member.id}>
+                                    <div className="member-card">
+                                        <img src={member.image} alt={member.name} />
+                                        <div className="member-card-info">
+                                            {member.pseudo ? (
+                                                <h2>{member.pseudo}</h2>
+                                            ) : (
+                                                <h2>{member.name}</h2>
+                                            )}
+                                            <Tags memberId={member.id} />
+                                            <p>{member.shortdescription}</p>
+                                        </div>
                                     </div>
+                                    <Link to={{
+                                        pathname: `/Members/${member.id}`,
+                                        state: { memberData: member } 
+                                    }}>
+                                        <Button texte={`Découvrir ${member.pseudo || member.name}`} />
+                                    </Link>
                                 </div>
-                                <Link to={{
-                                pathname: `/Members/${member.id}`,
-                                state: { memberData: member } 
-                                }}>
-                                <Button texte={`Découvrir ${member.pseudo || member.name}`} />
-                                </Link>
-
-                            </div>
-                        ))}
-                    </article>
+                            ))}
+                        </article>
                 </section>
             </main>
         </>
