@@ -13,16 +13,30 @@ import DataMembers from "../../data/DataMembers"
 
 function Members() {
 
-    const handleMemberClick = (member) => {
-        console.log("Clicked Member:", member); // Vérifiez si le membre est correctement cliqué
-    };
-
     // Gestion du champs de recherche et des tags
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleTagClick = (tag) => {
-        setSearchTerm(tag);
+        setSearchTerm((prevSearchTerm) => {
+            const lowerCaseTag = tag.toLowerCase();
+            const searchWords = prevSearchTerm.toLowerCase().split(' ').filter(word => word.trim() !== '');
+    
+            // Vérifier si le tag existe déjà
+            const tagIndex = searchWords.indexOf(lowerCaseTag);
+    
+            // Si le tag existe déjà, le supprimer, sinon l'ajouter
+            if (tagIndex !== -1) {
+                searchWords.splice(tagIndex, 1);
+            } else {
+                searchWords.push(lowerCaseTag);
+            }
+    
+            const newSearchTerm = searchWords.join(' ').trim();
+            return newSearchTerm;
+        });
     };
+    
+    
 
     const filteredMembers = DataMembers.filter((member) => {
         const searchWords = searchTerm.toLowerCase().split(' ').filter(word => word.trim() !== '');

@@ -4,7 +4,7 @@ import "./Tags.css"
 // Import des données 
 import DataMembers from "../../data/DataMembers"
 
-function Tags({ memberId, onTagClick }) {
+function Tags({ memberId, searchTerm, onTagClick }) {
     let tagsToDisplay = [];
 
     if (memberId) {
@@ -27,18 +27,21 @@ function Tags({ memberId, onTagClick }) {
     return (
         <div className="tags-container">
             <ul className="tags-list">
-                {tagsToDisplay.map((tag, index) => (
-                    <li
-                        key={index}
-                        className="tag-item"
-                        onClick={() => handleTagClick(tag)}
-                    >
-                        {tag}
-                    </li>
-                ))}
+            {tagsToDisplay.map((tag, index) => (
+                <li
+                    key={index}
+                    className={`tag-item ${searchTerm && tag ? searchTerm.toLowerCase().includes(tag.toLowerCase()) ? 'active' : '' : ''}`}
+                    onClick={() => handleTagClick(tag)}
+                >
+                    {tag}
+                </li>
+            ))}
+
             </ul>
         </div>
     );
 }
+
+
 
 export default Tags;
