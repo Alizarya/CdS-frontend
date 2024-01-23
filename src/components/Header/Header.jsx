@@ -40,9 +40,9 @@ function Header() {
         <Link to="/" onClick={scrollToTop}> <img className="logoNav" src={logo} alt="logo du café des sciences"/></Link>
         <div className="extendNav">
             <nav>
-                <Link to="/About"> A Propos </Link>
-                <Link to="/Members"> Nos membres </Link>
-                <Link to="/JoinUs"> Nous rejoindre </Link>
+                <a href="/About"> A Propos </a>
+                <a href="/Members"> Nos membres </a>
+                <a href="/JoinUs"> Nous rejoindre </a>
                 <Link to="/#support" onClick={() => scrollToAnchor('support')}> Nous soutenir </Link>
                 <Link to="/#contact" onClick={() => scrollToAnchor('contact')}> Nous contacter </Link>
 
