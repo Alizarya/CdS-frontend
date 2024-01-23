@@ -1,11 +1,13 @@
 footer {
     background-color: var(--dark-primary);
     color: white;
-    padding: 4em;
+    padding: 3em 6em;
     margin-top: 10em;
     background-image: url("../../../public/images/Doodles/sciences.png");
     background-position: center center;
     background-repeat: repeat;
+    display: flex;
+    justify-content: space-between;
 }
 
 footer a {
