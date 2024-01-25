@@ -143,7 +143,7 @@ function ContactForm() {
         <img src={Pen} alt="Pen Doodle" />
         <p> Pour nous contacter, merci d’utiliser le formulaire ci-contre ou d’envoyer un email à <b>association[at]cafe-sciences[point]org</b></p>
         <p> Si vous souhaitez rejoindre l’association, veuillez prendre connaissance des conditions et du formulaire de <br></br> contact sur notre page<br></br>
-        <Link to="/JoinUs"><em>"Nous rejoindre"</em></Link>.</p>
+        <a href="/JoinUs"><em>"Nous rejoindre"</em></a>.</p>
       </aside>
     </>
   );

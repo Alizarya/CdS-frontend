@@ -1,31 +1,31 @@
 const DataBureau = [
   {
     id: "fg4858465",
-    nom: "Dounia Saez",
+    nom: "Margot Robbie",
     fonction: "présidente",
     image:
-      "https://img.freepik.com/vecteurs-libre/femme-scientifique-atome_23-2148403445.jpg?size=626&ext=jpg&ga=GA1.1.837209848.1677940872&semt=ais",
+      "https://media-mcetv.ouest-france.fr/wp-content/uploads/2024/01/barbie-margot-robbie-annonce-une-pause-dans-sa-carriere-dactrice-15012024.jpeg",
   },
   {
     id: "fghd6352",
-    nom: "Terence Saulnier",
+    nom: "Ryan Gosling",
     fonction: "vice-président",
     image:
-      "https://img.freepik.com/vecteurs-libre/concept-scientifique-microscope_52683-37974.jpg?t=st=1706002693~exp=1706003293~hmac=3337b1009bfc3fa0b57673ffc5a6275fa690b696908a68498514914bb7a0ff1e",
+      "https://www.europe2.fr/wp-content/uploads/europeradio/2023/08/rev-1-bar-tt3-0104_high_res_jpeg.jpeg",
   },
   {
     id: "fjgk7843",
-    nom: "Nicolas Minier",
+    nom: "Idriss Elba",
     fonction: "trésorier",
     image:
-      "https://img.freepik.com/vecteurs-libre/developpement-vaccin-illustre_23-2148540562.jpg?t=st=1706002693~exp=1706003293~hmac=94a03147b5cfa32bd132867d07d56019cfdcb67dbc9248385aec42a9a5e92f32",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREE-2A7bz0Rqg2fIpYoQL5RU9lYX5QTm37qQ&usqp=CAU",
   },
   {
     id: "fkjg7854",
-    nom: "Pierre Rambourg",
+    nom: "Dua Lipa",
     fonction: "secrétaire",
     image:
-      "https://img.freepik.com/vecteurs-libre/scientifique-travaillant_23-2148487902.jpg?t=st=1706002693~exp=1706003293~hmac=c79dd8292f06a8f0412c1939876cc38cbe88004a2a5999cb61655adde9e351d5",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsAdhDl6IzUduOFQwkd8f18j-FPV0QJcqY8w&usqp=CAU",
   },
 ];
 

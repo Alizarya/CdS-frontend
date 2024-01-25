@@ -1,0 +1,30 @@
+.joinus {
+    max-width: 90em;
+    margin: auto;
+    margin-top: 2em;
+    display: flex;
+    flex-direction: column;
+}
+
+.joinus h2 {
+    color: var(--dark-primary);
+}
+
+.joinus .button-cta {
+    margin: 2em auto;
+}
+
+
+/* Gestion de l'apparition du formulaire */
+.joinus-form {
+    display: none; 
+}
+
+.joinus-form.visible {
+    display: flex; 
+    flex-direction: column;
+}
+
+.joinus-form.hidden {
+    display: none; 
+}

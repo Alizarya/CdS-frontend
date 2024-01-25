@@ -61,6 +61,8 @@
 .bureau {
     display: flex;
     gap: 2%;
+    justify-content: space-around;
+    margin-top: 2em;
 }
 
 .bureau-person {
@@ -68,6 +70,7 @@
     flex-direction: column;
     align-items: center;
     gap: 1em;
+    justify-content: space-between;
 }
 
 .bureau-person p {
@@ -76,7 +79,7 @@
 }
 
 .bureau-person img {
-    max-width: 80%;
+    width: 300px;
     border-radius: 100%;
     aspect-ratio: 1/1;
     object-fit: cover;

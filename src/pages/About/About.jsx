@@ -37,7 +37,6 @@ function About() {
                     <p>Le Café des Sciences, initiative lancée il y a plus de 10 ans par Matthieu, Tom Roud et Enro, s'est ancré dans le paysage de la vulgarisation scientifique en ligne. Fondé sur la passion partagée pour la diffusion du savoir scientifique, il s'est structuré en tant qu'association loi 1901, évoluant au fil des années pour devenir une référence. </p>
                     <p>Vous souhaitez rejoindre l'asso ? <Link to="/JoinUs">On vous explique comment ici !</Link> </p>
                     <h3>Composition du bureau pour l’année 2024</h3>
-                    <p className="padisparaitre">(En attente de confirmation de vote)</p>
                     <div className="bureau">
                         {DataBureau.map((person) => (
                             <div key={person.id} className="bureau-person">
