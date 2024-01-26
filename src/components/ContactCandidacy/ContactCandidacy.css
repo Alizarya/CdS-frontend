@@ -1,0 +1,15 @@
+.joinus-form-question {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.joinus-form-radiobtn {
+    display: flex;
+    gap: 2em;
+}
+
+.joinus-form-radiobtn label input{
+margin-left: 0.5em;
+
+}
