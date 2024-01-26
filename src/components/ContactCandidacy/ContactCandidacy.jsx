@@ -3,6 +3,8 @@ import "./ContactCandidacy.css"
 
 import React, { useState } from 'react';
 
+import Button from "../Button/Button"
+
 const ContactCandidacy = () => {
     const [reponse1, setReponse1] = useState('');
     const [reponse2, setReponse2] = useState('');
@@ -61,9 +63,9 @@ const ContactCandidacy = () => {
     };
 
   return (
-    <div>
+    <div className="join-form">
       <div className="joinus-form-question question1">
-        <label>Vous êtes créateurs ou créatrice de contenus et vous souhaitez que le café des sciences partage votre travail  </label>
+      <p className="question">Vous êtes créateurs ou créatrice de contenus et vous souhaitez que le café des sciences partage votre travail ? </p>
         <div className="joinus-form-radiobtn">
             <label>
             Oui
@@ -92,7 +94,7 @@ const ContactCandidacy = () => {
 
       {reponse1 === 'oui' && (
         <div className="joinus-form-question question2">
-          <label>Vous créez du contenu depuis plus de six mois ? </label>
+          <p className="question">Vous créez du contenu depuis plus de six mois ? </p>
           <div className="joinus-form-radiobtn">
             <label>
                 Oui
@@ -122,7 +124,7 @@ const ContactCandidacy = () => {
 
       {reponse2 === 'oui' && (
         <div className="joinus-form-question question3">
-            <label>Quel type de contenus partagez vous ?</label>
+            <p className="question">Quel type de contenus partagez vous ?</p>
             <div className="joinus-form-radiobtn">
                 <label>
                     Vidéo
@@ -166,69 +168,73 @@ const ContactCandidacy = () => {
 
       {reponse3 === 'Vidéo' || reponse3 === 'Blog' || reponse3 === 'Podcast' || reponse3 === 'Autre' ? (
         <div className="joinus-form-question question4">
-          <label>Combien de contenus avez-vous à votre actif </label>
+          <p className="question">Combien de contenus avez-vous à votre actif ?</p>
           <input
             type="number"
             value={reponse4}
             onChange={handleReponse4Change}
           />
           {reponse4 >= 6 ? (
+        
             <div className="joinus-form-info">
-                <label>Nom, Prénom, Pseudo*: </label>
+                <p className="joinus-form-ok"> Vous êtes élligible à la candidature, vous pouvez la remplir ci dessous si vous le souhaitez. </p>
+                <p className="question">Nom, Prénom, Pseudo* : </p>
                 <input type="text" value={nom} onChange={handleNomChange} />
                 
-                <label>Genre: </label>
-                <label>
-                Femme
-                <input
-                    type="radio"
-                    value="femme"
-                    checked={genre === 'femme'}
-                    onChange={handleGenreChange}
-                />
-                </label>
-                <label>
-                Homme
-                <input
-                    type="radio"
-                    value="homme"
-                    checked={genre === 'homme'}
-                    onChange={handleGenreChange}
-                />
-                </label>
-                <label>
-                Non-binaire
-                <input
-                    type="radio"
-                    value="non-binaire"
-                    checked={genre === 'non-binaire'}
-                    onChange={handleGenreChange}
-                />
-                </label>
-                <label>
-                Autre
-                <input
-                    type="radio"
-                    value="autre"
-                    checked={genre === 'autre'}
-                    onChange={handleGenreChange}
-                />
-                </label>
-            
-                <label>Adresse mail: </label>
+                <p className="question">Genre : </p>
+                <div className="gender">
+                    <label>
+                    <input
+                        type="radio"
+                        value="femme"
+                        checked={genre === 'femme'}
+                        onChange={handleGenreChange}
+                        />
+                    <span>Femme</span>
+                    </label>
+                    <label>
+                    <input
+                        type="radio"
+                        value="homme"
+                        checked={genre === 'homme'}
+                        onChange={handleGenreChange}
+                        />
+                    <span>Homme</span>
+                    </label>
+                    <label>
+                    <input
+                        type="radio"
+                        value="non-binaire"
+                        checked={genre === 'non-binaire'}
+                        onChange={handleGenreChange}
+                        />
+                    <span>Non-binaire</span>
+                    </label>
+                    <label>
+                    <input
+                        type="radio"
+                        value="autre"
+                        checked={genre === 'autre'}
+                        onChange={handleGenreChange}
+                        />
+                    <span>Autre</span>
+                    </label>
+                </div>
+                <p className="question">Adresse mail: </p>
                 <input type="email" value={adresseMail} onChange={handleAdresseMailChange} />
             
-                <label>Nom du contenu*: </label>
+                <p className="question">Nom du contenu*: </p>
                 <input type="text" value={nomContenu} onChange={handleNomContenuChange} />
             
-                <label>Lien*: </label>
+                <p className="question">Lien*: </p>
                 <input type="url" value={lien} onChange={handleLienChange} />
             
-                <label>Liens RS*: </label>
+                <p className="question">Liens RS*: </p>
                 <input type="text" value={liensRS} onChange={handleLiensRSChange} />
             
-                <label>Motivations*: </label>
+                <p className="question">Motivations*: </p>
                 <textarea value={motivations} onChange={handleMotivationsChange} />
+                <Button texte="Envoyer votre candidature"> </Button>
           </div>
           
           ) : (
@@ -236,6 +242,7 @@ const ContactCandidacy = () => {
           )}
         </div>
       ) : null}
+
     </div>
   );
 };

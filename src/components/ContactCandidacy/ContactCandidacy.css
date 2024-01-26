@@ -1,8 +1,25 @@
+.join-form {
+    margin: auto;
+    border: 2px solid var(--dark-primary);
+    padding: 1em 3em;
+    margin-bottom: 3em;
+}
+
 .joinus-form-question {
     display: flex;
     flex-direction: column;
+    margin: 2em 0;
 }
 
+.question {
+    margin: 0.2em 0;
+}
+
+.joinus-form-ok {
+    margin-top: 3em;
+    color: var(--secondary);
+    font-weight: 800;
+}
 
 .joinus-form-radiobtn {
     display: flex;
@@ -11,5 +28,36 @@
 
 .joinus-form-radiobtn label input{
 margin-left: 0.5em;
+}
 
+.gender {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+}
+
+.gender label input {
+    width: fit-content;
+    margin-right: 0.5em;
+}
+
+.question4 input {
+    width: 20%;
+}
+
+.negative {
+    color: var(--secondary);
+}
+
+.joinus-form-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.joinus-form-info .question {
+    margin-top: 1.5em;
+}
+
+.joinus-form-info input {
+    width: 50%;
 }
