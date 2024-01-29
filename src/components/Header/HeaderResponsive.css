@@ -1,0 +1,24 @@
+/* Breakpoint tablette */
+@media (max-width: 64em) {
+ 
+    .logoNav {
+        height: 50px;
+    }
+
+    nav {
+        gap: 1.5em;
+    }
+
+    .fa-circle-user {
+        font-size: 28px;
+    }
+  }
+
+
+/* Breakpoint smartphone */
+@media (max-width: 48em) {
+ 
+    
+  
+
+}

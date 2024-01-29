@@ -1,13 +1,13 @@
 header {
     position: sticky;
     top: 0;
-    display: flex;
+    background-color: white;
     height: 8%;
+    display: flex;
     justify-content: space-between;
     padding: 0.5em 2em;
     border-bottom: solid 1px var(--light-primary);
     z-index: 1000;
-    background-color: white;
 }
 
 .logoNav {
@@ -18,15 +18,11 @@ header {
     cursor: pointer;
 }
 
-.extendNav {
-    display: flex;
-    width: 50%; 
-    align-items: center;
-}
-
 nav {
     display: flex;
+    max-width: 80%; 
     gap: 2.5em;
+    align-items: center;
 }
 
 nav a {
@@ -72,7 +68,6 @@ position: relative;
     color: var(--secondary);
     cursor: pointer;
 }
-
 
 
 hr {

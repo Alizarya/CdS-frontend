@@ -1,5 +1,4 @@
 .join-form {
-    margin: auto;
     border: 2px solid var(--dark-primary);
     padding: 1em 3em;
     margin-bottom: 3em;
@@ -47,6 +46,7 @@ margin-left: 0.5em;
 
 .negative {
     color: var(--secondary);
+    font-weight: bolder;
 }
 
 .joinus-form-info {

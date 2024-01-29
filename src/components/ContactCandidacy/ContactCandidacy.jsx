@@ -220,19 +220,19 @@ const ContactCandidacy = () => {
                     <span>Autre</span>
                     </label>
                 </div>
-                <p className="question">Adresse mail: </p>
+                <p className="question">Adresse mail *: </p>
                 <input type="email" value={adresseMail} onChange={handleAdresseMailChange} />
             
-                <p className="question">Nom du contenu*: </p>
+                <p className="question">Nom du contenu *: </p>
                 <input type="text" value={nomContenu} onChange={handleNomContenuChange} />
             
-                <p className="question">Lien*: </p>
+                <p className="question">Lien *: </p>
                 <input type="url" value={lien} onChange={handleLienChange} />
             
-                <p className="question">Liens RS*: </p>
+                <p className="question">Liens de vos réseaux sociaux *: </p>
                 <input type="text" value={liensRS} onChange={handleLiensRSChange} />
             
-                <p className="question">Motivations*: </p>
+                <p className="question">Vos motivations *: </p>
                 <textarea value={motivations} onChange={handleMotivationsChange} />
                 <Button texte="Envoyer votre candidature"> </Button>
           </div>

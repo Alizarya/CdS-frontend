@@ -32,7 +32,7 @@
     font-family: var(--body);
     text-decoration: none;
     font-weight: 500;
-    font-size: 22px;
+    font-size: clamp(16px, 1.15vw, 22px);
   }
 
   input, textarea {

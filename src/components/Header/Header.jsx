@@ -1,5 +1,6 @@
 // Import des pages de style
 import "./Header.css";
+import "./HeaderResponsive.css"
 
 // Import des composants
 import { Link, useLocation } from "react-router-dom";
@@ -38,19 +39,17 @@ function Header() {
   return (
     <header>
         <Link to="/" onClick={scrollToTop}> <img className="logoNav" src={logo} alt="logo du café des sciences"/></Link>
-        <div className="extendNav">
-            <nav>
-                <a href="/About"> A Propos </a>
-                <a href="/Members"> Nos membres </a>
-                <a href="/JoinUs"> Nous rejoindre </a>
-                <Link to="/#support" onClick={() => scrollToAnchor('support')}> Nous soutenir </Link>
-                <Link to="/#contact" onClick={() => scrollToAnchor('contact')}> Nous contacter </Link>
+        
+        <nav>
+            <a href="/About"> A Propos </a>
+            <a href="/Members"> Nos membres </a>
+            <a href="/JoinUs"> Nous rejoindre </a>
+            <Link to="/#support" onClick={() => scrollToAnchor('support')}> Nous soutenir </Link>
+            <Link to="/#contact" onClick={() => scrollToAnchor('contact')}> Nous contacter </Link>
 
-            </nav>
             <hr></hr>
             <Link to="/Login"> <i className="fa-solid fa-circle-user" id="icon" title="Se connecter"></i> </Link>
-            
-        </div>
+        </nav>
     </header>
   );
 }
