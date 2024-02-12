@@ -3,6 +3,7 @@ import "./Dashboard.css"
 
 import Header from "../../components/Header/Header"
 import { Link } from 'react-router-dom';
+import Card from "../../components/Card/Card"
 
 function Dashboard() {
     const token = localStorage.getItem('token');
@@ -29,11 +30,19 @@ function Dashboard() {
     return (
         <>
             <Header/>
+
+            <h1 className="banner">Tableau de bord</h1>
+
             <div className="dashboard-container">
-                <h1 className="banner">Tableau de bord</h1>
-                {/* Autres éléments du tableau de bord */}
-                <button onClick={handleLogout}>Se déconnecter</button>
+                <div className="dashboard-field">
+                </div>
+
+                <div className="dashboard-card">
+                    <Card/>
+                </div>      
             </div>
+            
+            <button onClick={handleLogout}>Se déconnecter</button>
         </>
     );
 }
