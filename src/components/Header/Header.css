@@ -19,8 +19,8 @@ header {
 }
 
 nav {
-    display: flex;
     max-width: 80%; 
+    display: flex;
     gap: 2.5em;
     align-items: center;
 }
@@ -38,33 +38,33 @@ a {
     position: relative; 
 }
 
-nav a::after {
+.underline-link::after {
     content: '';
     position: absolute;
-    bottom: -2px; /* Ajuste la position verticale du soulignement */
-    left: 5px; /* Ajuste le décalage horizontal du soulignement */
-    width: calc(100% - 10px); /* Ajuste la largeur du soulignement en fonction du décalage */
-    height: 2px; /* Ajuste l'épaisseur du soulignement */
-    background-color: var(--secondary); /* Couleur du soulignement */
-    visibility: hidden; /* Cache le soulignement par défaut */
-    transform: scaleX(0); /* Réduit la largeur du soulignement à 0 */
-    transition: transform 0.5s ease, visibility 0.5s ease; /* Animation du soulignement */
+    bottom: -2px; 
+    left: 5px; 
+    width: calc(100% - 10px); 
+    height: 2px; 
+    background-color: var(--secondary); 
+    visibility: hidden; 
+    transform: scaleX(0); 
+    transition: transform 0.5s ease, visibility 0.5s ease; 
 }
 
-nav a:hover::after {
-    visibility: visible; /* Rend le soulignement visible au survol */
-    transform: scaleX(1); /* Agrandit la largeur du soulignement */
-    text-decoration: none; /* Supprime le soulignement par défaut du texte */
-    text-decoration-skip-ink: none; /* Évite que le soulignement coupe les lettres */
+.underline-link:hover::after {
+    visibility: visible; 
+    transform: scaleX(1); 
+    text-decoration: none;
+    text-decoration-skip-ink: none; 
 }
 
-.fa-circle-user{
+.fa-circle-user, .fa-right-from-bracket{
 font-size: 42px;
 color: var(--primary);
 position: relative;
 }
 
-.fa-circle-user:hover {
+.fa-circle-user:hover,  .fa-right-from-bracket:hover{
     color: var(--secondary);
     cursor: pointer;
 }

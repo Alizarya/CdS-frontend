@@ -41,14 +41,22 @@ function Header() {
         <Link to="/" onClick={scrollToTop}> <img className="logoNav" src={logo} alt="logo du café des sciences"/></Link>
         
         <nav>
-            <a href="/About"> A Propos </a>
-            <a href="/Members"> Nos membres </a>
-            <a href="/JoinUs"> Nous rejoindre </a>
-            <Link to="/#support" onClick={() => scrollToAnchor('support')}> Nous soutenir </Link>
-            <Link to="/#contact" onClick={() => scrollToAnchor('contact')}> Nous contacter </Link>
+            <a href="/About" className="underline-link"> A Propos </a>
+            <a href="/Members" className="underline-link"> Nos membres </a>
+            <a href="/JoinUs" className="underline-link"> Nous rejoindre </a>
+            <Link to="/#support" className="underline-link" onClick={() => scrollToAnchor('support')}> Nous soutenir </Link>
+            <Link to="/#contact" className="underline-link" onClick={() => scrollToAnchor('contact')}> Nous contacter </Link>
 
             <hr></hr>
-            <Link to="/Login"> <i className="fa-solid fa-circle-user" id="icon" title="Se connecter"></i> </Link>
+            {location.pathname === '/Dashboard' ? (
+                    <Link to="/">
+                        <i className="fa-solid fa-right-from-bracket" id="icon" title="Se déconnecter"></i>
+                    </Link>
+                ) : (
+                    <Link to="/Login">
+                        <i className="fa-solid fa-circle-user" id="icon" title="Se connecter"></i>
+                    </Link>
+                )}
         </nav>
     </header>
   );
