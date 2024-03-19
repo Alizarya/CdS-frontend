@@ -41,7 +41,7 @@ function Header() {
         <Link to="/" onClick={scrollToTop}> <img className="logoNav" src={logo} alt="logo du café des sciences"/></Link>
         
         <nav>
-            <a href="/About" className="underline-link"> A Propos </a>
+            <a href="/About" className="underline-link"> À Propos </a>
             <a href="/Members" className="underline-link"> Nos membres </a>
             <a href="/JoinUs" className="underline-link"> Nous rejoindre </a>
             <Link to="/#support" className="underline-link" onClick={() => scrollToAnchor('support')}> Nous soutenir </Link>

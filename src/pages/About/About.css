@@ -2,6 +2,9 @@
     max-width: 90em;
     margin: auto;
     margin-top: 2em;
+    display: flex;
+    flex-direction: column;
+    gap: 3em;
 }
 
 .about h2 {
@@ -10,7 +13,7 @@
 
 .about-paragraph {
     display: flex;
-    gap: 2em;
+    gap: 4em;
     width: 100%;
     align-items: center;
     margin-top: 2em;
@@ -45,7 +48,7 @@
 .about-paragraph-asso h3 {
     color: var(--dark-primary);
     text-align: center;
-    margin-top: 2em;
+    margin-top: 5em;
 }
 
 .padisparaitre {

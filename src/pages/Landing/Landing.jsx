@@ -81,9 +81,9 @@ function Landing() {
         <section className="support" id="support">
           <div className="helloasso">
             <div className="helloasso-text">
-              <p>Le Café des sciences ne fonctionne que grâce aux cotisations de ses membres et à leur travail <b>bénévole</b>.</p>
+              <p>Le Café des sciences est une association qui existe grâce notamment au soutien de ses membres et à leur travail <b>bénévole</b>.</p>
               <p>Si vous appréciez notre travail, n’hésitez pas à faire un <b>don</b> ! </p>
-              <p>Il servira à couvrir les frais de fonctionnement courants (serveur, site web..) ou pourra être utilisé pour financer un projet spécifique !</p>
+              <p>Il servira à couvrir les frais de fonctionnement courant ou pourra être utilisé pour financer un projet spécifique !</p>
             </div>
               <Link to="https://www.helloasso.com/associations/c-fetiers-des-sciences" target="_blank" rel="noopener noreferrer"> 
                 <img className="supportImg" src="/images/Landing/logo-web-bleu.png" alt="Logo de HelloAsso" />

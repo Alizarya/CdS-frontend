@@ -20,7 +20,7 @@ function About() {
                 <div className="about-paragraph">
                     <div className="about-paragraph-text">
                         <h2>Une plateforme en ligne de vulgarisation scientifique</h2>
-                        <p>Pour le grand public, le Café des Sciences représente avant tout un site web, celui-ci même que vous parcourez actuellement. Il agglomère une diversité de contenus dédiés à la vulgarisation scientifique sous des formats divers et variés. Chaque contributeur et chaque contributrice présente sur ce site voit sa production soumise à une évaluation rigoureuse, garantissant ainsi la fiabilité des informations présentées. Il est toutefois important de noter que les vulgarisateurs et vulgarisatrices, bien que passionné·e·s, sont souvent des amateurs et des amatrices et ne possèdent pas toujours une expertise spécialisée dans les domaines qu'ils et elles  abordent.</p>
+                        <p>Le <Link to="https://fr.wikipedia.org/wiki/Caf%C3%A9_des_sciences" target="blank" rel="noopener noreferrer">Café des Sciences</Link>  est une association qui fédère les acteurs et actrices de la vulgarisation scientifique sur le web. Elle regroupe les créateur·rices de blogs, vidéos, illustrations, podcasts, etc. dont la plupart sont à la fois expert·es de leur domaine scientifique et professionnel·les de la médiation scientifique.</p>
                     </div>
                     <img className="about-paragrph-img" src={logo} alt="logo du café des sciences" />
                 </div>
@@ -29,12 +29,12 @@ function About() {
                     <img className="about-paragrph-img" src={groupe} alt="café des science au festival Double Sciences" />
                     <div className="about-paragraph-text">
                     <h2>Une communauté de vulgarisateurs et de vulgarisatrices</h2>
-                    <p>En parallèle de sa présence en ligne, le Café des Sciences constitue également une communauté dynamique de vulgarisateurs et de vulgaristrices. Cette communauté s'engage dans des échanges sur l'actualité de la médiation scientifique et coordonne divers projets, tels que des festivals scientifiques, la publication de recueils collectifs, ainsi que la conception de sites web dédiés à des publics spécifiques, à l'instar de <Link to="https://kidiscience.cafe-sciences.org/" target="blank" rel="noopener noreferrer">Kidiscience</Link> destiné aux enfants.</p>
+                    <p>L‘association et ses membres conduisent et participent à des actions collectives de vulgarisation. À ce titre, elle organise ou participe à divers projets, comme des événements de culture scientifique ou des festivals de science, a publié un livre collectif (La science à contrepied, Belin, 2017) et accompagne des projets ou des sites destinés à des publics particuliers comme <Link to="https://kidiscience.cafe-sciences.org/" target="blank" rel="noopener noreferrer">Kidiscience</Link> pour les enfants.</p>
                     </div>
                 </div>
                 <div className="about-paragraph-asso">
-                    <h2>Mais c'est aussi une association !</h2>
-                    <p>Le Café des Sciences, initiative lancée il y a plus de 10 ans par Matthieu, Tom Roud et Enro, s'est ancré dans le paysage de la vulgarisation scientifique en ligne. Fondé sur la passion partagée pour la diffusion du savoir scientifique, il s'est structuré en tant qu'association loi 1901, évoluant au fil des années pour devenir une référence. </p>
+                    <h2>Mais c'est avant tout une association !</h2>
+                    <p>Le Café des Sciences, fondé en 2028 par Matthieu, Tom Roud et Enro, s'est ancré dans le paysage de la vulgarisation scientifique en ligne. Fondé sur la passion partagée pour la diffusion du savoir scientifique, il s'est structuré en tant qu'association loi 1901, évoluant au fil des années pour devenir une référence. </p>
                     <p>Vous souhaitez rejoindre l'asso ? <Link to="/JoinUs">On vous explique comment ici !</Link> </p>
                     <h3>Composition du bureau pour l’année 2024</h3>
                     <div className="bureau">
