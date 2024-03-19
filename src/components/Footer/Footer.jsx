@@ -1,4 +1,5 @@
 import "./Footer.css"
+import "./FooterResponsive.css"
 
 // Création de la fonction composant du footer
 function Footer() {

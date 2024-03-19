@@ -1,0 +1,81 @@
+@media (max-width: 48em) {
+    /*_____________________________________________________*/
+    /* Section accueil */
+    .banner {
+        font-size: 28px
+    }
+
+    .home .button-cta {
+        position: relative;
+        left: 60%; 
+        text-align: center;
+    }
+
+    /*_____________________________________________________*/
+    /* Section du membre random */
+    .loupe {
+        display: none;
+    }
+
+    .landingMemberCard {
+        margin: 5%;
+        flex-direction: column;
+        gap: 0;
+        padding: 0;
+    }
+
+    .landingMemberCardImgContainer {
+        width: 100%;
+        height: 100%;
+    }
+
+    .landingMemberCardImg {
+        width: 100%; 
+        height: 100%; 
+    }
+
+    .landingMemberCardInfo {
+        width: 100%;
+        text-align: center;
+    }
+
+    .landingMemberCardImgBorder::before,
+    .landingMemberCardImgBorder::after {
+        content: none; 
+    }
+
+    .landingMemberCardInfoSocial {
+        justify-content: center;
+    }
+
+    /*_____________________________________________________*/
+    /* Section soutien et RS */
+    .helloasso {
+        flex-direction: column;
+        padding: 5%;
+        gap: 2em;
+    }
+
+    .helloasso a, .helloasso-text  {
+        width: 100%;
+    }
+
+    .helloasso a {
+        align-items:center;
+    }
+
+    .socials{
+        padding: 5%;
+        margin-top: -3em;
+    }
+    
+    .socials .button-cta {
+        width: 30px;
+        height: 30px;
+    }
+
+    .socials .button-cta i{
+        font-size: 30px;
+    }
+  
+}

@@ -1,5 +1,6 @@
 // Import des styles 
 import "./Landing.css";
+import "./LandingResponsive.css"
 
 // Import des données
 import DataMembers from "../../data/DataMembers";

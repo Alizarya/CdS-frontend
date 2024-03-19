@@ -1,0 +1,33 @@
+@media (max-width: 48em) {
+    .about {
+        max-width: 100%;
+        width: 100%;
+        margin: 5%;
+    }
+    
+    .about-paragraph{
+        flex-direction: column;
+    }
+
+    .about-paragraph-text, .about-paragrph-img {
+        width: 100%;
+    }
+    
+    .about h2 {
+        font-size: 20px;
+    }
+
+    .bureau {
+        flex-direction: column ;
+        gap: 2em;
+    }
+
+    .bureau-person img {
+        width: 30%;
+    }
+
+
+    
+  
+
+}

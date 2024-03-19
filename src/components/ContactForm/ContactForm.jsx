@@ -1,5 +1,6 @@
 // Import des styles
 import "./ContactForm.css"
+import "./ContactFormResponsive.css"
 
 // Import des composants
 import React, { useState } from "react";
@@ -35,6 +36,13 @@ function ContactForm() {
 
   return (
     <>
+      <aside className="aside-contact">
+        <img src={Pen} alt="Pen Doodle" />
+        <p> Pour nous contacter, merci d’utiliser le formulaire ci-contre ou d’envoyer un email à <b>association[at]cafe-sciences[point]org</b></p>
+        <p> Si vous souhaitez rejoindre l’association, veuillez prendre connaissance des conditions et du formulaire de <br></br> contact sur notre page<br></br>
+        <a href="/JoinUs"><em>"Nous rejoindre"</em></a>.</p>
+      </aside>
+      
       <form onSubmit={handleSubmit}>
         {/* Prénom / Nom / Pseudo */}
         <div className="contactEntry contactFixed">
@@ -139,12 +147,7 @@ function ContactForm() {
 
       <hr></hr>
 
-      <aside className="aside-contact">
-        <img src={Pen} alt="Pen Doodle" />
-        <p> Pour nous contacter, merci d’utiliser le formulaire ci-contre ou d’envoyer un email à <b>association[at]cafe-sciences[point]org</b></p>
-        <p> Si vous souhaitez rejoindre l’association, veuillez prendre connaissance des conditions et du formulaire de <br></br> contact sur notre page<br></br>
-        <a href="/JoinUs"><em>"Nous rejoindre"</em></a>.</p>
-      </aside>
+      
     </>
   );
 }

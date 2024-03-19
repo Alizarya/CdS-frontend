@@ -1,0 +1,10 @@
+@media (max-width: 48em) {
+    footer {
+      flex-direction: column;
+      padding: 5%;
+      margin-top: 5em;
+      text-align: center;
+    }
+  
+
+}

@@ -1,5 +1,6 @@
 // Import des styles
 import "./About.css"
+import "./AboutResponsive.css"
 
 import Header from "../../components/Header/Header"
 import logo from "./logo banniere café des sciences.jpg"

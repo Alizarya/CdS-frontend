@@ -1,0 +1,29 @@
+@media (max-width: 48em) {
+    .contact form {
+        padding: 5%;
+    }
+
+    .contactFixed {
+        width: 100%;
+    }
+
+    .contact aside {
+        position: relative;
+        top: 0; 
+        right: 0; 
+        width: 100%;
+        box-shadow: none;
+        border-radius: 0em;
+        height: auto;
+        padding-bottom: 1em;
+     
+    }
+
+    .contact aside img {
+        display: none;
+    }
+
+    .contact label {
+        font-size: 20px;
+    }
+}
