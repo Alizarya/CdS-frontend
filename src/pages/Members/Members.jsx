@@ -36,7 +36,6 @@ function Members() {
         });
     };
     
-
     const filteredMembers = DataMembers.filter((member) => {
         const searchWords = searchTerm.toLowerCase().split(' ').filter(word => word.trim() !== '');
 

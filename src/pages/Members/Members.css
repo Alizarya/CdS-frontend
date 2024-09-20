@@ -1,35 +1,33 @@
 .members-container {
     background-color: var(--light-primary);
     margin: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .members-section {
     width: 90%;
-    display: flex;
     margin: auto;
-
 }
 
 /*_________________________________*/
 /* Partie gauche - les tags et la recherche */
 
 .members-aside {
-    width: 30%;
+    width: 100%;
     background-color: white;
     border-radius: 2em;
-    height: 80vh;
-    margin-top: 5vh;
-    position: fixed;
+    margin: auto;
+    margin-top: 1em;
 }
 
 .search-box {
-    position: relative;
     width: 80%; 
-    top: 2em;
     margin: auto;
 }
 
 .input-container {
+    padding-top: 1em;
     position: relative;
     display: flex;
     justify-content: center;
@@ -37,7 +35,7 @@
 
 .input-container i {
     position: absolute;
-    top: 46%;
+    top: 60%;
     left: 10px; 
     transform: translateY(-50%);
     color: #999; 
@@ -71,7 +69,6 @@
 }
 
 .members-aside .tags-container {
-    position: relative;
     top: 3em;
     text-align: center;
 }
@@ -83,12 +80,20 @@
 /*_________________________________*/
 /* Partie droite - les membres */
 .members-article {
-    width: 70%;
-    margin-left: 40%;
-    margin-top: 5vh;
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    row-gap: 5em;
+
+}
+
+.members-relative {
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 2em;
+    width: 48%
 }
 
 .member-card {
@@ -96,10 +101,10 @@
     border-radius: 2em 2em 0 0;
     display: flex;
     align-items: center;
-    padding: 1em 2em 1.2em 2em;
     gap: 2em;
     border-bottom: 10px solid var(--secondary);
     color: white;
+    width: 100%;
 }
 
 .member-card img {
@@ -108,6 +113,11 @@
     object-fit: cover;
     border-radius: 2em;
     aspect-ratio: 1/1;
+    margin: 1em 0 1em 1em;
+}
+
+.member-card-info {
+    margin: 1em 1em 1em 0;
 }
 
 .member-card h2 {
@@ -117,18 +127,6 @@
 .member-card h2{
     text-align: center;
     margin: 0;
-}
-
-.members-relative {
-    position: relative;
-}
-
-.members-article a {
-    position: absolute;
-    right: 0;
-    bottom: 0px;
-    transform: scale(0.5);
-    transform-origin: bottom right;
 }
 
 li {
@@ -145,4 +143,16 @@ li {
 
 .member-card-info p {
     margin: 0.3em 0;
+}
+
+.members-relative button {
+    position: absolute;
+    top: 0;    
+    right: 0;  
+    transform: scale(0.5);
+    transform-origin: top right; 
+}
+
+.members-relative .button-cta:hover {
+    transform: scale(0.52);
 }
