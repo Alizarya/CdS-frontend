@@ -1,21 +1,16 @@
 // Import des styles
-import "./Tags.css"
+import "./Tags.css";
 
-// Import des données 
-import DataMembers from "../../data/DataMembers"
+function Tags({ tags, searchTerm, onTagClick, allMembers }) {
+    let tagsToDisplay = tags;
 
-function Tags({ memberId, searchTerm, onTagClick }) {
-    let tagsToDisplay = [];
-
-    if (memberId) {
-        const member = DataMembers.find((member) => member.id === memberId);
-        tagsToDisplay = member ? member.tags : [];
-    } else {
+    // Si `allMembers` est fourni, on affiche tous les tags
+    if (allMembers) {
         let allTags = [];
-        DataMembers.forEach((member) => {
+        allMembers.forEach((member) => {
             allTags = allTags.concat(member.tags);
         });
-        tagsToDisplay = [...new Set(allTags)];
+        tagsToDisplay = [...new Set(allTags)]; // Supprime les doublons
     }
 
     const handleTagClick = (tag) => {
@@ -27,21 +22,18 @@ function Tags({ memberId, searchTerm, onTagClick }) {
     return (
         <div className="tags-container">
             <ul className="tags-list">
-            {tagsToDisplay.map((tag, index) => (
-                <li
-                    key={index}
-                    className={`tag-item ${searchTerm && tag ? searchTerm.toLowerCase().includes(tag.toLowerCase()) ? 'active' : '' : ''}`}
-                    onClick={() => handleTagClick(tag)}
-                >
-                    {tag}
-                </li>
-            ))}
-
+                {tagsToDisplay.map((tag, index) => (
+                    <li
+                        key={index}
+                        className={`tag-item ${searchTerm && tag ? searchTerm.toLowerCase().includes(tag.toLowerCase()) ? 'active' : '' : ''}`}
+                        onClick={() => handleTagClick(tag)}
+                    >
+                        {tag}
+                    </li>
+                ))}
             </ul>
         </div>
     );
 }
-
-
 
 export default Tags;

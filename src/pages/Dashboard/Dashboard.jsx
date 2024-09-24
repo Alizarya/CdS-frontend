@@ -5,6 +5,7 @@ import Header from "../../components/Header/Header"
 import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 import axios from 'axios';
+import Button from "../../components/Button/Button"
 
 function Dashboard() {
     const [formData, setFormData] = useState({
@@ -279,7 +280,8 @@ function Dashboard() {
                         ))}
                     </section>
 
-                    <button type="submit">Créer sa carte de membre</button>
+                    
+                    <Button texte="Créer ta carte de membre" type="submit"></Button>
                 </div>
             </form>
 
