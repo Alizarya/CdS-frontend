@@ -3,7 +3,6 @@ import "./Dashboard.css";
 
 // Import des composants
 import Header from "../../components/Header/Header";
-import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 import Button from "../../components/Button/Button";
 
@@ -90,6 +89,26 @@ function Dashboard() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Vérification des liens dans 'links' pour s'assurer qu'ils commencent par "https://"
+        const invalidLinks = Object.entries(formData.links).filter(
+            ([key, value]) => value && !value.startsWith("https://")
+        );
+
+        if (invalidLinks.length > 0) {
+            alert("Tous les liens doivent commencer par 'https://'. Veuillez corriger vos liens.");
+            return;
+        }
+
+        // Vérification des liens dans 'content' pour s'assurer qu'ils commencent par "https://"
+        const invalidContentLinks = formData.content.filter(
+            (content) => content.link && !content.link.startsWith("https://")
+        );
+
+        if (invalidContentLinks.length > 0) {
+            alert("Tous les liens de contenu doivent commencer par 'https://'. Veuillez corriger vos liens de contenu.");
+            return;
+        }
 
         const generatedUserId = Date.now();
         setFormData((prevState) => ({
@@ -184,7 +203,7 @@ function Dashboard() {
                                         type="text"
                                         name={link}
                                         placeholder={`Lien pour ${link}`}
-                                        value={formData.links[link]}  // modifié ici de 'liens_avec_logo' à 'links'
+                                        value={formData.links[link]}  
                                         onChange={handleLinkInputChange}
                                     />
                                 )}
