@@ -126,7 +126,7 @@ function Dashboard() {
             <Header />
             <h1 className="banner">Tableau de bord</h1>
 
-            <form onSubmit={handleSubmit}>
+            <form className="dashboard" onSubmit={handleSubmit}>
                 <div className="dashboard-field">
                     <section className="dashboard-presentation">
                         <h3>Ta présentation</h3>
@@ -138,7 +138,7 @@ function Dashboard() {
                         <label>Nom / Prénom</label>
                         <input type="text" name="nom" value={formData.nom} onChange={handleChange} />
 
-                        <label>Image <span style={{ color: 'red' }}>*</span></label>
+                        <label>Image de profil <span style={{ color: 'red' }}>*</span></label>
                         <input 
                             type="text" 
                             name="image" 
@@ -167,7 +167,7 @@ function Dashboard() {
 
                     {/* Section pour les liens avec logos */}
                     <section className="dashboard-links">
-                        <h3>Liens avec logo</h3>
+                        <h3>Tes liens</h3>
                         <p>Tu peux inserer jusqu'à trois liens.</p>
                         {Object.keys(formData.links).map((link) => (
                             <div key={link}>
@@ -191,10 +191,12 @@ function Dashboard() {
                             </div>
                         ))}
                     </section>
+                </div>
 
+                
                     {/* Section pour le contenu */}
                     <section className="dashboard-content">
-                        <h3>Contenu</h3>
+                        <h3>Ton contenu</h3>
 
                         <p>Quel format pour tes miniatures ?</p>
                         <div>
@@ -231,49 +233,49 @@ function Dashboard() {
                                 Carré
                             </label>
                         </div>
+                        <div className="dashboard-content-row">
 
-                        {formData.content.map((content, index) => (
-                            <div className="content-n" key={index}>
-                                <h4>Contenu {index + 1}</h4>
+                            {formData.content.map((content, index) => (
+                                <div className="content-n" key={index}>
+                                    <h4>Contenu {index + 1}</h4>
 
-                                <label>Titre</label>
-                                <input
-                                    type="text"
-                                    name="title"  // modifié ici de 'titre' à 'title'
-                                    value={content.title}  // modifié ici de 'titre' à 'title'
-                                    onChange={(e) => handleContentChange(e, index)}
-                                />
+                                    <label>Titre</label>
+                                    <input
+                                        type="text"
+                                        name="title" 
+                                        value={content.title} 
+                                        onChange={(e) => handleContentChange(e, index)}
+                                    />
 
-                                <label>Image</label>
-                                <input 
-                                    type="text" 
-                                    name="image" 
-                                    placeholder="Entrez l'URL de l'image"
-                                    value={content.image}
-                                    onChange={(e) => handleContentChange(e, index)}
-                                    required 
-                                />
+                                    <label>Image</label>
+                                    <input 
+                                        type="text" 
+                                        name="image" 
+                                        placeholder="Entrez l'URL de l'image"
+                                        value={content.image}
+                                        onChange={(e) => handleContentChange(e, index)}
+                                        required 
+                                    />
 
-                                <label>Lien</label>
-                                <input
-                                    type="text"
-                                    name="link"  // modifié ici de 'lien' à 'link'
-                                    value={content.link}  // modifié ici de 'lien' à 'link'
-                                    onChange={(e) => handleContentChange(e, index)}
-                                />
+                                    <label>Lien</label>
+                                    <input
+                                        type="text"
+                                        name="link"  // modifié ici de 'lien' à 'link'
+                                        value={content.link}  // modifié ici de 'lien' à 'link'
+                                        onChange={(e) => handleContentChange(e, index)}
+                                    />
 
-                                <label>Description</label>
-                                <textarea
-                                    name="description"
-                                    value={content.description}
-                                    onChange={(e) => handleContentChange(e, index)}
-                                />
-                            </div>
+                                    <label>Description</label>
+                                    <textarea
+                                        name="description"
+                                        value={content.description}
+                                        onChange={(e) => handleContentChange(e, index)}
+                                    />
+                                </div>
                         ))}
+                        </div>
                     </section>
-
                     <Button texte="Créer ta carte de membre" type="submit"></Button>
-                </div>
             </form>
         </>
     );
