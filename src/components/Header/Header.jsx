@@ -1,13 +1,13 @@
 // Import des pages de style
 import "./Header.css";
-import "./HeaderResponsive.css"
+import "./HeaderResponsive.css";
 
 // Import des composants
 import { Link, useLocation } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
 
 // Import des besoins
-import logo from "./logo banniere café des sciences.jpg"
+import logo from "./logo banniere café des sciences.jpg";
 
 // Création de la fonction composant du header
 function Header() {
@@ -62,7 +62,10 @@ function Header() {
 
             {/* Afficher l'icône selon si l'utilisateur est connecté ou non */}
             {isLoggedIn ? (
-                <Link to="/" onClick={() => localStorage.removeItem('token')}>
+                <Link to="/" onClick={() => {
+                    localStorage.removeItem('token');
+                    setIsLoggedIn(false);  // Met à jour l'état après déconnexion
+                }}>
                     <i className="fa-solid fa-right-from-bracket" id="icon" title="Se déconnecter"></i>
                 </Link>
             ) : (
