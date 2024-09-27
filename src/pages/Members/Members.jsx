@@ -96,7 +96,7 @@ function Members() {
                     
                     <article className="members-article">
                         {shuffledMembers.map((member) => (
-                            <div className="members-relative" key={member.id}>
+                            <div className="members-relative" key={member._id}>
                                 <div className="member-card">
                                     <img src={member.image} alt={member.name} />
                                     <div className="member-card-info">
@@ -105,27 +105,30 @@ function Members() {
                                         ) : (
                                             <h2>{member.name}</h2>
                                         )}
-                                        {member.tags ? ( // Vérification ici
+                                        {member.tags ? (
                                             <Tags
                                                 tags={member.tags} 
                                                 searchTerm={searchTerm}
                                                 onTagClick={handleTagClick}
                                             />
                                         ) : (
-                                            <p>Aucun tag disponible</p> // Message alternatif si pas de tags
+                                            <p>Aucun tag disponible</p>
                                         )}
                                         <p>{member.shortdescription}</p>
                                     </div>
                                 </div>
-                                <Link to={{
-                                    pathname: `/Members/${member._id}`,
-                                    state: { memberData: member } 
-                                }}>
+                                <Link
+                                    to={{
+                                        pathname: `/Members/${member._id}`,
+                                    }}
+                                    state={{ memberData: member }}  // <-- Passer directement l'objet membre
+                                >
                                     <Button texte={`Découvrir ${member.pseudo || member.name}`} />
                                 </Link>
                             </div>
                         ))}
                     </article>
+
                 </section>
             </main>
         </>
