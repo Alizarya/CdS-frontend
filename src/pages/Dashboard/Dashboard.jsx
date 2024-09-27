@@ -3,13 +3,26 @@ import "./Dashboard.css";
 
 // Import des composants
 import Header from "../../components/Header/Header";
-import React, { useState } from 'react';
 import Button from "../../components/Button/Button";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // Import de la fonction createMember
 import { createMember } from "../../utils/axiosMember";
 
 function Dashboard() {
+
+    const navigate = useNavigate();
+
+    // Vérifier si le token est présent dans le localStorage
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate("/404");  
+        }
+    }, [navigate]);
+
+
     const [formData, setFormData] = useState({
         userId: '',  
         pseudo: '',
