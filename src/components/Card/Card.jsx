@@ -9,6 +9,7 @@ import { getMembers } from '../../utils/axiosMembers'; // Importer la fonction p
 // Import des composants
 import Tags from "../../components/Tags/Tags"
 import Button from "../../components/Button/Button"
+import Error404 from "../../pages/Error404/Error404"
 
 // Import des données
 import DataSocialsLogo from '../../data/DataSocialsLogo';
@@ -43,7 +44,7 @@ function Card() {
     }
 
     if (!member) {
-        return <p>Membre non trouvé.</p>;
+        return <Error404/>
     }
 
     const { image, name, pseudo, tags, description, content, links } = member;
