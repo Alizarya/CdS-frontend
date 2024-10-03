@@ -44,7 +44,7 @@ function App() {
           path="/ResetPassword/:resetToken"
           element={<ResetThePassword />}
         />
-        <Route path="/Dashboard" element={<Dashboard />} />
+        <Route path="/Dashboard/*" element={<Dashboard />} />
       </Routes>
     </Router>
   );

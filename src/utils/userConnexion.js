@@ -27,12 +27,15 @@ export async function loginUser(email, password) {
       password,
     });
 
-    // Enregistrement du token dans le localStorage côté client
-    localStorage.setItem("token", response.data.token);
-    console.log("token :", response.data.token);
+    // Enregistrement du token dans le sessionStorage côté client
+    sessionStorage.setItem("token", response.data.token);
 
-    return response.data;
+    return {
+      token: response.data.token,
+      userId: response.data.userId,
+    };
   } catch (error) {
+    console.error("Erreur dans loginUser:", error);
     throw error.response.data;
   }
 }

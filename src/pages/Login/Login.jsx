@@ -13,24 +13,32 @@ function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault(); 
-
+    
         try {
             const response = await loginUser(userMail, userPassword);
-
+    
+            // Vérification si la réponse contient le token et l'ID
             if (response && response.token) {
-                // Stockage du token dans localStorage
-                localStorage.setItem('token', response.token);
-
+                // Stockage du token et de l'ID dans sessionStorage
+                sessionStorage.setItem('token', response.token);
+                sessionStorage.setItem('userId', response.userId);
+                
                 // Redirection vers /dashboard après la connexion réussie
                 window.location.href = '/dashboard';
             } else {
-                console.error(response);
+                console.error("Réponse inattendue :", response);
             }
-
         } catch (error) {
             console.error('Erreur de connexion:', error);
         }
     };
+    
+    
+    
+    
+    
+    
+    
 
     return (
         <>

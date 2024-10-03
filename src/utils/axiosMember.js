@@ -7,7 +7,7 @@ const URL = "http://localhost:5000/member";
 // Fonction pour créer un nouveau membre
 export async function createMember(memberData) {
   try {
-    const response = await axios.post(URL, memberData, {
+    const response = await axios.post(URL, JSON.stringify(memberData), {
       headers: {
         "Content-Type": "application/json",
       },
@@ -22,7 +22,7 @@ export async function createMember(memberData) {
       error.response?.data?.message || error.message
     );
 
-    // Retourner l'erreur pour une gestion plus fine ailleurs dans le code
+    // Retourner l'erreur
     throw error;
   }
 }

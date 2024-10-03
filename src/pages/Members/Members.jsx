@@ -1,11 +1,11 @@
 // Import des styles
-import "./Members.css"
+import "./Members.css";
 
 // Import des composants
-import Header from "../../components/Header/Header"
+import Header from "../../components/Header/Header";
 import Tags from "../../components/Tags/Tags";
 import React, { useState, useEffect } from 'react';
-import Button from "../../components/Button/Button"
+import Button from "../../components/Button/Button";
 import { Link } from "react-router-dom";
 
 // Import des données 
@@ -22,7 +22,9 @@ function Members() {
         const fetchMembers = async () => {
             try {
                 const data = await getMembers(); 
-                setMembers(data); 
+                // Filtrer les membres avec softDelete: false
+                const activeMembers = data.filter(member => !member.softDelete);
+                setMembers(activeMembers); 
             } catch (err) {
                 setError("Erreur lors de la récupération des membres.");
             } finally {

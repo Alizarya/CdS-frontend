@@ -39,9 +39,9 @@ function Header() {
     }
   }, [location.hash]);
 
-  // Vérifier si un token est présent dans le localStorage
+  // Vérifier si un token est présent dans le sessionStorage
   useEffect(() => {
-    const token = localStorage.getItem('token');  // Utilisez la clé exacte pour le token
+    const token = sessionStorage.getItem('token');  // Utilisez la clé exacte pour le token
     setIsLoggedIn(!!token);  // Si un token est trouvé, on considère l'utilisateur comme connecté
   }, []);
 
@@ -54,17 +54,28 @@ function Header() {
         <nav>
             <a href="/About" className="underline-link"> À Propos </a>
             <a href="/Members" className="underline-link"> Nos membres </a>
-            <a href="/JoinUs" className="underline-link"> Nous rejoindre </a>
+            
+            {/* Afficher "Nous rejoindre" uniquement si l'utilisateur n'est pas connecté */}
+            {!isLoggedIn && (
+              <a href="/JoinUs" className="underline-link"> Nous rejoindre </a>
+            )}
+
             <Link to="/#support" className="underline-link" onClick={() => scrollToAnchor('support')}> Nous soutenir </Link>
             <Link to="/#contact" className="underline-link" onClick={() => scrollToAnchor('contact')}> Nous contacter </Link>
 
             <hr />
 
+            {/* Afficher "Tableau de bord" uniquement si l'utilisateur est connecté */}
+            {isLoggedIn && (
+              <Link to="/Dashboard" className="underline-link">Tableau de bord</Link>
+            )}
+
             {/* Afficher l'icône selon si l'utilisateur est connecté ou non */}
             {isLoggedIn ? (
                 <Link to="/" onClick={() => {
-                    localStorage.removeItem('token');
-                    setIsLoggedIn(false);  // Met à jour l'état après déconnexion
+                  sessionStorage.removeItem('token');
+                  sessionStorage.removeItem('userId');
+                    setIsLoggedIn(false);  
                 }}>
                     <i className="fa-solid fa-right-from-bracket" id="icon" title="Se déconnecter"></i>
                 </Link>
