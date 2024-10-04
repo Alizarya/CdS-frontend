@@ -1,5 +1,6 @@
 import axios from "axios";
-const URL = "http://localhost:5000/user/";
+import baseURL from "./urlApi";
+const URL = `${baseURL}/user/`;
 
 //____________________________________________
 // Enregistrement d'un nouveau membre

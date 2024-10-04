@@ -1,6 +1,9 @@
 // Import des styles
 import "./Tags.css";
 
+// Import des tags disponibles
+import dataTags from "../../data/DataTags";
+
 function Tags({ tags, searchTerm, onTagClick, allMembers }) {
     let tagsToDisplay = tags;
 
@@ -12,6 +15,9 @@ function Tags({ tags, searchTerm, onTagClick, allMembers }) {
         });
         tagsToDisplay = [...new Set(allTags)]; // Supprime les doublons
     }
+
+    // Filtrer les tags pour n'afficher que ceux qui sont dans dataTags
+    tagsToDisplay = tagsToDisplay.filter(tag => dataTags.includes(tag));
 
     const handleTagClick = (tag) => {
         if (onTagClick) {

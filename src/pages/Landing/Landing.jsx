@@ -5,6 +5,7 @@ import "./LandingResponsive.css"
 // Import des données
 import SocialsLogos from "../../data/DataSocialsLogo";
 import DataSocials from "../../data/DataSocials";
+import { getMembers } from "../../utils/axiosMembers"; 
 
 // Import des composants
 import Header from "../../components/Header/Header";
@@ -12,38 +13,39 @@ import Footer from "../../components/Footer/Footer";
 import Button from "../../components/Button/Button";
 import ContactForm from "../../components/ContactForm/ContactForm";
 
+// Import des besoins 
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react"; // Importer useEffect et useState
-import { getMembers } from "../../utils/axiosMembers"; // Importer la fonction pour récupérer les membres
+import { useEffect, useState } from "react"; 
 
 function Landing() {
-  const [members, setMembers] = useState([]); // État pour stocker les membres
-  const [loading, setLoading] = useState(true); // État pour gérer le chargement
+  const [members, setMembers] = useState([]); 
+  const [loading, setLoading] = useState(true); 
 
   // Récupération des membres à partir de l'API
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const membersData = await getMembers(); // Appeler la fonction pour récupérer les membres
-        setMembers(membersData); // Mettre à jour l'état avec les membres récupérés
+        const membersData = await getMembers(); 
+        setMembers(membersData); 
       } catch (error) {
         console.error("Erreur lors de la récupération des membres:", error);
       } finally {
-        setLoading(false); // Fin du chargement
+        setLoading(false); 
       }
     };
 
-    fetchMembers(); // Exécuter la fonction de récupération des membres
-  }, []); // L'effet se lance une seule fois au montage
+    fetchMembers(); 
+  }, []); 
 
-  // Fonction de recherche de membre random dans la BDD
+  // Fonction de recherche de membre random dans la BDD avec softDelete à false
   const getRandomMember = () => {
-    if (members.length === 0) return null; // Éviter les erreurs si aucun membre n'est chargé
-    const randomIndex = Math.floor(Math.random() * members.length);
-    return members[randomIndex];
+    const activeMembers = members.filter(member => !member.softDelete); 
+    if (activeMembers.length === 0) return null;
+    const randomIndex = Math.floor(Math.random() * activeMembers.length);
+    return activeMembers[randomIndex];
   };
 
-  const randomMember = getRandomMember(); // Récupérer un membre aléatoire
+  const randomMember = getRandomMember(); 
 
   return (
     <div className="landing">
@@ -55,7 +57,7 @@ function Landing() {
         <Button texte="Découvrir nos membres" to="/members" />
       </section>
 
-      {loading ? ( // Afficher un message de chargement pendant la récupération des données
+      {loading ? ( 
         <p>Loading...</p>
       ) : (
         <section className="landingMember">
@@ -63,7 +65,7 @@ function Landing() {
           <div className="landingMemberCard">
             {randomMember && (
               <>
-                <Link to={`/Members/${randomMember._id}`}> {/* Assurez-vous d'utiliser le bon ID (_id) */}
+                <Link to={`/Members/${randomMember._id}`}> 
                   <div className="landingMemberCardImgContainer">
                     <img
                       className="landingMemberCardImg"

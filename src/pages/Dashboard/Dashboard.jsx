@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Link, Routes, Route } from "react-router-dom";
+import { Link, Routes, Route, useLocation, useNavigate } from "react-router-dom"; // Importez useNavigate
 import Header from "../../components/Header/Header";
-import AddData from "./AddData";
 import UpdateData from "./UpdateData";
-import { getMembers } from "../../utils/axiosMembers";
-import { createMember } from "../../utils/axiosMember";
+import CardPrev from "../../components/Card/CardPrev"; 
+import { getMembers, createMember, updateMember } from "../../utils/axiosMembers";
 
 function Dashboard() {
-    const [isPublished, setIsPublished] = useState("non");
+    const [isPublished, setIsPublished] = useState(false);
     const [userId, setUserId] = useState(null);
     const [isUserExists, setIsUserExists] = useState(false);
+    const [memberData, setMemberData] = useState(null);
+    const location = useLocation();
+    const navigate = useNavigate(); // Ajoutez useNavigate pour la navigation
 
     useEffect(() => {
         const token = sessionStorage.getItem('token');
@@ -18,48 +20,54 @@ function Dashboard() {
             return;
         }
 
-        const storedUserId = sessionStorage.getItem('userId'); // Récupérer userId
-        setUserId(storedUserId); // Mettre à jour l'état avec userId
+        const storedUserId = sessionStorage.getItem('userId');
+        setUserId(storedUserId);
 
-        // Récupérer les données des membres
         const fetchMembersData = async () => {
             try {
                 const data = await getMembers();
-                console.log("Données des membres:", data); // Affichez les données des membres
-                data.forEach(member => console.log("Membre:", member)); // Affichez chaque membre pour vérifier leur structure
-        
-                // Récupérer l'userId depuis le sessionStorage
-                const storedUserId = sessionStorage.getItem('userId');
-                console.log("UserId du sessionStorage:", storedUserId); // Affichez le userId du sessionStorage
-        
-                // Vérifier si un membre avec cet userId existe
-                const exists = data.some(member => member.userId && member.userId === storedUserId); // Assurez-vous d'utiliser le bon champ
-                setIsUserExists(exists); // Met à jour l'état selon l'existence de l'utilisateur
-                console.log("L'utilisateur existe-t-il?", exists); // Affichez le résultat final
+                console.log(data); // Log des données récupérées
+                const member = data.find(member => member.userId === storedUserId);
+                if (member) {
+                    setIsUserExists(true);
+                    setMemberData(member);
+                    setIsPublished(!member.softDelete);
+                    console.log("Membre trouvé :", member); // Vérifiez ici
+                } else {
+                    console.log("Aucun membre trouvé avec l'userId donné.");
+                }
             } catch (error) {
                 console.error("Erreur lors de la récupération des membres", error);
             }
         };
-        
-        
 
         fetchMembersData();
     }, []);
 
-    const handlePublishChange = (event) => {
-        setIsPublished(event.target.value);
+    const handleTogglePublish = async () => {
+        if (!memberData) return;
+        const updatedMemberData = { ...memberData, softDelete: !isPublished };
+
+        try {
+            await updateMember(memberData._id, updatedMemberData);
+            setIsPublished(!isPublished);
+            // Rafraîchir les données après la mise à jour
+            await fetchMembersData();
+        } catch (error) {
+            console.error("Erreur lors de la mise à jour de la publication du membre", error);
+        }
     };
 
     const handleCreateMember = async () => {
         const memberData = {
-            userId: sessionStorage.getItem('userId'), // Assurez-vous que cette valeur est correcte
-            pseudo: '', 
-            nom: '', 
-            image: '', 
-            tags: '', 
-            shortdescription: '', 
-            description: '', 
-            links: {}, // Assurez-vous que cela correspond au format attendu
+            userId: sessionStorage.getItem('userId'),
+            pseudo: '',
+            nom: '',
+            image: '',
+            tags: '',
+            shortdescription: '',
+            description: '',
+            links: {},
             content_format: '',
             content: [
                 { image: '', link: '', title: '', description: '' },
@@ -68,15 +76,42 @@ function Dashboard() {
             ],
             softDelete: true,
         };
-    
+
         try {
-            await createMember(memberData);
-            alert("Félicitations, ta carte de membre a été créée ! Tu n'as plus qu'à la remplir !");
-            setIsUserExists(true); // Mettre à jour l'état pour indiquer que le membre existe maintenant
+            const newMember = await createMember(memberData);
+            alert("Félicitations, ta carte de membre a été créée !");
+            setIsUserExists(true);
+            setMemberData(newMember);
+            setIsPublished(false);
+            // Rafraîchir les données après la création
+            await fetchMembersData();
         } catch (error) {
             console.error("Erreur lors de la création du membre", error);
         }
     };
+
+    const fetchMembersData = async () => {
+        const storedUserId = sessionStorage.getItem('userId');
+
+        try {
+            const data = await getMembers();
+            console.log(data); // Log des données récupérées
+            const member = data.find(member => member.userId === storedUserId);
+            if (member) {
+                setIsUserExists(true);
+                setMemberData(member);
+                setIsPublished(!member.softDelete);
+                console.log("Membre trouvé :", member); // Vérifiez ici
+            } else {
+                console.log("Aucun membre trouvé avec l'userId donné.");
+            }
+        } catch (error) {
+            console.error("Erreur lors de la récupération des membres", error);
+        }
+    };
+
+    const isUpdateDataPage = location.pathname === "/Dashboard/updateData";
+    const isPreviewPage = location.pathname === "/Dashboard/preview"; // Vérifier si nous sommes sur la page de prévisualisation
 
     return (
         <>
@@ -85,29 +120,34 @@ function Dashboard() {
 
             {isUserExists ? (
                 <>
-                    <button>
-                        <Link to="/Dashboard/updateData">Modifier ta carte de membre</Link>
-                    </button>
+                    {/* Ajouter le bouton de prévisualisation ici seulement si on n'est pas sur la page de prévisualisation */}
+                    {!isPreviewPage && (
+                        <button onClick={async () => { 
+                            await fetchMembersData(); // Rafraîchir les données avant de naviguer
+                            navigate("/Dashboard/preview"); // Naviguer vers la page de prévisualisation
+                        }}>
+                            Prévisualiser ta carte de membre
+                        </button>
+                    )}
+
+                    {!isUpdateDataPage && (
+                        <button>
+                            <Link to="/Dashboard/updateData">Modifier ta carte de membre</Link>
+                        </button>
+                    )}
+
                     <div>
-                        <p>Publier ta carte de membre ?</p>
-                        <label>
-                            <input
-                                type="radio"
-                                value="oui"
-                                checked={isPublished === "oui"}
-                                onChange={handlePublishChange}
-                            />
-                            Oui
-                        </label>
-                        <label>
-                            <input
-                                type="radio"
-                                value="non"
-                                checked={isPublished === "non"}
-                                onChange={handlePublishChange}
-                            />
-                            Non
-                        </label>
+                        {isPublished ? (
+                            <>
+                                <p>Actuellement, ta carte de membre est en ligne. Souhaites-tu la dépublier ?</p>
+                                <button onClick={handleTogglePublish}>Retirer ta carte</button>
+                            </>
+                        ) : (
+                            <>
+                                <p>Actuellement, ta carte de membre n'est pas en ligne. Souhaites-tu la publier ?</p>
+                                <button onClick={handleTogglePublish}>Mettre en ligne</button>
+                            </>
+                        )}
                     </div>
                 </>
             ) : (
@@ -115,8 +155,18 @@ function Dashboard() {
             )}
 
             <Routes>
-                <Route path="addData" element={<AddData />} />
                 <Route path="updateData" element={<UpdateData />} />
+                {/* Ajouter la route pour la prévisualisation */}
+                <Route path="preview" element={
+                    memberData ? (
+                        <>
+                            <h2>Prévisualisation de ta carte</h2>
+                            <CardPrev member={memberData} />
+                        </>
+                    ) : (
+                        <p>Aucun membre trouvé.</p>
+                    )
+                } />
             </Routes>
         </>
     );

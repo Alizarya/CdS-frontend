@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 
 // Import des données 
 import { getMembers } from '../../utils/axiosMembers'; // Importer la fonction getMembers
+import dataTags from '../../data/DataTags'; // Importer les tags
 
 function Members() {
     // Gestion du champ de recherche et des tags
@@ -89,11 +90,15 @@ function Members() {
                                 />
                             </div>
                         </div>
-                        <Tags
-                            searchTerm={searchTerm}
-                            onTagClick={handleTagClick}
-                            allMembers={members} // Passer tous les membres ici
-                        />
+                        
+                        {/* Afficher tous les tags de dataTags ici */}
+                        <div className="tags-display">
+                            <Tags
+                                tags={dataTags} // Passer tous les tags ici
+                                searchTerm={searchTerm}
+                                onTagClick={handleTagClick}
+                            />
+                        </div>
                     </aside>
                     
                     <article className="members-article">

@@ -3,13 +3,17 @@ import "./Dashboard.css";
 
 // Import des composants
 import Button from "../../components/Button/Button";
+
+
+// Import des besoins
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// Import de la fonction createMember
-import { createMember } from "../../utils/axiosMember";
+// Import des datas
+import { updateMember, getMembers } from "../../utils/axiosMembers";
+import dataTags from '../../data/DataTags'; 
 
-function AddData() {
+function UpdateData() {
     const navigate = useNavigate();
 
     // Vérifier si le token est présent dans le sessionStorage
@@ -25,7 +29,7 @@ function AddData() {
         pseudo: '',
         nom: '',
         image: '', 
-        tags: '',
+        tags: [], 
         shortdescription: '',
         description: '',
         links: {  
@@ -97,12 +101,27 @@ function AddData() {
         }));
     };
 
+    const handleTagChange = (tag) => {
+        setFormData((prevState) => {
+            const isSelected = prevState.tags.includes(tag);
+            const newTags = isSelected
+                ? prevState.tags.filter(t => t !== tag) // Désélectionner si déjà sélectionné
+                : [...prevState.tags, tag]; // Ajouter le tag sélectionné
+
+            // Limiter à 3 tags maximum
+            if (newTags.length > 3) {
+                alert('Tu ne peux sélectionner que 3 tags maximum.');
+                return prevState; // Ne pas mettre à jour l'état
+            }
+
+            return { ...prevState, tags: newTags };
+        });
+    };
+
     const handleSubmit = async (e) => {  
         e.preventDefault();
         console.log("Formulaire soumis"); // Vérifie si la fonction est appelée
         console.log("Données du formulaire:", formData); // Vérifie l'état des données
-    
-        alert("Formulaire soumis"); 
     
         // Vérification des liens dans 'links' pour s'assurer qu'ils commencent par "https://"
         const modifiedLinks = { ...formData.links };
@@ -120,10 +139,11 @@ function AddData() {
             return content;
         });
     
-        // Récupérer l'userId depuis le sessionStorage
+        // Récupérer l'userId et l'id du membre depuis le sessionStorage
         const userIdFromSession = sessionStorage.getItem('userId') || "";
+        const memberId = memberData._id; // ID du membre à mettre à jour
+    
         console.log(userIdFromSession);
-        
     
         // Créer un objet avec toutes les valeurs
         const formDataToSend = {
@@ -131,7 +151,7 @@ function AddData() {
             pseudo: formData.pseudo || "",
             nom: formData.nom || "",
             image: formData.image || "",
-            tags: formData.tags || "",
+            tags: formData.tags.join(','), // Convertir le tableau de tags en chaîne
             shortdescription: formData.shortdescription || "",
             description: formData.description || "",
             links: modifiedLinks,
@@ -141,30 +161,93 @@ function AddData() {
         console.log("Données à envoyer:", formDataToSend);
     
         try {
-            const response = await createMember(formDataToSend);  
-            alert('Membre créé avec succès');
+            const response = await updateMember(memberId, formDataToSend); // Appel à updateMember
+            alert('Modifications bien enregistrées');
             console.log(response);
         } catch (error) {
-            console.error('Erreur lors de la création du membre', error);
-            alert('Une erreur est survenue lors de la création du membre.');
+            console.error('Erreur lors de la mise à jour du membre', error);
+            alert('Une erreur est survenue lors de la mise à jour du membre.');
         }
     };
     
 
+    // Ajoutez cet état pour stocker les données du membre
+    const [memberData, setMemberData] = useState(null); // État pour stocker les données du membre
+    const [isLoading, setIsLoading] = useState(true); // État de chargement
+
+    // Récupérez les données du membre lorsque le composant se monte
+    useEffect(() => {
+        const fetchMemberData = async () => {
+            const userIdFromSession = sessionStorage.getItem('userId'); // Récupérer l'userId
+            console.log("userId récupéré du sessionStorage:", userIdFromSession); // Log pour vérifier
+
+            if (userIdFromSession) {
+                try {
+                    const membersData = await getMembers(); // Récupérer tous les membres
+                    console.log("Données des membres récupérées:", membersData); // Log pour vérifier
+
+                    // Supposons que chaque membre a un champ 'userId' que vous devez comparer
+                    const foundMember = membersData.find(member => member.userId === userIdFromSession); // Trouver le membre
+                    console.log("Membre trouvé:", foundMember); // Log pour vérifier
+
+                    setMemberData(foundMember); // Mettre à jour l'état avec les données du membre
+
+                    // Mettre à jour le formData avec les données du membre
+                    if (foundMember) {
+                        setFormData((prevState) => ({
+                            ...prevState,
+                            userId: foundMember.userId || '',  
+                            pseudo: foundMember.pseudo || '',
+                            nom: foundMember.nom || '',
+                            image: foundMember.image || '',
+                            tags: Array.isArray(foundMember.tags) ? foundMember.tags : (foundMember.tags ? foundMember.tags.split(',') : []), // Assurez-vous qu'il s'agit d'un tableau
+                            shortdescription: foundMember.shortdescription || '',
+                            description: foundMember.description || '',
+                            links: foundMember.links || {}, 
+                            content: foundMember.content || [
+                                { image: '', link: '', title: '', description: '' }, 
+                                { image: '', link: '', title: '', description: '' },
+                                { image: '', link: '', title: '', description: '' },
+                            ],
+                        }));
+                    }
+                    
+                } catch (error) {
+                    console.error("Erreur lors de la récupération des membres:", error);
+                } finally {
+                    setIsLoading(false); // Fin du chargement
+                }
+            } else {
+                setIsLoading(false); // Pas d'userId, fin du chargement
+            }
+        };
+
+        fetchMemberData();
+    }, []); // Dépendances vides pour s'exécuter une seule fois
+
+
+    // Ensuite, ajoutez ce bloc juste avant le return de votre composant
+    if (isLoading) {
+        return <p>Chargement des données du membre...</p>; // Optionnel : affichage d'un message de chargement
+    }
+    
 
     return (
         <>
             <h2>Mettre à jour ta carte de membre</h2>
             <p>C’est l’occasion parfaite pour montrer qui tu es et ce que tu apportes à la communauté. Pas de panique, tu peux enregistrer tes données à tout moment et y revenir plus tard pour les modifier. Profite de cette chance pour partager ta passion de la vulga !</p>
             
-            <form className="dashboard" onSubmit={handleSubmit}>
-                <div className="dashboard-field">
+            
+
+            <div className="dashboard-main">
+
+                <form className="dashboard" onSubmit={handleSubmit}>
                     <section className="dashboard-presentation">
                         <h3>Ta présentation</h3>
                         <label>Pseudo </label>
-                        <input type="text" name="pseudo" value={formData.pseudo} onChange={handleChange} required />
+                        <input type="text" name="pseudo" value={formData.pseudo} onChange={handleChange} />
 
-                        <label>Nom / Prénom</label>
+                        <label>Nom / Prénom (facultatif)</label>
                         <input type="text" name="nom" value={formData.nom} onChange={handleChange} />
 
                         <label>Image de profil </label>
@@ -174,11 +257,8 @@ function AddData() {
                             placeholder="Entrez l'URL de l'image"
                             value={formData.image}
                             onChange={handleChange}
-                            required 
+                             
                         />
-
-                        <label>Tags </label>
-                        <input type="text" name="tags" value={formData.tags} onChange={handleChange} required />
 
                         <label>Description Courte </label>
                         <p>{120 - formData.shortdescription.length} caractères restants</p>
@@ -187,12 +267,14 @@ function AddData() {
                             value={formData.shortdescription} 
                             onChange={handleChange} 
                             maxLength={120} 
-                            required 
+                           
                         />
 
                         <label>Description Longue</label>
                         <textarea name="description" value={formData.description} onChange={handleChange} />
                     </section>
+
+                    <button type="submit">Enregistrer</button>
 
                     {/* Section pour les liens avec logos */}
                     <section className="dashboard-links">
@@ -220,92 +302,116 @@ function AddData() {
                             </div>
                         ))}
                     </section>
-                </div>
+                    
+                    <button type="submit">Enregistrer</button>
 
-                {/* Section pour le contenu */}
-                <section className="dashboard-content">
-                    <h3>Ton contenu</h3>
-
-                    <p>Quel format pour tes miniatures ?</p>
-                    <div>
-                        <label>
-                            <input 
-                            type="radio" 
-                            name="format" 
-                            value="portrait" 
-                            checked={formData.format === 'portrait'}
-                            onChange={handleChange}
-                            />
-                            Portrait
-                        </label>
-
-                        <label>
-                            <input 
-                            type="radio" 
-                            name="format" 
-                            value="paysage" 
-                            checked={formData.format === 'paysage'}
-                            onChange={handleChange}
-                            />
-                            Paysage
-                        </label>
-
-                        <label>
-                            <input 
-                            type="radio" 
-                            name="format" 
-                            value="carré" 
-                            checked={formData.format === 'carré'}
-                            onChange={handleChange}
-                            />
-                            Carré
-                        </label>
-                    </div>
-                    <div className="dashboard-content-row">
-                        {formData.content.map((content, index) => (
-                            <div className="content-n" key={index}>
-                                <h4>Contenu {index + 1}</h4>
-
-                                <label>Titre</label>
+                    {/* Section pour les tags */}
+                    <section className="dashboard-tags">
+                        <h3>Tags </h3>
+                        <p>Tu peux selectionner jusqu'à trois tags.</p>
+                        {dataTags.map((tag, index) => (
+                            <div key={index}>
                                 <input 
-                                    type="text" 
-                                    name="title" 
-                                    value={content.title} 
-                                    onChange={(e) => handleContentChange(e, index)} 
-                                />
-
-                                <label>Lien</label>
-                                <input 
-                                    type="text" 
-                                    name="link" 
-                                    value={content.link} 
-                                    onChange={(e) => handleContentChange(e, index)} 
-                                />
-
-                                <label>Description</label>
-                                <textarea 
-                                    name="description" 
-                                    value={content.description} 
-                                    onChange={(e) => handleContentChange(e, index)} 
-                                />
-
-                                <label>Image</label>
-                                <input 
-                                    type="text" 
-                                    name="image" 
-                                    value={content.image} 
-                                    onChange={(e) => handleContentChange(e, index)} 
-                                />
+                                    type="checkbox" 
+                                    name={tag} 
+                                    checked={formData.tags.includes(tag)} 
+                                    onChange={() => handleTagChange(tag)} 
+                                    />
+                                <label>{tag}</label>
                             </div>
                         ))}
-                    </div>
-                </section>
+                    </section>
 
-                <button type="submit"> Enregistrer </button>
+                    <button type="submit">Enregistrer</button>
 
-            </form>
+                    {/* Section pour le contenu */}
+                    <section className="dashboard-content">
+                        <h3>Ton contenu</h3>
+
+                        <p>Quel format pour tes miniatures ?</p>
+                        <div>
+                            <label>
+                                <input 
+                                type="radio" 
+                                name="format" 
+                                value="portrait" 
+                                checked={formData.format === 'portrait'}
+                                onChange={handleChange}
+                                />
+                                Portrait
+                            </label>
+
+                            <label>
+                                <input 
+                                type="radio" 
+                                name="format" 
+                                value="paysage" 
+                                checked={formData.format === 'paysage'}
+                                onChange={handleChange}
+                                />
+                                Paysage
+                            </label>
+
+                            <label>
+                                <input 
+                                type="radio" 
+                                name="format" 
+                                value="carré" 
+                                checked={formData.format === 'carré'}
+                                onChange={handleChange}
+                                />
+                                Carré
+                            </label>
+                        </div>
+                        <div className="dashboard-content-row">
+                            {formData.content.map((content, index) => (
+                                <div className="content-n" key={index}>
+                                    <h4>Contenu {index + 1}</h4>
+
+                                    <label>Titre</label>
+                                    <input 
+                                        type="text" 
+                                        name="title" 
+                                        value={content.title} 
+                                        onChange={(e) => handleContentChange(e, index)} 
+                                    />
+
+                                    <label>Lien</label>
+                                    <input 
+                                        type="text" 
+                                        name="link" 
+                                        value={content.link} 
+                                        onChange={(e) => handleContentChange(e, index)} 
+                                    />
+
+                                    <label>Description</label>
+                                    <textarea 
+                                        name="description" 
+                                        value={content.description} 
+                                        onChange={(e) => handleContentChange(e, index)} 
+                                    />
+
+                                    <label>Image</label>
+                                    <input 
+                                        type="text" 
+                                        name="image" 
+                                        value={content.image} 
+                                        onChange={(e) => handleContentChange(e, index)} 
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                    <button type="submit">Enregistrer</button>
+
+                    
+                </form>
+
+                
+            </div>
+
         </>
     );
 }
 
-export default AddData;
+export default UpdateData;

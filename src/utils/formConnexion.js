@@ -1,5 +1,6 @@
 import axios from "axios";
-const URL = "http://localhost:5000/form/";
+import baseURL from "./urlApi";
+const URL = `${baseURL}/form/`;
 
 //_____________________________________________________________________
 export async function sendContactForm(contactFixed, contactMessage) {

@@ -3,8 +3,8 @@ import "./Card.css"
 
 // Import des besoins
 import {useLocation, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react'; // Importer useEffect et useState
-import { getMembers } from '../../utils/axiosMembers'; // Importer la fonction pour récupérer les membres
+import { useEffect, useState } from 'react'; 
+import { getMembers } from '../../utils/axiosMembers'; 
 
 // Import des composants
 import Tags from "../../components/Tags/Tags"
@@ -15,10 +15,10 @@ import Error404 from "../../pages/Error404/Error404"
 import DataSocialsLogo from '../../data/DataSocialsLogo';
 
 function Card() {
-    const { id } = useParams();  // Toujours utile en cas de fallback
-    const { state } = useLocation();  // Utiliser useLocation pour récupérer les données passées
-    const [member, setMember] = useState(state?.memberData || null);  // Si state existe, on l'utilise directement
-    const [isLoading, setIsLoading] = useState(!member);  // On ne charge que si `member` est null
+    const { id } = useParams();  
+    const { state } = useLocation(); 
+    const [member, setMember] = useState(state?.memberData || null);  
+    const [isLoading, setIsLoading] = useState(!member);  
 
     useEffect(() => {
         if (!member) {
