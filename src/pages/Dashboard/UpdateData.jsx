@@ -13,6 +13,8 @@ import { useNavigate } from 'react-router-dom';
 import { updateMember, getMembers } from "../../utils/axiosMembers";
 import dataTags from '../../data/DataTags'; 
 
+
+
 function UpdateData() {
     const navigate = useNavigate();
 
@@ -179,17 +181,10 @@ function UpdateData() {
     useEffect(() => {
         const fetchMemberData = async () => {
             const userIdFromSession = sessionStorage.getItem('userId'); // Récupérer l'userId
-            console.log("userId récupéré du sessionStorage:", userIdFromSession); // Log pour vérifier
-
-            if (userIdFromSession) {
+                if (userIdFromSession) {
                 try {
                     const membersData = await getMembers(); // Récupérer tous les membres
-                    console.log("Données des membres récupérées:", membersData); // Log pour vérifier
-
-                    // Supposons que chaque membre a un champ 'userId' que vous devez comparer
                     const foundMember = membersData.find(member => member.userId === userIdFromSession); // Trouver le membre
-                    console.log("Membre trouvé:", foundMember); // Log pour vérifier
-
                     setMemberData(foundMember); // Mettre à jour l'état avec les données du membre
 
                     // Mettre à jour le formData avec les données du membre

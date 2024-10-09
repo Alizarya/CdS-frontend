@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link, Routes, Route, useLocation, useNavigate } from "react-router-dom"; // Importez useNavigate
+import { Link, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import UpdateData from "./UpdateData";
 import CardPrev from "../../components/Card/CardPrev"; 
-import { getMembers, createMember, updateMember } from "../../utils/axiosMembers";
+import { getMembers, createMember, updateMember, deleteMember } from "../../utils/axiosMembers";
 
 function Dashboard() {
     const [isPublished, setIsPublished] = useState(false);
@@ -11,12 +11,11 @@ function Dashboard() {
     const [isUserExists, setIsUserExists] = useState(false);
     const [memberData, setMemberData] = useState(null);
     const location = useLocation();
-    const navigate = useNavigate(); // Ajoutez useNavigate pour la navigation
+    const navigate = useNavigate();
 
     useEffect(() => {
         const token = sessionStorage.getItem('token');
         if (!token) {
-            // Rediriger ou gérer le cas où l'utilisateur n'est pas connecté
             return;
         }
 
@@ -26,13 +25,11 @@ function Dashboard() {
         const fetchMembersData = async () => {
             try {
                 const data = await getMembers();
-                console.log(data); // Log des données récupérées
                 const member = data.find(member => member.userId === storedUserId);
                 if (member) {
                     setIsUserExists(true);
                     setMemberData(member);
                     setIsPublished(!member.softDelete);
-                    console.log("Membre trouvé :", member); // Vérifiez ici
                 } else {
                     console.log("Aucun membre trouvé avec l'userId donné.");
                 }
@@ -46,12 +43,15 @@ function Dashboard() {
 
     const handleTogglePublish = async () => {
         if (!memberData) return;
-        const updatedMemberData = { ...memberData, softDelete: !isPublished };
 
+        const updatedMemberData = { ...memberData, softDelete: isPublished }; 
+        
         try {
-            await updateMember(memberData._id, updatedMemberData);
-            setIsPublished(!isPublished);
-            // Rafraîchir les données après la mise à jour
+            const response = await updateMember(memberData._id, updatedMemberData);  
+            if (response && response.member) {
+                setIsPublished(!isPublished);
+            }
+    
             await fetchMembersData();
         } catch (error) {
             console.error("Erreur lors de la mise à jour de la publication du membre", error);
@@ -83,7 +83,6 @@ function Dashboard() {
             setIsUserExists(true);
             setMemberData(newMember);
             setIsPublished(false);
-            // Rafraîchir les données après la création
             await fetchMembersData();
         } catch (error) {
             console.error("Erreur lors de la création du membre", error);
@@ -95,13 +94,11 @@ function Dashboard() {
 
         try {
             const data = await getMembers();
-            console.log(data); // Log des données récupérées
             const member = data.find(member => member.userId === storedUserId);
             if (member) {
                 setIsUserExists(true);
                 setMemberData(member);
                 setIsPublished(!member.softDelete);
-                console.log("Membre trouvé :", member); // Vérifiez ici
             } else {
                 console.log("Aucun membre trouvé avec l'userId donné.");
             }
@@ -110,8 +107,28 @@ function Dashboard() {
         }
     };
 
+    const handleDeleteMember = async () => {
+        if (!memberData) return;
+
+        const confirmDelete = window.confirm("Es-tu sûr de vouloir supprimer définitivement ton profil membre ? Cela ne peut pas être annulé.");
+        
+        if (confirmDelete) {
+            try {
+                await deleteMember(memberData._id);
+                alert("Ton profil membre a été supprimé définitivement !");
+                setIsUserExists(false);
+                setMemberData(null);
+                setIsPublished(false);
+                navigate("/Dashboard");
+            } catch (error) {
+                console.error("Erreur lors de la suppression du membre", error);
+                alert("Une erreur est survenue lors de la suppression de ton profil membre. Veuillez réessayer.");
+            }
+        }
+    };
+
     const isUpdateDataPage = location.pathname === "/Dashboard/updateData";
-    const isPreviewPage = location.pathname === "/Dashboard/preview"; // Vérifier si nous sommes sur la page de prévisualisation
+    const isPreviewPage = location.pathname === "/Dashboard/preview";
 
     return (
         <>
@@ -120,27 +137,26 @@ function Dashboard() {
 
             {isUserExists ? (
                 <>
-                    {/* Ajouter le bouton de prévisualisation ici seulement si on n'est pas sur la page de prévisualisation */}
-                    {!isPreviewPage && (
-                        <button onClick={async () => { 
-                            await fetchMembersData(); // Rafraîchir les données avant de naviguer
-                            navigate("/Dashboard/preview"); // Naviguer vers la page de prévisualisation
-                        }}>
-                            Prévisualiser ta carte de membre
-                        </button>
-                    )}
+                    <button onClick={async () => { 
+                        await fetchMembersData();
+                        navigate("/Dashboard/preview");
+                    }}>
+                        Prévisualiser ta carte de membre
+                    </button>
 
-                    {!isUpdateDataPage && (
-                        <button>
-                            <Link to="/Dashboard/updateData">Modifier ta carte de membre</Link>
-                        </button>
-                    )}
+                    <button>
+                        <Link to="/Dashboard/updateData">Modifier ta carte de membre</Link>
+                    </button>
+
+                   
+                    <button onClick={handleDeleteMember}>Supprimer définitivement ton profil membre</button>
+                   
 
                     <div>
                         {isPublished ? (
                             <>
                                 <p>Actuellement, ta carte de membre est en ligne. Souhaites-tu la dépublier ?</p>
-                                <button onClick={handleTogglePublish}>Retirer ta carte</button>
+                                <button onClick={handleTogglePublish}>Retirer la mise en ligne de ta carte</button>
                             </>
                         ) : (
                             <>
@@ -149,6 +165,8 @@ function Dashboard() {
                             </>
                         )}
                     </div>
+
+                  
                 </>
             ) : (
                 <button onClick={handleCreateMember}>Créer ta carte de membre</button>
@@ -156,7 +174,6 @@ function Dashboard() {
 
             <Routes>
                 <Route path="updateData" element={<UpdateData />} />
-                {/* Ajouter la route pour la prévisualisation */}
                 <Route path="preview" element={
                     memberData ? (
                         <>
