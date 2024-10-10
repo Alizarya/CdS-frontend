@@ -229,14 +229,19 @@ function UpdateData() {
 
     return (
         <>
-            <h2>Mettre à jour ta carte de membre</h2>
-            <p>C’est l’occasion parfaite pour montrer qui tu es et ce que tu apportes à la communauté. Pas de panique, tu peux enregistrer tes données à tout moment et y revenir plus tard pour les modifier. Profite de cette chance pour partager ta passion de la vulga !</p>
-            
+
+            <div className="dashboard-header">
+                <h2>Mise à jour de ta carte de membre</h2>
+                <p>C’est l’occasion parfaite pour montrer qui tu es et ce que tu apportes à la communauté. </p>
+                <p>Pas de panique, tu peux enregistrer tes données à tout moment et y revenir plus tard pour les modifier. Profite de cette chance pour partager ta passion de la vulga !</p>
+            </div>
             
 
             <div className="dashboard-main">
 
                 <form className="dashboard" onSubmit={handleSubmit}>
+                    <button className="button-cta button-fixed seventy" type="submit">Enregistrer tes mises à jour</button>
+
                     <section className="dashboard-presentation">
                         <h3>Ta présentation</h3>
                         <label>Pseudo </label>
@@ -269,8 +274,6 @@ function UpdateData() {
                         <textarea name="description" value={formData.description} onChange={handleChange} />
                     </section>
 
-                    <button type="submit">Enregistrer</button>
-
                     {/* Section pour les liens avec logos */}
                     <section className="dashboard-links">
                         <h3>Tes liens</h3>
@@ -298,8 +301,6 @@ function UpdateData() {
                         ))}
                     </section>
                     
-                    <button type="submit">Enregistrer</button>
-
                     {/* Section pour les tags */}
                     <section className="dashboard-tags">
                         <h3>Tags </h3>
@@ -316,8 +317,6 @@ function UpdateData() {
                             </div>
                         ))}
                     </section>
-
-                    <button type="submit">Enregistrer</button>
 
                     {/* Section pour le contenu */}
                     <section className="dashboard-content">
@@ -397,9 +396,6 @@ function UpdateData() {
                             ))}
                         </div>
                     </section>
-                    <button type="submit">Enregistrer</button>
-
-                    
                 </form>
 
                 

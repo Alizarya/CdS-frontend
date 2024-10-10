@@ -43,8 +43,35 @@
     margin-bottom: 0;
 }
 
+.dashboard-nav {
+    margin: 3%;
+    display: flex;
+    gap : 3em;
+    justify-content: center;
+}
+
+.dashboard-nav i {
+    margin-right: 1em;
+}
+
+.dashboard-publish {
+    text-align: center;
+}
+
+.dashboard-header {
+    margin: 3%;
+}
+
+.dashboard-header h2 {
+    text-align: center;
+}
+
+.dashboard-header p {
+    margin: 0;
+}
+
 /*Boutons*/
-button {
+.button-cta {
     padding: 10px 20px;
     font-size: 1.5vw;
     font-weight: 600;
@@ -60,9 +87,44 @@ button {
     width: fit-content;
 }
 
-button:hover {
+.button-cta:hover {
     transform: translateY(-5px);
     box-shadow: -5px -5px 0 var(--secondary);
     border-color: var(--secondary);
     color: var(--secondary);
+}
+
+.button-fixed {
+    position: fixed;
+    top: -1%; 
+    left: 18%; 
+    z-index: 1000; 
+}
+
+.button-nav{
+    font-size: 1vw;
+    font-weight: 600;
+    background-color: #fff;
+    color: var(--primary);
+    border: none;
+    cursor: pointer;
+    font-family: var(--heading);
+    width: fit-content;
+}
+
+.button-nav:hover, .button-nav a:hover {
+    color: var(--secondary);
+    border: none;
+    text-decoration: underline;
+}
+
+.button-nav a {
+    font-size: 1vw;
+    font-weight: 600;
+    font-family: var(--heading);
+    color: var(--primary);
+}
+
+.seventy {
+    scale: 0.7;
 }

@@ -137,39 +137,38 @@ function Dashboard() {
 
             {isUserExists ? (
                 <>
-                    <button onClick={async () => { 
-                        await fetchMembersData();
-                        navigate("/Dashboard/preview");
-                    }}>
-                        Prévisualiser ta carte de membre
-                    </button>
+                    <div className="dashboard-nav">
+                        <button className="button-nav" onClick={async () => { 
+                            await fetchMembersData();
+                            navigate("/Dashboard/preview");
+                        }} > <i class="fa-solid fa-magnifying-glass"></i>
+                            Prévisualiser ta carte de membre
+                        </button>
 
-                    <button>
-                        <Link to="/Dashboard/updateData">Modifier ta carte de membre</Link>
-                    </button>
+                        <button className="button-nav">
+                            <Link to="/Dashboard/updateData"><i class="fa-solid fa-pen"></i>Modifier ta carte de membre</Link>
+                        </button>
 
-                   
-                    <button onClick={handleDeleteMember}>Supprimer définitivement ton profil membre</button>
-                   
+                    
+                        <button className="button-nav" onClick={handleDeleteMember}><i class="fa-solid fa-trash-can"></i>Supprimer ta carte de membre</button>
+                    </div>
 
-                    <div>
+                    <div className="dashboard-publish">
                         {isPublished ? (
                             <>
                                 <p>Actuellement, ta carte de membre est en ligne. Souhaites-tu la dépublier ?</p>
-                                <button onClick={handleTogglePublish}>Retirer la mise en ligne de ta carte</button>
+                                <button className="button-cta seventy" onClick={handleTogglePublish}>Retirer la mise en ligne de ta carte</button>
                             </>
                         ) : (
                             <>
                                 <p>Actuellement, ta carte de membre n'est pas en ligne. Souhaites-tu la publier ?</p>
-                                <button onClick={handleTogglePublish}>Mettre en ligne</button>
+                                <button className="button-cta seventy" onClick={handleTogglePublish}>Mettre en ligne</button>
                             </>
-                        )}
+                        )}                  
                     </div>
-
-                  
                 </>
             ) : (
-                <button onClick={handleCreateMember}>Créer ta carte de membre</button>
+                <button className="button-cta" onClick={handleCreateMember}>Créer ta carte de membre</button>
             )}
 
             <Routes>
@@ -177,8 +176,10 @@ function Dashboard() {
                 <Route path="preview" element={
                     memberData ? (
                         <>
-                            <h2>Prévisualisation de ta carte</h2>
-                            <CardPrev member={memberData} />
+                            <div className="dashboard-header">
+                                <h2>Prévisualisation de ta carte</h2>
+                                <CardPrev member={memberData} />
+                            </div>
                         </>
                     ) : (
                         <p>Aucun membre trouvé.</p>
