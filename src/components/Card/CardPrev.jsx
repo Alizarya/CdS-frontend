@@ -31,21 +31,25 @@ const CardPrev = ({ member }) => {
                     />
                     <div className="social-links">
                         {links && Object.keys(links).length > 0 ? (
-                            Object.keys(links).map((socialLink, index) => (
-                                <a
-                                    key={index}
-                                    href={links[socialLink]}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <i className={`fa ${DataSocialsLogo[socialLink]}`}></i>
-                                    {socialLink.charAt(0).toUpperCase() + socialLink.slice(1)}
-                                </a>
-                            ))
+                            Object.keys(links)
+                                .filter((socialLink) => links[socialLink] && links[socialLink].trim() !== "")
+                                .map((socialLink, index) => (
+                                    <a
+                                        key={index}
+                                        href={links[socialLink]}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <i className={`fa ${DataSocialsLogo[socialLink]}`}></i>
+                                        {socialLink.charAt(0).toUpperCase() + socialLink.slice(1)}
+                                    </a>
+                                ))
                         ) : (
                             <p>Aucun lien enregistré.</p>
                         )}
                     </div>
+
+
                     <Tags memberId={member._id} tags={tags} />
                 </div>
                 <div className="member-info">

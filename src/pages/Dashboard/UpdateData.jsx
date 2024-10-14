@@ -1,9 +1,6 @@
 // Import des styles
 import "./Dashboard.css";
 
-// Import des composants
-import Button from "../../components/Button/Button";
-
 
 // Import des besoins
 import React, { useState, useEffect } from 'react';
@@ -68,18 +65,28 @@ function UpdateData() {
     const [selectedLinks, setSelectedLinks] = useState([]);
     const handleLinkCheckboxChange = (e) => {
         const { name, checked } = e.target;
-
+    
         if (checked) {
             if (selectedLinks.length < 3) {
                 setSelectedLinks([...selectedLinks, name]);
             } else {
                 alert('Tu ne peux sélectionner que 3 liens maximum.');
-                e.target.checked = false;
+                e.target.checked = false; // Restaure l'état de la case à cocher
             }
         } else {
             setSelectedLinks(selectedLinks.filter(link => link !== name));
+            
+            // Lorsque la case est décochée, définir la valeur du lien comme une chaîne vide
+            setFormData((prevState) => ({
+                ...prevState,
+                links: {  
+                    ...prevState.links,
+                    [name]: "", // Réinitialise la valeur à une chaîne vide
+                },
+            }));
         }
     };
+    
 
     const handleLinkInputChange = (e) => {
         const { name, value } = e.target;
@@ -109,21 +116,22 @@ function UpdateData() {
             const newTags = isSelected
                 ? prevState.tags.filter(t => t !== tag) // Désélectionner si déjà sélectionné
                 : [...prevState.tags, tag]; // Ajouter le tag sélectionné
-
+    
             // Limiter à 3 tags maximum
             if (newTags.length > 3) {
                 alert('Tu ne peux sélectionner que 3 tags maximum.');
                 return prevState; // Ne pas mettre à jour l'état
             }
-
+    
             return { ...prevState, tags: newTags };
         });
     };
+    
 
     const handleSubmit = async (e) => {  
         e.preventDefault();
-        console.log("Formulaire soumis"); // Vérifie si la fonction est appelée
-        console.log("Données du formulaire:", formData); // Vérifie l'état des données
+        console.log("Formulaire soumis");
+        console.log("Données du formulaire:", formData);
     
         // Vérification des liens dans 'links' pour s'assurer qu'ils commencent par "https://"
         const modifiedLinks = { ...formData.links };
@@ -153,25 +161,24 @@ function UpdateData() {
             pseudo: formData.pseudo || "",
             nom: formData.nom || "",
             image: formData.image || "",
-            tags: formData.tags.join(','), // Convertir le tableau de tags en chaîne
+            tags: formData.tags, // Envoie le tableau de tags directement
             shortdescription: formData.shortdescription || "",
             description: formData.description || "",
-            links: modifiedLinks,
+            links: modifiedLinks, // Les liens ici seront à jour
             content: modifiedContent,
         };
     
         console.log("Données à envoyer:", formDataToSend);
     
         try {
-            const response = await updateMember(memberId, formDataToSend); // Appel à updateMember
+            const response = await updateMember(memberId, formDataToSend);
             alert('Modifications bien enregistrées');
             console.log(response);
         } catch (error) {
             console.error('Erreur lors de la mise à jour du membre', error);
             alert('Une erreur est survenue lors de la mise à jour du membre.');
         }
-    };
-    
+    };  
 
     // Ajoutez cet état pour stocker les données du membre
     const [memberData, setMemberData] = useState(null); // État pour stocker les données du membre
@@ -181,12 +188,12 @@ function UpdateData() {
     useEffect(() => {
         const fetchMemberData = async () => {
             const userIdFromSession = sessionStorage.getItem('userId'); // Récupérer l'userId
-                if (userIdFromSession) {
+            if (userIdFromSession) {
                 try {
                     const membersData = await getMembers(); // Récupérer tous les membres
                     const foundMember = membersData.find(member => member.userId === userIdFromSession); // Trouver le membre
                     setMemberData(foundMember); // Mettre à jour l'état avec les données du membre
-
+    
                     // Mettre à jour le formData avec les données du membre
                     if (foundMember) {
                         setFormData((prevState) => ({
@@ -195,7 +202,7 @@ function UpdateData() {
                             pseudo: foundMember.pseudo || '',
                             nom: foundMember.nom || '',
                             image: foundMember.image || '',
-                            tags: Array.isArray(foundMember.tags) ? foundMember.tags : (foundMember.tags ? foundMember.tags.split(',') : []), // Assurez-vous qu'il s'agit d'un tableau
+                            tags: Array.isArray(foundMember.tags) ? foundMember.tags : (foundMember.tags ? foundMember.tags.split(',') : []),
                             shortdescription: foundMember.shortdescription || '',
                             description: foundMember.description || '',
                             links: foundMember.links || {}, 
@@ -205,8 +212,11 @@ function UpdateData() {
                                 { image: '', link: '', title: '', description: '' },
                             ],
                         }));
+    
+                        // Initialiser selectedLinks avec les clés de links qui ne sont pas vides
+                        const initialSelectedLinks = Object.keys(foundMember.links).filter(link => foundMember.links[link] !== "");
+                        setSelectedLinks(initialSelectedLinks);
                     }
-                    
                 } catch (error) {
                     console.error("Erreur lors de la récupération des membres:", error);
                 } finally {
@@ -216,9 +226,10 @@ function UpdateData() {
                 setIsLoading(false); // Pas d'userId, fin du chargement
             }
         };
-
+    
         fetchMemberData();
     }, []); // Dépendances vides pour s'exécuter une seule fois
+    
 
 
     // Ensuite, ajoutez ce bloc juste avant le return de votre composant
@@ -232,8 +243,9 @@ function UpdateData() {
 
             <div className="dashboard-header">
                 <h2>Mise à jour de ta carte de membre</h2>
-                <p>C’est l’occasion parfaite pour montrer qui tu es et ce que tu apportes à la communauté. </p>
-                <p>Pas de panique, tu peux enregistrer tes données à tout moment et y revenir plus tard pour les modifier. Profite de cette chance pour partager ta passion de la vulga !</p>
+                <p>C’est l’occasion parfaite pour montrer qui tu es, ce que tu apportes à la communauté et ta passion pour la vulga scientifique. </p>
+                <p>Pas de panique, tu peux enregistrer tes données à tout moment et y revenir plus tard pour les modifier. </p>
+                <p>Le bouton "enregistrer" se trouve maintenant dans ta barre de navigation. </p>
             </div>
             
 

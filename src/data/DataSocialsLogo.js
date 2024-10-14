@@ -16,4 +16,4 @@ const SocialsLogos = {
   autres: "fa-solid fa-brain",
 };
 
-export default SocialsLogos;
+module.exports = SocialsLogos;
