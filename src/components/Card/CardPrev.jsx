@@ -16,9 +16,9 @@ const CardPrev = ({ member }) => {
     // Contenu par défaut à afficher
     const defaultContent = {
         link: "#",
-        image: "https://img.freepik.com/vecteurs-libre/symboles-scientifiques-papier-blanc_1308-33294.jpg?t=st=1728028518~exp=1728032118~hmac=1e05cb89dae0afc72458195f4aee501a878f20206b6238bf75d295037e5279e2&w=740",
+        image: "https://img.freepik.com/vecteurs-libre/aucun-concept-donnees-dessine-main_52683-127823.jpg?t=st=1728895983~exp=1728899583~hmac=d75ee8ef3a344a317df4e25c358b3fcfe4410fb3a52a58141c838a160f1ff04f&w=826",
         title: "TITRE",
-        description: "Voici la description rapide de ton contenu. Tu vas pouvour écrire quelques lignes pour présenter ton travail."
+        description: "Voici la description rapide de ton contenu. Tu vas pouvoir écrire quelques lignes pour présenter ton travail."
     };
 
     return (
@@ -26,7 +26,7 @@ const CardPrev = ({ member }) => {
             <section className="memberCard-section">
                 <div className="member-image">
                     <img 
-                        src={image || 'https://img.freepik.com/vecteurs-libre/peint-main-chimistes-laboratoire_23-2147543521.jpg?t=st=1728028438~exp=1728032038~hmac=aa6d10d5d0084ff918efe802c3ebf875162ce3a79f707d143dce266cc38af750&w=740'} 
+                        src={image || 'https://img.freepik.com/vecteurs-libre/aucune-illustration-concept-donnees_114360-2506.jpg?t=st=1728895997~exp=1728899597~hmac=5fbf097feef816adab0ec43d12d218ebe44fbe0e7b3a60c328c7bed612945f91&w=900'} 
                         alt={name || 'Nom inconnu'} 
                     />
                     <div className="social-links">
