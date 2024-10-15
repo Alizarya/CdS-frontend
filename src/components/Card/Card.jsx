@@ -69,18 +69,21 @@ function Card() {
                 <div className="member-image">
                     <img src={image} alt={name} />
                     <div className="social-links">
-                        {Object.keys(links).map((socialLink, index) => (
-                            <a
-                                key={index}
-                                href={links[socialLink]}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <i className={`fa ${DataSocialsLogo[socialLink]}`}></i>
-                                {socialLink.charAt(0).toUpperCase() + socialLink.slice(1)}
-                            </a>
-                        ))}
+                        {Object.entries(links)
+                            .filter(([key, value]) => value) // Filtrer les liens vides
+                            .map(([socialLink, url], index) => (
+                                <a
+                                    key={index}
+                                    href={url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <i className={`fa ${DataSocialsLogo[socialLink]}`}></i>
+                                    {socialLink.charAt(0).toUpperCase() + socialLink.slice(1)}
+                                </a>
+                            ))}
                     </div>
+
                     <Tags memberId={member._id} tags={tags} />
                 </div>
                 <div className="member-info">
