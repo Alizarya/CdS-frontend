@@ -11,7 +11,7 @@ const CardPrev = ({ member }) => {
         return <p>Aucun membre trouvé.</p>; // Message d'erreur ou retour null
     }
 
-    const { image, name, pseudo, description, links, tags, content } = member;
+    const { image, name, pseudo, description, links, tags, content, content_format } = member;
 
     // Contenu par défaut à afficher
     const defaultContent = {
@@ -19,6 +19,20 @@ const CardPrev = ({ member }) => {
         image: "https://img.freepik.com/vecteurs-libre/aucun-concept-donnees-dessine-main_52683-127823.jpg?t=st=1728895983~exp=1728899583~hmac=d75ee8ef3a344a317df4e25c358b3fcfe4410fb3a52a58141c838a160f1ff04f&w=826",
         title: "TITRE",
         description: "Voici la description rapide de ton contenu. Tu vas pouvoir écrire quelques lignes pour présenter ton travail."
+    };
+
+    // Fonction pour déterminer les dimensions de l'image selon le format
+    const getImageSize = (format) => {
+        switch (format) {
+            case 'paysage':
+                return { width: '250px', height: '150px' };
+            case 'carré':
+                return { width: '250px', height: '250px' };
+            case 'portrait':
+                return { width: '250px', height: '350px' };
+            default:
+                return { width: '250px', height: '150px' }; // Valeurs par défaut
+        }
     };
 
     return (
@@ -49,7 +63,6 @@ const CardPrev = ({ member }) => {
                         )}
                     </div>
 
-
                     <Tags memberId={member._id} tags={tags} />
                 </div>
                 <div className="member-info">
@@ -73,6 +86,7 @@ const CardPrev = ({ member }) => {
                             content.map((item, index) => {
                                 // Vérifiez si tous les champs sont vides
                                 const isItemEmpty = !item.link && !item.image && !item.title;
+                                const imageSize = getImageSize(item.content_format || content_format); // Utilise le format de contenu de l'item ou celui du membre
 
                                 return (
                                     <a
@@ -81,7 +95,11 @@ const CardPrev = ({ member }) => {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
-                                        <img src={isItemEmpty ? defaultContent.image : item.image || defaultContent.image} alt={isItemEmpty ? defaultContent.title : item.title || defaultContent.title} />
+                                        <img
+                                            src={isItemEmpty ? defaultContent.image : item.image || defaultContent.image}
+                                            alt={isItemEmpty ? defaultContent.title : item.title || defaultContent.title}
+                                            style={{ width: imageSize.width, height: imageSize.height }} // Applique les dimensions
+                                        />
                                         <h4>{isItemEmpty ? defaultContent.title : item.title || defaultContent.title}</h4>
                                         <p>{isItemEmpty ? defaultContent.description : item.description || 'Voici la description rapide de ton contenu. Tu vas pouvour écrire quelques lignes pour présenter ton travail.'}</p>
                                     </a>
@@ -89,18 +107,21 @@ const CardPrev = ({ member }) => {
                             })
                         ) : (
                             // Si content est vide, afficher les contenus par défaut
-                            [...Array(3)].map((_, index) => (
-                                <a
-                                    key={index}
-                                    href={defaultContent.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <img src={defaultContent.image} alt={defaultContent.title} />
-                                    <h4>{defaultContent.title}</h4>
-                                    <p>{defaultContent.description}</p>
-                                </a>
-                            ))
+                            [...Array(3)].map((_, index) => {
+                                const imageSize = getImageSize(content_format); // Utilise le format de contenu du membre
+                                return (
+                                    <a
+                                        key={index}
+                                        href={defaultContent.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <img src={defaultContent.image} alt={defaultContent.title} style={{ width: imageSize.width, height: imageSize.height }} />
+                                        <h4>{defaultContent.title}</h4>
+                                        <p>{defaultContent.description}</p>
+                                    </a>
+                                );
+                            })
                         )}
                     </div>
                 </div>

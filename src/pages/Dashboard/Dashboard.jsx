@@ -168,7 +168,7 @@ function Dashboard() {
                     </div>
                 </>
             ) : (
-                <button className="button-cta" onClick={handleCreateMember}>Créer ta carte de membre</button>
+                <button className="button-cta member-creation" onClick={handleCreateMember}>Créer ta carte de membre</button>
             )}
 
             <Routes>

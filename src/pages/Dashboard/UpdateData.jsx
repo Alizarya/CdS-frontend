@@ -24,7 +24,7 @@ function UpdateData() {
         userId: '',
         pseudo: '',
         nom: '',
-        image: '',
+        image: '', // URL de l'image
         tags: [],
         shortdescription: '',
         description: '',
@@ -58,6 +58,21 @@ function UpdateData() {
             ...prevState,
             [name]: value,
         }));
+    };
+
+    // Ajout d'une nouvelle fonction pour gérer le changement de l'image
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setFormData((prevState) => ({
+                    ...prevState,
+                    image: reader.result, // Met à jour l'URL de l'image
+                }));
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
     const [selectedLinks, setSelectedLinks] = useState([]);
@@ -236,7 +251,6 @@ function UpdateData() {
     
     return (
         <>
-
             <div className="dashboard-header">
                 <h2>Mise à jour de ta carte de membre</h2>
                 <p>C’est l’occasion parfaite pour montrer qui tu es, ce que tu apportes à la communauté et ta passion pour la vulga scientifique. </p>
@@ -244,9 +258,7 @@ function UpdateData() {
                 <p>Le bouton "enregistrer" se trouve maintenant dans ta barre de navigation. </p>
             </div>
             
-
             <div className="dashboard-main">
-
                 <form className="dashboard" onSubmit={handleSubmit}>
                     <button className="button-cta button-fixed seventy" type="submit">Enregistrer tes mises à jour</button>
 
@@ -259,14 +271,14 @@ function UpdateData() {
                         <input type="text" name="nom" value={formData.nom} onChange={handleChange} />
 
                         <label>Image de profil </label>
+                        {/* Remplacement de l'input de texte par un input file */}
                         <input 
-                            type="text" 
-                            name="image" 
-                            placeholder="Entrez l'URL de l'image"
-                            value={formData.image}
-                            onChange={handleChange}
-                             
+                            type="file" 
+                            accept="image/*" // Limiter les fichiers aux images
+                            onChange={handleImageChange} // Gestionnaire de changement
                         />
+                        {/* Afficher l'aperçu de l'image */}
+                        {formData.image && <img src={formData.image} alt="Aperçu" style={{ width: '100px', height: '100px' }} />}
 
                         <label>Description Courte </label>
                         <p>{120 - formData.shortdescription.length} caractères restants</p>
@@ -275,7 +287,6 @@ function UpdateData() {
                             value={formData.shortdescription} 
                             onChange={handleChange} 
                             maxLength={120} 
-                           
                         />
 
                         <label>Description Longue</label>
@@ -320,7 +331,7 @@ function UpdateData() {
                                     name={tag} 
                                     checked={formData.tags.includes(tag)} 
                                     onChange={() => handleTagChange(tag)} 
-                                    />
+                                />
                                 <label>{tag}</label>
                             </div>
                         ))}
@@ -329,7 +340,6 @@ function UpdateData() {
                     {/* Section pour le contenu */}
                     <section className="dashboard-content">
                         <h3>Ton contenu</h3>
-
                         <p>Quel format pour tes miniatures ?</p>
                         <div>
                             <label>
@@ -407,7 +417,6 @@ function UpdateData() {
                     </section>
                 </form>
             </div>
-
         </>
     );
 }

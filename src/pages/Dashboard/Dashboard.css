@@ -128,3 +128,10 @@
 .seventy {
     scale: 0.7;
 }
+
+.member-creation {
+position: absolute;
+top: 40%;
+left: 39%;
+scale: 1.5;
+}

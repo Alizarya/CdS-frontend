@@ -47,7 +47,21 @@ function Card() {
         return <Error404/>
     }
 
-    const { image, name, pseudo, tags, description, content, links } = member;
+    const { image, name, pseudo, tags, description, content, links, content_format } = member;
+
+    // Fonction pour déterminer les dimensions de l'image selon le format
+    const getImageSize = (format) => {
+        switch (format) {
+            case 'paysage':
+                return { width: '250px', height: '150px' };
+            case 'carré':
+                return { width: '250px', height: '250px' };
+            case 'portrait':
+                return { width: '250px', height: '350px' };
+            default:
+                return { width: '250px', height: '150px' }; // Valeurs par défaut
+        }
+    };
 
     return (
         <main className="memberCard-details">
@@ -82,18 +96,25 @@ function Card() {
                     <p>{description}</p>
                     {content && (
                         <div className="content-links">
-                            {Object.values(content).map((item, index) => (
-                                <a
-                                    key={index}
-                                    href={item.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <img src={item.image} alt={item.title} />
-                                    <h4>{item.title}</h4>
-                                    <p>{item.description}</p>
-                                </a>
-                            ))}
+                            {Object.values(content).map((item, index) => {
+                                const imageSize = getImageSize(item.content_format || content_format); // Utilise le format de contenu de l'item ou celui du membre
+                                return (
+                                    <a
+                                        key={index}
+                                        href={item.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <img 
+                                            src={item.image} 
+                                            alt={item.title} 
+                                            style={{ width: imageSize.width, height: imageSize.height }} // Applique les dimensions
+                                        />
+                                        <h4>{item.title}</h4>
+                                        <p>{item.description}</p>
+                                    </a>
+                                );
+                            })}
                         </div>
                     )}
                 </div>
