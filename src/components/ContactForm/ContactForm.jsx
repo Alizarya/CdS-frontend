@@ -58,7 +58,7 @@ function ContactForm() {
         </div>
 
         {/* Genre */}
-        <div className="contactEntry contactFixed">
+        <div className="contactEntry contactFixed contactGender">
           <label>Genre</label>
           <div className="genderBtn">
             <label>

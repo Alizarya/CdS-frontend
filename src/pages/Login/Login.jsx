@@ -22,9 +22,13 @@ function Login() {
                 // Stockage du token et de l'ID dans sessionStorage
                 sessionStorage.setItem('token', response.token);
                 sessionStorage.setItem('userId', response.userId);
-                
-                // Redirection vers /dashboard après la connexion réussie
-                window.location.href = '/dashboard';
+
+                // Redirection conditionnelle en fonction de l'ID utilisateur
+                if (response.userId === '6753330eccd6171c33b1751d') {
+                    window.location.href = '/dashboardAdmin';
+                } else {
+                    window.location.href = '/dashboard';
+                }
             } else {
                 console.error("Réponse inattendue :", response);
             }
@@ -33,13 +37,7 @@ function Login() {
         }
     };
     
-    
-    
-    
-    
-    
-    
-
+  
     return (
         <>
             <Header />

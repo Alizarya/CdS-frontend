@@ -89,7 +89,7 @@ function SignUp() {
                                             required
                                         />
                                         <span className="checkbox-text">
-                                            Je m'engage à respecter le règlement du café.
+                                            Je m'engage à respecter <a href="https://new.cafe-sciences.org/static/media/Reglement-interieur-du-Cafe-des-Sciences.48277f6d25f05c55de87.pdf" target="blank">le règlement du café</a>.
                                         </span>
                                     </label>
                                 </div>

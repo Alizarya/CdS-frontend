@@ -85,6 +85,9 @@
   }
 
 
+  .contactGender {
+    display: none;
+  }
 
   .genderBtn {
     display: flex;
@@ -98,3 +101,4 @@
   .genderBtn label input {
     margin-right: 0.5em;
   }
+

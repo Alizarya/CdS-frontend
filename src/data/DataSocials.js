@@ -8,9 +8,9 @@ const DataSocials = [
 
   {
     id: "gd56gf46",
-    title: "Twitter/X",
-    link: "https://twitter.com/cafe_sciences",
-    icon: "fa-brands fa-square-x-twitter",
+    title: "BlueSky",
+    link: "https://bsky.app/profile/cafedessciences.bsky.social",
+    icon: "fa-brands fa-square-bluesky",
   },
 
   {

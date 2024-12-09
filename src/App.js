@@ -23,6 +23,7 @@ import Login from "./pages/Login/Login";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import ResetThePassword from "./pages/ResetThePassword/ResetThePassword";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import DashboardAdmin from "./pages/Dashboard/DashboardAdmin";
 
 // Création des routes
 function App() {
@@ -45,6 +46,7 @@ function App() {
           element={<ResetThePassword />}
         />
         <Route path="/Dashboard/*" element={<Dashboard />} />
+        <Route path="/DashboardAdmin/*" element={<DashboardAdmin />} />
       </Routes>
     </Router>
   );

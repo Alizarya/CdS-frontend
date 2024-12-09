@@ -43,3 +43,8 @@
 .checkbox-text {
     margin-left: 0.5em;
 }
+
+.checkbox-text a {
+color: var(--primary);
+font-style: normal;
+}

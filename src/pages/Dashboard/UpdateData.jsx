@@ -142,9 +142,7 @@ function UpdateData() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Formulaire soumis");
-        console.log("Données du formulaire:", formData);
-    
+           
         // Vérification des liens dans 'links' pour s'assurer qu'ils commencent par "https://"
         const modifiedLinks = { ...formData.links };
         Object.keys(modifiedLinks).forEach((key) => {
@@ -165,8 +163,6 @@ function UpdateData() {
         const userIdFromSession = sessionStorage.getItem('userId') || "";
         const memberId = memberData._id;
     
-        console.log(userIdFromSession);
-    
         // Créer un objet avec toutes les valeurs
         const formDataToSend = {
             userId: userIdFromSession,
@@ -181,17 +177,25 @@ function UpdateData() {
             content_format: formData.content_format, 
         };
     
-        console.log("Données à envoyer:", formDataToSend);
-    
         try {
             const response = await updateMember(memberId, formDataToSend);
-            alert('Modifications bien enregistrées');
-            console.log(response);
+    
+            alert('Modifications bien prises en compte');
+    
+            // Mettre à jour l'état de memberData avec les nouvelles informations
+            setMemberData((prevState) => ({
+                ...prevState,
+                ...formDataToSend // Met à jour les informations dans memberData
+            }));
+    
+            // Redirection vers /preview avec les nouvelles données
+            navigate('/dashboard/preview', { state: { updatedMember: formDataToSend } });
         } catch (error) {
             console.error('Erreur lors de la mise à jour du membre', error);
             alert('Une erreur est survenue lors de la mise à jour du membre.');
         }
     };
+
 
     // Etat pour stocker les données du membre
     const [memberData, setMemberData] = useState(null); // État pour stocker les données du membre

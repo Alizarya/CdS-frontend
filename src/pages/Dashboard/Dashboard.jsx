@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import UpdateData from "./UpdateData";
-import CardPrev from "../../components/Card/CardPrev"; 
+import PutOnline from "./PutOnline";
+import Preview from "./Preview";
 import { getMembers, createMember, updateMember, deleteMember } from "../../utils/axiosMembers";
 
 function Dashboard() {
@@ -84,6 +85,9 @@ function Dashboard() {
             setMemberData(newMember);
             setIsPublished(false);
             await fetchMembersData();
+
+            // Redirection vers dashboard/update
+            navigate('/dashboard/updateData');
         } catch (error) {
             console.error("Erreur lors de la création du membre", error);
         }
@@ -127,64 +131,45 @@ function Dashboard() {
         }
     };
 
-    const isUpdateDataPage = location.pathname === "/Dashboard/updateData";
-    const isPreviewPage = location.pathname === "/Dashboard/preview";
-
     return (
         <>
             <Header />
             <h1 className="banner">Tableau de bord</h1>
 
             {isUserExists ? (
-                <>
+                <div className="dashboard-nav-colum">
                     <div className="dashboard-nav">
+
+                        <button className="button-nav">
+                            <Link to="/Dashboard/updateData"><i class="fa-solid fa-pen"></i>Modifier ta carte</Link>
+                        </button>
+
                         <button className="button-nav" onClick={async () => { 
                             await fetchMembersData();
                             navigate("/Dashboard/preview");
                         }} > <i class="fa-solid fa-magnifying-glass"></i>
-                            Prévisualiser ta carte de membre
+                            Prévisualiser ta carte
                         </button>
 
                         <button className="button-nav">
-                            <Link to="/Dashboard/updateData"><i class="fa-solid fa-pen"></i>Modifier ta carte de membre</Link>
+                            <Link to="/Dashboard/putOnline"><i class="fa-solid fa-chalkboard-user"></i>Gérer la mise en ligne</Link>
                         </button>
-
                     
-                        <button className="button-nav" onClick={handleDeleteMember}><i class="fa-solid fa-trash-can"></i>Supprimer ta carte de membre</button>
+                        <button className="button-nav" onClick={handleDeleteMember}><i class="fa-solid fa-trash-can"></i>Supprimer ta carte</button>
                     </div>
-
-                    <div className="dashboard-publish">
-                        {isPublished ? (
-                            <>
-                                <p>Actuellement, ta carte de membre est en ligne. Souhaites-tu la dépublier ?</p>
-                                <button className="button-cta seventy" onClick={handleTogglePublish}>Retirer la mise en ligne de ta carte</button>
-                            </>
-                        ) : (
-                            <>
-                                <p>Actuellement, ta carte de membre n'est pas en ligne. Souhaites-tu la publier ?</p>
-                                <button className="button-cta seventy" onClick={handleTogglePublish}>Mettre en ligne</button>
-                            </>
-                        )}                  
-                    </div>
-                </>
+                </div>
             ) : (
-                <button className="button-cta member-creation" onClick={handleCreateMember}>Créer ta carte de membre</button>
+                <div className="member-creation">
+                    <button className="button-cta " onClick={handleCreateMember}>Créer ta carte de créateur ou créatrice de contenus</button>
+                    <button className="button-cta" title="fonction à venir">Créer ta carte de membre</button>
+                    <p>Fonction à venir</p>
+                </div>
             )}
 
             <Routes>
                 <Route path="updateData" element={<UpdateData />} />
-                <Route path="preview" element={
-                    memberData ? (
-                        <>
-                            <div className="dashboard-header">
-                                <h2>Prévisualisation de ta carte</h2>
-                                <CardPrev member={memberData} />
-                            </div>
-                        </>
-                    ) : (
-                        <p>Aucun membre trouvé.</p>
-                    )
-                } />
+                <Route path="putOnline" element={<PutOnline/>} />
+                <Route path="preview" element={<Preview memberData={memberData} />} />
             </Routes>
         </>
     );

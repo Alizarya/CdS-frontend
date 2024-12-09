@@ -1,3 +1,3 @@
 // A modifier lors de la mise en prod avec la base de l'adresse API
-const baseURL = "http://localhost:5000";
+const baseURL = "https://api.cafe-sciences.org";
 export default baseURL;
