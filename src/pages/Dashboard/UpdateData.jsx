@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 // Import des datas
 import { updateMember, getMembers } from "../../utils/axiosMembers";
 import dataTags from '../../data/DataTags'; 
+import SocialsLogos from "../../data/DataSocialsLogo"
 
 function UpdateData() {
     const navigate = useNavigate();
@@ -300,46 +301,56 @@ function UpdateData() {
                     {/* Section pour les liens avec logos */}
                     <section className="dashboard-links">
                         <h3>Tes liens</h3>
-                        <p>Tu peux inserer jusqu'à trois liens.</p>
-                        {Object.keys(formData.links).map((link) => (
-                            <div key={link}>
-                                <input 
-                                    type="checkbox" 
-                                    name={link} 
-                                    checked={selectedLinks.includes(link)} 
-                                    onChange={handleLinkCheckboxChange} 
-                                />
-                                <label>{link.charAt(0).toUpperCase() + link.slice(1)}</label>
-
-                                {selectedLinks.includes(link) && (
-                                    <input
-                                        type="text"
-                                        name={link}
-                                        placeholder={`Lien pour ${link}`}
-                                        value={formData.links[link]}  
-                                        onChange={handleLinkInputChange}
+                        <p>Tu peux inserer jusqu'à trois liens parmi les suivants.</p>
+                        <div className="links-container">
+                            {Object.keys(formData.links).map((link) => (
+                                <div key={link} className="link-item">
+                                    <input 
+                                        type="checkbox" 
+                                        name={link} 
+                                        checked={selectedLinks.includes(link)} 
+                                        onChange={handleLinkCheckboxChange} 
                                     />
-                                )}
-                            </div>
-                        ))}
+                                    <label className="link-label">
+                                        <i className={SocialsLogos[link]}></i> {/* Affichage du logo */}
+                                        {link.charAt(0).toUpperCase() + link.slice(1)}
+                                    </label>
+
+                                    {selectedLinks.includes(link) && (
+                                        <input
+                                            type="text"
+                                            name={link}
+                                            placeholder={`Lien pour ${link}`}
+                                            value={formData.links[link]}  
+                                            onChange={handleLinkInputChange}
+                                        />
+                                    )}
+                                </div>
+                            ))}
+                        </div>
                     </section>
                     
                     {/* Section pour les tags */}
                     <section className="dashboard-tags">
-                        <h3>Tags </h3>
-                        <p>Tu peux selectionner jusqu'à trois tags.</p>
-                        {dataTags.map((tag, index) => (
-                            <div key={index}>
-                                <input 
-                                    type="checkbox" 
-                                    name={tag} 
-                                    checked={formData.tags.includes(tag)} 
-                                    onChange={() => handleTagChange(tag)} 
-                                />
-                                <label>{tag}</label>
-                            </div>
-                        ))}
+                        <h3>Tags</h3>
+                        <p>Tu peux sélectionner jusqu'à trois étiquettes parmi les suivantes.</p>
+                        <div className="tags-container">
+                            {dataTags.sort().map((tag, index) => (
+                                <div key={index} className="tag-solo">
+                                    <input 
+                                        type="checkbox" 
+                                        name={tag} 
+                                        checked={formData.tags.includes(tag)} 
+                                        onChange={() => handleTagChange(tag)} 
+                                    />
+                                    <label className={formData.tags.includes(tag) ? 'selected' : ''}>
+                                        {tag}
+                                    </label>
+                                </div>
+                            ))}
+                        </div>
                     </section>
+
 
                     {/* Section pour le contenu */}
                     <section className="dashboard-content">

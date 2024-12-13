@@ -5,7 +5,7 @@ const SocialsLogos = {
   twitch: "fa-brands fa-twitch",
   tiktok: "fa-brands fa-tiktok",
   twitter: "fa-brands fa-square-x-twitter",
-  bluesky: "fa-solid fa-square",
+  bluesky: "fa-brands fa-square-bluesky",
   mastodon: "fa-brands fa-mastodon",
   facebook: "fa-brands fa-square-facebook",
   instagram: "fa-brands fa-square-instagram",

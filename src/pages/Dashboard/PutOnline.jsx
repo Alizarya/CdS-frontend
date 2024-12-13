@@ -86,7 +86,9 @@ function PutOnline() {
   }
 
   return (
+    
     <div className="dashboard-publish">
+    <h2>Gestion de la mise en ligne</h2>
       {isPublished ? (
         <>
           <p>
@@ -109,6 +111,7 @@ function PutOnline() {
         </>
       )}
     </div>
+ 
   );
 }
 
