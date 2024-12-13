@@ -50,8 +50,9 @@
 .loupe {
     position: absolute;
     top: 100px; 
-    left: 150px; 
+    left: 10%; 
     z-index: 1;
+    width: clamp(100px, 25vw, 300px) ;
 }
 
 .landingMemberCard {
@@ -63,10 +64,11 @@
 }
 
 .landingMemberCardImgContainer {
-    width: clamp(200px, 25vw, 500px) 500px;
+    width: clamp(200px, 25vw, 500px);
     height: clamp(200px, 46vh,500px);
     position: relative;
     border-radius: 20px;
+    aspect-ratio: 1 / 1;
 }
   
 .landingMemberCardImgBorder {
@@ -129,7 +131,7 @@
 }
   
 .landingMemberCardImg {
-    width: clamp(200px, 25vw, 500px) 500px;
+    width: clamp(200px, 25vw, 500px);
     height: clamp(200px, 46vh,500px);
     object-fit: cover;
     border-radius: 20px;
@@ -207,8 +209,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    width: 180px;
-    height: 180px;
+    width: 170px;
+    height: 170px;
 }
 
 .socials .button-cta i{

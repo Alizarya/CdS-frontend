@@ -40,6 +40,16 @@ const CardPrev = () => {
         }
     };
 
+    // Fonction pour transformer les retours à la ligne en <br />
+    const formatDescription = (text) => {
+        return text.split('\n').map((line, index) => (
+            <span key={index}>
+                {line}
+                <br />
+            </span>
+        ));
+    };
+
     return (
         <main className="memberCard-details">
             <section className="memberCard-section">
@@ -74,7 +84,10 @@ const CardPrev = () => {
                 <div className="member-info">
                     {/* Affichage du pseudo ou nom */}
                     <h2>{pseudo || 'TON NOM'}</h2>
-                    <p>{description || 'Description non fournie.'}</p>
+                    <p>
+                        {/* Affichage de la description avec les retours à la ligne */}
+                        {description ? formatDescription(description) : 'Description non fournie.'}
+                    </p>
 
                     <div className="content-links">
                         {/* Affichage du contenu */}

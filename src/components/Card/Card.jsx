@@ -2,7 +2,7 @@
 import "./Card.css"
 
 // Import des besoins
-import {useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react'; 
 import { getMembers } from '../../utils/axiosMembers'; 
 
@@ -63,6 +63,16 @@ function Card() {
         }
     };
 
+    // Fonction pour transformer les retours à la ligne en <br />
+    const formatDescription = (text) => {
+        return text.split('\n').map((line, index) => (
+            <span key={index}>
+                {line}
+                <br />
+            </span>
+        ));
+    };
+
     return (
         <main className="memberCard-details">
             <section className="memberCard-section">
@@ -96,7 +106,11 @@ function Card() {
                         <h2>{name}</h2>
                     )}
                     
-                    <p>{description}</p>
+                    {/* Affichage de la description avec les retours à la ligne */}
+                    <p>
+                        {description ? formatDescription(description) : 'Description non fournie.'}
+                    </p>
+                    
                     {content && (
                         <div className="content-links">
                             {Object.values(content).map((item, index) => {

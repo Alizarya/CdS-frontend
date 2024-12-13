@@ -84,7 +84,7 @@ function Members() {
                                 <i className="fa-solid fa-magnifying-glass"></i>
                                 <input
                                     type="text"
-                                    placeholder="Rechercher un thème"
+                                    placeholder="Rechercher un thème, un nom, un sujet..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
@@ -102,39 +102,45 @@ function Members() {
                     </aside>
                     
                     <article className="members-article">
-                        {shuffledMembers.map((member) => (
-                            <div className="members-relative" key={member._id}>
-                                <div className="member-card">
-                                    <img src={member.image} alt={member.name} />
-                                    <div className="member-card-info">
-                                        {member.pseudo ? (
-                                            <h2>{member.pseudo}</h2>
-                                        ) : (
-                                            <h2>{member.name}</h2>
-                                        )}
-                                        {member.tags ? (
-                                            <Tags
-                                                tags={member.tags} 
-                                                searchTerm={searchTerm}
-                                                onTagClick={handleTagClick}
-                                            />
-                                        ) : (
-                                            <p>Aucun tag disponible</p>
-                                        )}
-                                        <p>{member.shortdescription}</p>
-                                    </div>
-                                </div>
-                                <Link
-                                    to={{
-                                        pathname: `/Members/${member._id}`,
-                                    }}
-                                    state={{ memberData: member }}  // <-- Passer directement l'objet membre
-                                >
-                                    <Button texte={`Découvrir ${member.pseudo || member.name}`} />
-                                </Link>
-                            </div>
-                        ))}
-                    </article>
+  {shuffledMembers.map((member) => (
+    <div className="members-relative" key={member._id}>
+      <Link
+        to={{
+          pathname: `/Members/${member._id}`,
+        }}
+        state={{ memberData: member }} // Passer directement l'objet membre
+        className="member-card-link" // Classe optionnelle pour stylisation
+      >
+        <div className="member-card">
+          <img src={member.image} alt={member.name} />
+          <div className="member-card-info">
+            {member.pseudo ? (
+              <h2>{member.pseudo}</h2>
+            ) : (
+              <h2>{member.name}</h2>
+            )}
+            {member.tags ? (
+              <Tags
+                tags={member.tags}
+                searchTerm={searchTerm}
+                onTagClick={handleTagClick}
+              />
+            ) : (
+              <p>Aucun tag disponible</p>
+            )}
+            <p>{member.shortdescription}</p>
+          </div>
+          {/* Bouton à l'intérieur */}
+          <Button
+            texte={`Découvrir ${member.pseudo || member.name}`}
+            onClick={(e) => e.stopPropagation()} // Empêche la propagation du clic au Link
+          />
+        </div>
+      </Link>
+    </div>
+  ))}
+</article>
+
 
                 </section>
             </main>

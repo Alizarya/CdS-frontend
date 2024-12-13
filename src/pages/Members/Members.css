@@ -105,6 +105,8 @@
     border-bottom: 10px solid var(--secondary);
     color: white;
     width: 100%;
+    position: relative;
+    transition: transform 0.3s ease;
 }
 
 .member-card img {
@@ -122,6 +124,7 @@
 
 .member-card h2 {
     font-size: 24px;
+    transition: transform 0.3s ease;
 }
 
 .member-card h2{
@@ -147,12 +150,14 @@ li {
 
 .members-relative button {
     position: absolute;
-    top: 0;    
+    bottom : -45px;
     right: 0;  
     transform: scale(0.5);
     transform-origin: top right; 
 }
 
-.members-relative .button-cta:hover {
-    transform: scale(0.52);
-}
+.member-card-link:hover button {
+    transform: scale(0.55);
+    transition: transform 0.3s ease; 
+  }
+

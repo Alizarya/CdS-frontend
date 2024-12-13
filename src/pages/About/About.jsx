@@ -4,7 +4,7 @@ import "./AboutResponsive.css"
 
 import Header from "../../components/Header/Header"
 import logo from "./logo banniere café des sciences.jpg"
-import groupe from "./louise sudour.png"
+import groupe from "./groupe.jpg"
 import Footer from "../../components/Footer/Footer"
 
 import DataBureau from "../../data/DataBureau"

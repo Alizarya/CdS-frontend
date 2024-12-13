@@ -130,7 +130,7 @@ function UpdateData() {
                 : [...prevState.tags, tag]; // Ajouter le tag sélectionné
     
             // Limiter à 3 tags maximum
-            if (newTags.length > 3) {
+            if (newTags.length > 4) {
                 alert('Tu ne peux sélectionner que 3 tags maximum.');
                 return prevState; 
             }
@@ -276,7 +276,7 @@ function UpdateData() {
 
                         <label>Image de profil </label>
                         {/* Remplacement de l'input de texte par un input file */}
-                        <input 
+                        <input className="fileBtn"
                             type="file" 
                             accept="image/*" // Limiter les fichiers aux images
                             onChange={handleImageChange} // Gestionnaire de changement
@@ -408,7 +408,7 @@ function UpdateData() {
                                         onChange={(e) => handleContentChange(e, index)}
                                     />
 
-                                    <label>Image</label>
+                                    <label>Image (insére le lien de ta miniature)</label>
                                     <input
                                         type="text"
                                         name="image"

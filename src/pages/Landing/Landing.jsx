@@ -1,11 +1,11 @@
 // Import des styles 
 import "./Landing.css";
-import "./LandingResponsive.css"
+import "./LandingResponsive.css";
 
 // Import des données
 import SocialsLogos from "../../data/DataSocialsLogo";
 import DataSocials from "../../data/DataSocials";
-import { getMembers } from "../../utils/axiosMembers"; 
+import { getMembers } from "../../utils/axiosMembers";
 
 // Import des composants
 import Header from "../../components/Header/Header";
@@ -88,13 +88,21 @@ function Landing() {
                   <p>{randomMember.shortdescription}</p>
 
                   <div className="landingMemberCardInfoSocial">
-                    {Object.keys(randomMember.links).map((link, index) => (
-                      <a key={index} href={randomMember.links[link]} target="_blank" rel="noreferrer">
-                        {SocialsLogos[link] && (
-                          <i className={SocialsLogos[link]} />
-                        )}
-                      </a>
-                    ))}
+                    {Object.keys(randomMember.links)
+                      .filter(link => randomMember.links[link]) // Filtrer les liens non vides
+                      .map((link, index) => (
+                        <a 
+                          key={index} 
+                          href={randomMember.links[link]} 
+                          target="_blank" 
+                          rel="noreferrer" 
+                          title={link.charAt(0).toUpperCase() + link.slice(1)} 
+                        >
+                          {SocialsLogos[link] && (
+                            <i className={SocialsLogos[link]} />
+                          )}
+                        </a>
+                      ))}
                   </div>
                 </div>
               </>
