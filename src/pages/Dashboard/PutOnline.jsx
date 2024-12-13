@@ -37,7 +37,27 @@ function PutOnline() {
     fetchMemberData();
   }, [navigate]);
 
+  // Fonction de validation des conditions avant publication
+  const canPublish = () => {
+    const { pseudo, image, tags, shortdescription, description, content, links } = memberData;
+
+    // Vérifie si tous les champs requis sont remplis
+    const isValidContent = content.every(item => item.image && item.link && item.title && item.description);
+    const hasValidLink = Object.values(links).some(link => link !== "");
+
+    return (
+      pseudo && image && tags && shortdescription && description &&
+      isValidContent && hasValidLink
+    );
+  };
+
   const handleTogglePublish = async () => {
+    if (!canPublish()) {
+      alert('Tous les champs de ta carte doivent être remplis pour la publier.');
+      navigate('/dashboard/updateData');
+      return;
+    }
+
     try {
       const updatedMember = {
         ...memberData,
@@ -49,8 +69,8 @@ function PutOnline() {
 
       if (response && response.message === 'Membre mis à jour avec succès') {
         // Mettre à jour l'état local en fonction du résultat
-        setIsPublished(!isPublished);  // Inverse le statut de publication
-        setMemberData(response.member); // Mettez à jour les données du membre avec la nouvelle valeur de `softDelete`
+        setIsPublished(!isPublished);  
+        setMemberData(response.member); 
       } else {
         console.error("Erreur lors de la mise à jour de la publication", response);
         alert('Une erreur est survenue lors de la mise à jour de la publication.');
