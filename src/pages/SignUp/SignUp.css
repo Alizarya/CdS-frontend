@@ -48,3 +48,62 @@
 color: var(--primary);
 font-style: normal;
 }
+
+.passObligation {
+    font-size: clamp(12px, 1vw, 14px);
+    font-style: italic;
+}
+
+.password-field {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.toggle-password {
+  border: 1px solid #ddd;
+  background: #f7f7f7;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.field-error {
+  color: #a61b1b;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+.password-meter {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 6px 0 2px;
+}
+
+.password-meter .bar {
+  height: 6px;
+  width: 28px;
+  background: #eee;
+  border-radius: 3px;
+}
+
+.password-meter .bar.on {
+  background: #4caf50;
+}
+
+.password-meter .meter-label {
+  font-size: 0.85rem;
+  color: #666;
+  margin-left: 6px;
+}
+
+.signup-links {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.signup-links .divider { color: #bbb; }

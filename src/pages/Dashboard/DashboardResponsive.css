@@ -1,0 +1,206 @@
+/* DashboardResponsive.css
+   À importer APRÈS Dashboard.css
+*/
+
+/* =========================
+   TABLET (≤ 1199px)
+   ========================= */
+@media (max-width: 1199px) {
+  /* Layout global */
+  .dashboard {
+    padding: clamp(16px, 3vw, 32px);
+    gap: clamp(12px, 2vw, 20px);
+  }
+
+  .dashboard-header {
+    margin: clamp(16px, 3vw, 24px);
+  }
+
+  .dashboard-header h2 {
+    font-size: clamp(20px, 2.2vw, 28px);
+  }
+
+  /* Barre d’actions */
+  .dashboard-nav {
+    flex-wrap: wrap;
+    gap: clamp(8px, 1.6vw, 16px);
+    padding: clamp(8px, 1.2vw, 16px) 0;
+  }
+
+  /* Rend sticky sous le header */
+  .dashboard-nav.sticky {
+    position: sticky;
+    top: clamp(56px, 8vh, 76px);
+    z-index: 900;
+    background: #fff;
+  }
+
+  .dashboard-nav .button-nav,
+  .dashboard-nav .button-nav a {
+    font-size: clamp(14px, 1.4vw, 16px) !important;
+    padding: clamp(8px, 1.2vw, 12px) clamp(10px, 1.6vw, 16px);
+    border-radius: 12px;
+  }
+
+  .button-cta {
+    font-size: clamp(14px, 1.6vw, 18px);
+  }
+
+  /* Sections */
+  .dashboard-main section {
+    padding: clamp(14px, 2.2vw, 24px);
+  }
+
+  /* Liens sociaux (3→2 colonnes) */
+  .links-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(10px, 1.8vw, 16px);
+  }
+
+  /* Tags (5→3 colonnes) */
+  .dashboard-tags-container {
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(8px, 1.6vw, 14px);
+  }
+
+  /* Contenu (3→2 cartes) */
+  .dashboard-content-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(12px, 2vw, 20px);
+  }
+  .content-n { width: 100%; }
+}
+
+/* =========================
+   MOBILE (≤ 767px)
+   ========================= */
+@media (max-width: 767px) {
+  .dashboard {
+    padding: clamp(12px, 4vw, 18px);
+  }
+
+  .dashboard-header {
+    margin: clamp(10px, 3.5vw, 16px);
+  }
+
+  .dashboard-header h2 {
+    font-size: clamp(18px, 6vw, 24px);
+  }
+
+  /* Barre d’actions → chips scrollables */
+  .dashboard-nav {
+    gap: 8px;
+    padding: 8px 0;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; 
+    justify-content: center;
+  }
+  .dashboard-nav::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+  .dashboard-nav.sticky {
+    position: sticky;
+    top: clamp(52px, 8.5vh, 68px);
+    z-index: 900;
+    background: #fff;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.05);
+  }
+
+  .dashboard-nav .button-nav,
+  .dashboard-nav .button-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: clamp(13px, 4vw, 15px) !important;
+    padding: 10px 12px;
+    border: 1px solid var(--primary);
+    border-radius: 999px;
+    background: #fff;
+  }
+
+  .dashboard-nav .button-nav.danger {
+    border-color: #d64545;
+  }
+
+  .dashboard-nav i { margin-right: 6px; }
+
+  /* CTA pleine largeur et lisible */
+
+
+  /* Évite le scale sur mobile */
+  .seventy {
+    scale: 1;
+    width: 100%;
+  }
+
+  /* Sections plus compactes */
+  .dashboard-main section {
+    padding: clamp(12px, 4vw, 18px);
+  }
+
+  /* Présentation */
+  .dashboard-presentation textarea:last-child {
+    min-height: 140px;
+  }
+
+  /* Liens sociaux (→ 1 colonne) */
+  .links-container {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .link-item {
+    align-items: flex-start;
+  }
+
+  /* Tags (→ 2 colonnes) */
+  .dashboard-tags-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  /* Contenu (→ 1 carte par ligne) */
+  .dashboard-content-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .content-n { width: 100%; }
+
+  /* Inputs confort mobile */
+  input[type="text"],
+  input[type="email"],
+  input[type="url"],
+  textarea {
+    font-size: 16px; /* évite zoom iOS */
+  }
+
+  /* Boutons "enregistrer" plus visibles */
+  .button-update {
+    margin: 12px 0;
+  }
+
+  /* Création membre */
+  .member-creation {
+    padding: 8px 0 4px;
+    text-align: center;
+  }
+}
+
+/* =========================
+   VERY SMALL PHONES (≤ 380px)
+   ========================= */
+@media (max-width: 380px) {
+  .dashboard-nav .button-nav,
+  .dashboard-nav .button-nav a {
+    padding: 8px 10px;
+  }
+
+  .dashboard-tags-container {
+    grid-template-columns: 1fr; /* 1 colonne si très petit */
+  }
+}
+
+

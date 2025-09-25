@@ -31,7 +31,7 @@ function ResetPassword() {
                     {!resetSuccess ? (
                         <>
                             <h2>Mot de passe perdu ou oublié ?</h2>
-                            <p>Pas de panique, un lien pour obtenir un nouveau mot de passe vous sera envoyé par mail !</p>
+                            <p>Pas de panique, un lien pour obtenir un nouveau mot de passe sera envoyé par mail !</p>
                             <form onSubmit={handleReset}>
                                 <div className="form-group">
                                     <label htmlFor="email">Adresse e-mail</label>
@@ -49,7 +49,7 @@ function ResetPassword() {
                         </>
                     ) : (
                         <div>
-                            <p>Réinitialisation réussie ! Consultez votre boite mail pour obtenir un nouveau mot de passe.</p>
+                            <p>Réinitialisation réussie ! Un lien a été envoyé par mail pour obtenir un nouveau mot de passe.</p>
                             <Link to="/"><i className="fa-solid fa-house"></i>Retourner à l'accueil</Link>
                         </div>
                     )}

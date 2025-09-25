@@ -86,21 +86,14 @@
     text-decoration: underline;
   }
 
+.success-message {
+  color: var(--dark-primary);
+  margin-left: 20%;
+  margin-top: 5%;
+}
 
-  .contactGender {
-    display: none;
-  }
-
-  .genderBtn {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .genderBtn label {
-    margin: 0;
-  }
-
-  .genderBtn label input {
-    margin-right: 0.5em;
-  }
-
+.error-message {
+  color: var(--secondary);
+  margin-left: 20%;
+  margin-top: 5%;
+}

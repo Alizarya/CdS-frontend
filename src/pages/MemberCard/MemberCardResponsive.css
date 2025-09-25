@@ -1,0 +1,189 @@
+/* MemberCardResponsive.css — responsive overrides
+   NB: clamp() uniquement DANS les @media queries.
+*/
+
+/* Vars globales (pas de clamp ici) */
+:root {
+  --outerPad: 24px;
+  --gutter: 24px;
+}
+
+/* =======================================
+   Tablet (768px–1199px) — 2 colonnes souples
+   ======================================= */
+@media (min-width: 768px) and (max-width: 1199px) {
+  /* On passe la carte en flux normal (plus d’absolu centré) */
+  .memberCard-section {
+    position: static;
+    transform: none;
+    top: auto;
+    left: auto;
+    width: min(96vw, 1100px);
+    margin: var(--outerPad) auto;
+    height: auto;
+    display: grid;
+    grid-template-columns: minmax(240px, 32%) 1fr;
+    gap: var(--gutter);
+    border-radius: clamp(16px, 2vw, 24px);
+  }
+
+  .member-image {
+    position: sticky;
+    top: clamp(8px, 2vh, 16px);
+    width: 100%;
+    height: auto;
+  }
+
+  .member-image img {
+    width: clamp(160px, 24vw, 260px);
+    height: clamp(160px, 24vw, 260px);
+    margin: clamp(16px, 3vw, 24px) auto 1em auto;
+  }
+
+  .member-info {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0 var(--outerPad) var(--outerPad);
+    max-height: none;
+    overflow-y: visible; /* on rend le scroll à la page */
+  }
+
+  .content-links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gutter);
+    margin: clamp(12px, 3vw, 32px) 0;
+    padding: 0 clamp(8px, 2vw, 24px);
+    max-width: none !important;
+  }
+
+  .content-links img {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16 / 9;
+  }
+
+  .memberCard-details .button-cta {
+    position: static;
+    display: block;
+    margin: var(--outerPad) auto;
+  }
+}
+
+/* =======================================
+   Mobile (<= 767px) — 1 colonne
+   ======================================= */
+@media (max-width: 767px) {
+  .memberCard-details {
+    height: auto; /* libère la hauteur forcée */
+  }
+
+  .memberCard-section {
+    position: static;
+    transform: none;
+    top: auto;
+    left: auto;
+    width: 94vw;
+    margin: var(--outerPad) auto;
+    height: auto;
+    border-radius: clamp(14px, 3vw, 20px);
+    display: flex;
+    flex-direction: column;
+    background-size: 240px auto; /* allège le motif en mobile */
+    border-bottom-width: clamp(10px, 3vw, 14px);
+  }
+
+  .member-image {
+    position: static;
+    width: 100%;
+    height: auto;
+    border-radius: clamp(14px, 3vw, 20px);
+    padding-bottom: var(--outerPad);
+  }
+
+  .member-image img {
+    width: clamp(120px, 46vw, 200px);
+    height: clamp(120px, 46vw, 200px);
+    margin: clamp(16px, 4vw, 24px) auto 0 auto;
+  }
+
+  .member-image .social-links {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: clamp(8px, 2.5vw, 16px);
+    padding: 0 var(--outerPad);
+  }
+
+  .member-image .social-links a {
+    font-size: clamp(18px, 5vw, 24px);
+  }
+
+  .member-info {
+    width: 100%;
+    margin: 0;
+    padding: var(--outerPad);
+    overflow: visible; /* pas de scroll local en mobile */
+  }
+
+  .member-info h2 {
+    font-size: clamp(22px, 6vw, 30px);
+  }
+
+  .member-info h4 {
+    font-size: clamp(14px, 4.5vw, 18px);
+  }
+
+  .content-links {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(10px, 3.5vw, 16px);
+    margin: clamp(10px, 4vw, 20px) 0;
+    padding: 0;
+    max-width: 87% !important;
+  }
+
+  .content-links > * {
+    max-width: none;
+  }
+
+  .content-links img {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16 / 9;
+    border-radius: clamp(10px, 3vw, 16px);
+    border-bottom-width: clamp(6px, 2vw, 10px);
+  }
+
+  /* CTA repositionné */
+  .memberCard-details .button-cta {
+    position: static;
+    display: block;
+    margin: var(--outerPad) auto;
+    transform: none;
+  }
+}
+
+/* =======================================
+   Détails divers
+   ======================================= */
+
+/* Affiner la grille quand il n’y a qu’1–2 contenus (évite les cards trop larges) */
+@media (min-width: 1200px) {
+  .content-links > * {
+    max-width: none;
+  }
+}
+
+/* Améliore le contraste des liens sociaux au hover sur mobile/tablette (sans underline gênant) */
+.member-image .social-links a:hover {
+  color: var(--secondary);
+  text-decoration: none;
+}
+
+/* Sécurité : si un inline-style traîne, on s’assure que l’image ne dépasse jamais son conteneur */
+.content-links img {
+  max-width: 100%;
+  display: block;
+}

@@ -1,5 +1,6 @@
 // Import des styles
 import "./MemberCard.css"
+import "./MemberCardResponsive.css"
 
 // Import des composants
 import Header from "../../components/Header/Header";

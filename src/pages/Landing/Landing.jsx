@@ -14,12 +14,27 @@ import Button from "../../components/Button/Button";
 import ContactForm from "../../components/ContactForm/ContactForm";
 
 // Import des besoins 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react"; 
 
 function Landing() {
   const [members, setMembers] = useState([]); 
   const [loading, setLoading] = useState(true); 
+  const location = useLocation();
+
+  // Scroll vers une ancre si on arrive avec /#support ou /#contact
+  useEffect(() => {
+    const hash = location.hash?.slice(1);
+    if (!hash) return;
+
+    // Attendre le rendu pour être sûr que la section existe
+    const t = setTimeout(() => {
+      const el = document.getElementById(hash);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 0);
+
+    return () => clearTimeout(t);
+  }, [location.hash]);
 
   // Récupération des membres à partir de l'API
   useEffect(() => {
@@ -53,12 +68,16 @@ function Landing() {
 
       <section className="home">
         <h1 className="banner">C'est fort de sciences !</h1>
-        <img className="homeImg" src="/images/Landing/goupePA.jpg" alt="Le café des science lors de PlayAzur, en groupe" />
+        <img
+          className="homeImg"
+          src="/images/Landing/goupePA.jpg"
+          alt="Le café des science lors de PlayAzur, en groupe"
+        />
         <Button texte="Découvrir nos membres" to="/members" />
       </section>
 
       {loading ? ( 
-        <p>Loading...</p>
+        <p>Chargement...</p>
       ) : (
         <section className="landingMember">
           <img className="loupe" src="/images/Landing/doodle_loupe.png" alt="doodle d'une loupe" />
@@ -76,6 +95,9 @@ function Landing() {
                   </div>
                 </Link>
                 <div className="landingMemberCardInfo">
+                  <div className="randomTitle">
+                    <h1>Zoom sur</h1>
+                  </div>
                   {randomMember.pseudo ? (
                     <>
                       <h2>{randomMember.pseudo}</h2>
@@ -84,12 +106,11 @@ function Landing() {
                   ) : (
                     <h2>{randomMember.name}</h2>
                   )}
-               
                   <p>{randomMember.shortdescription}</p>
 
                   <div className="landingMemberCardInfoSocial">
                     {Object.keys(randomMember.links)
-                      .filter(link => randomMember.links[link]) // Filtrer les liens non vides
+                      .filter(link => randomMember.links[link])
                       .map((link, index) => (
                         <a 
                           key={index} 
@@ -118,10 +139,14 @@ function Landing() {
             <p>Si vous appréciez notre travail, n’hésitez pas à faire un <b>don</b> ! </p>
             <p>Il servira à couvrir les frais de fonctionnement courant ou pourra être utilisé pour financer un projet spécifique !</p>
           </div>
-            <Link to="https://www.helloasso.com/associations/c-fetiers-des-sciences" target="_blank" rel="noopener noreferrer"> 
-              <img className="supportImg" src="/images/Landing/logo-web-bleu.png" alt="Logo de HelloAsso" />
-              <p className="supportTxt">Faire un don</p>
-            </Link>          
+          <Link
+            to="https://www.helloasso.com/associations/c-fetiers-des-sciences"
+            target="_blank"
+            rel="noopener noreferrer"
+          > 
+            <img className="supportImg" src="/images/Landing/logo-web-bleu.png" alt="Logo de HelloAsso" />
+            <p className="supportTxt">Faire un don</p>
+          </Link>
         </div>
 
         <div className="socials">
@@ -138,7 +163,7 @@ function Landing() {
       </section>
 
       <section className="contact" id="contact">
-            <ContactForm />
+        <ContactForm />
       </section>
 
       <Footer />
@@ -146,5 +171,4 @@ function Landing() {
   );
 }
 
-// Export de la fonction composant
 export default Landing;

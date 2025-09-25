@@ -61,3 +61,8 @@ margin-left: 0.5em;
 .joinus-form-info input {
     width: 50%;
 }
+
+.success-message-candit {
+    margin: auto;
+    color: var(--dark-primary);
+}

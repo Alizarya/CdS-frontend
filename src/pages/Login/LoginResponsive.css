@@ -1,0 +1,95 @@
+/* LoginResponsive.css
+   Responsive tweaks for Login page
+*/
+
+/* =========================
+   Tablet (≤ 1024px ~ 64em)
+   ========================= */
+@media (max-width: 64em) {
+  .main-login {
+    margin-top: 3em;
+  }
+
+  .login-container {
+    width: 70%;
+    max-width: 640px;
+  }
+}
+
+/* =========================
+   Mobile (≤ 768px ~ 48em)
+   ========================= */
+@media (max-width: 48em) {
+  .main-login {
+    margin-top: clamp(16px, 6vw, 28px);
+  }
+
+  .login-container {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .login-container h2 {
+    font-size: clamp(20px, 6vw, 26px);
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .login-container p {
+    font-size: clamp(14px, 4vw, 16px);
+    line-height: 1.6;
+    margin-top: clamp(8px, 2.5vw, 12px);
+  }
+
+  .login-container form {
+    margin: clamp(16px, 5vw, 28px) 0;
+  }
+
+  .form-group {
+    gap: clamp(6px, 2.5vw, 10px);
+    margin-bottom: clamp(14px, 4.5vw, 20px);
+  }
+
+  .form-group label {
+    font-size: clamp(14px, 4vw, 16px);
+  }
+
+  .form-group input {
+    font-size: clamp(14px, 4vw, 16px);
+    padding: clamp(10px, 3.5vw, 14px);
+    border-radius: 10px;
+  }
+
+  /* CTA full-width on mobile */
+  .login-container form .button-cta {
+    width: 100%;
+    justify-content: center;
+    padding: clamp(10px, 3.5vw, 14px) clamp(12px, 4vw, 16px);
+    margin-top: clamp(10px, 3.5vw, 16px);
+  }
+
+  /* Links: tap-friendly spacing */
+  .login-container a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: clamp(14px, 4vw, 16px);
+  }
+}
+
+/* =========================
+   Small phones (≤ 26em ~ 416px)
+   ========================= */
+@media (max-width: 26em) {
+  .login-container {
+    width: 92%;
+  }
+
+  .form-group input {
+    padding: 12px;
+  }
+
+  .login-container form .button-cta {
+    padding: 12px;
+  }
+}

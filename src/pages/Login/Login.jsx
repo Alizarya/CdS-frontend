@@ -1,5 +1,6 @@
 // Import des styles
 import "./Login.css"
+import "./LoginResponsive.css"
 
 import React, { useState } from 'react';
 import Header from "../../components/Header/Header";

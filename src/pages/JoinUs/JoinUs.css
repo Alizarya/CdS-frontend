@@ -28,3 +28,13 @@
 .joinus-form.hidden {
     display: none; 
 }
+
+
+/*Responsive*/
+
+@media (max-width: 1199px) {
+    .joinus {
+        width: 90%;
+        margin: auto;
+    }
+}

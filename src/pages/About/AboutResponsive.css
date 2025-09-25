@@ -1,33 +1,113 @@
+/* AboutResponsive.css — Mobile (≤ 48em ~ 768px) */
 @media (max-width: 48em) {
-    .about {
-        max-width: 100%;
-        width: 100%;
-        margin: 5%;
-    }
-    
-    .about-paragraph{
-        flex-direction: column;
-    }
+  /* Variables locales */
+  :root {
+    --pad: clamp(12px, 5vw, 24px);
+    --gap: clamp(12px, 5vw, 24px);
+    --radius: clamp(10px, 3vw, 16px);
+  }
 
-    .about-paragraph-text, .about-paragrph-img {
-        width: 100%;
-    }
-    
-    .about h2 {
-        font-size: 20px;
-    }
+  .about {
+    /* largeur 90% centrée comme demandé */
+    width: 90%;
+    margin: 0 auto;
+    /* padding vertical doux, pas de padding latéral pour ne pas cumuler avec le 90% */
+    padding: var(--pad) 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+  }
 
+  .about h2 {
+    font-size: clamp(18px, 3vw, 26px);
+    line-height: 1.25;
+    margin: 2%% 0;
+    text-align: center;
+  }
+
+  .about p {
+    font-size: clamp(14px, 4vw, 16px);
+    line-height: 1.6;
+    margin: 0 0 clamp(8px, 2.8vw, 14px) 0;
+  }
+
+  .about a {
+    word-break: break-word; /* évite les débordements des liens longs */
+  }
+
+  .about-paragraph {
+    flex-direction: column;
+    gap: var(--gap);
+    align-items: stretch;
+    margin-top: 0;
+  }
+
+  .about-paragraph-text,
+  .about-paragrph-img {
+    width: 100%;
+  }
+
+  /* Image fluide et élégante */
+  .about-paragrph-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    object-fit: cover;
+  }
+
+  /* Constance de lecture : texte avant image pour le 2e bloc */
+  .about-paragraph:nth-of-type(2) .about-paragrph-img {
+    order: 2;
+  }
+
+  /* Bloc "asso" */
+  .about-paragraph-asso {
+    margin-top: clamp(16px, 5vw, 28px);
+  }
+
+  .about-paragraph-asso h3 {
+    font-size: clamp(18px, 4.8vw, 22px);
+    margin: clamp(12px, 3vw, 16px) 0 0 0;
+    text-align: center;
+  }
+
+  /* Bureau en grille responsive */
+  .bureau {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+    gap: clamp(16px, 4.5vw, 24px);
+    justify-items: center;
+    align-items: start;
+    margin-top: clamp(12px, 3vw, 16px);
+    width: 100%;
+  }
+
+  .bureau-person {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(8px, 2.5vw, 12px);
+    text-align: center;
+  }
+
+  .bureau-person img {
+    width: clamp(120px, 40vw, 200px);
+    max-width: 60vw;
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  .bureau-person p {
+    font-size: clamp(14px, 4vw, 16px);
+    margin: 0;
+  }
+
+  /* Très petit écran : 1 colonne */
+  @media (max-width: 26em) {
     .bureau {
-        flex-direction: column ;
-        gap: 2em;
+      grid-template-columns: 1fr;
     }
-
-    .bureau-person img {
-        width: 30%;
-    }
-
-
-    
-  
-
+  }
 }

@@ -1,151 +1,203 @@
 // Import des styles
 import "./Members.css";
+import "./MembersResponsive.css";
 
 // Import des composants
 import Header from "../../components/Header/Header";
 import Tags from "../../components/Tags/Tags";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from "react";
 import Button from "../../components/Button/Button";
 import { Link } from "react-router-dom";
 
-// Import des données 
-import { getMembers } from '../../utils/axiosMembers'; // Importer la fonction getMembers
-import dataTags from '../../data/DataTags'; // Importer les tags
+// Import des données
+import { getMembers } from "../../utils/axiosMembers";
+import dataTags from "../../data/DataTags";
 
 function Members() {
-    // Gestion du champ de recherche et des tags
-    const [searchTerm, setSearchTerm] = useState('');
-    const [members, setMembers] = useState([]); // État pour stocker les membres
-    const [loading, setLoading] = useState(true); // État pour le chargement
-    const [error, setError] = useState(null); // État pour les erreurs
+  // Recherche libre + filtre discipline indépendant
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedTag, setSelectedTag] = useState("");
+  const [members, setMembers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const fetchMembers = async () => {
-            try {
-                const data = await getMembers(); 
-                // Filtrer les membres avec softDelete: false
-                const activeMembers = data.filter(member => !member.softDelete);
-                setMembers(activeMembers); 
-            } catch (err) {
-                setError("Erreur lors de la récupération des membres.");
-            } finally {
-                setLoading(false); 
-            }
-        };
+  // Normalisation accent-insensible + trim + lower
+  const norm = (v) =>
+    (v ?? "")
+      .toString()
+      .trim()
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/\p{Diacritic}/gu, "");
 
-        fetchMembers();
-    }, []); 
+  // Construit un "haystack" textuel de la fiche (tout ce qui est utile)
+  const buildHaystack = (m) => {
+    const { name, pseudo, shortdescription, description, tags, links, content } = m || {};
 
-    // Gestion des erreurs et affichage de l'état de chargement
-    if (loading) return <div>Chargement des membres...</div>;
-    if (error) return <div>{error}</div>;
+    const parts = [
+      name,
+      pseudo,
+      shortdescription,
+      description,
+      Array.isArray(tags) ? tags.join(" ") : tags, // tags peut être array ou string
+      ...Object.values(links || {}),               // valeurs des liens (URLs)
+    ];
 
-    // Gestion des tags
-    const handleTagClick = (tag) => {
-        setSearchTerm((prevSearchTerm) => {
-            const lowerCaseTag = tag.toLowerCase();
-            const searchWords = prevSearchTerm.toLowerCase().split(' ').filter(word => word.trim() !== '');
+    if (Array.isArray(content)) {
+      content.forEach((c) => {
+        parts.push(c?.title, c?.description, c?.link, c?.image, c?.content_format);
+      });
+    }
 
-            // Vérifier si le tag existe déjà
-            const tagIndex = searchWords.indexOf(lowerCaseTag);
+    return norm(parts.filter(Boolean).join(" "));
+  };
 
-            // Si le tag existe déjà, le supprimer, sinon l'ajouter
-            if (tagIndex !== -1) {
-                searchWords.splice(tagIndex, 1);
-            } else {
-                searchWords.push(lowerCaseTag);
-            }
+  // Clic sur un tag d'une carte → active/désactive le filtre discipline
+  const handleTagFilterToggle = (tag) => {
+    const t = (tag ?? "").toString().trim();
+    setSelectedTag((prev) => (norm(prev) === norm(t) ? "" : t));
+  };
 
-            const newSearchTerm = searchWords.join(' ').trim();
-            return newSearchTerm;
-        });
+  // Récupération des membres
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const data = await getMembers();
+        const active = data.filter((m) => !m.softDelete);
+        setMembers(active);
+      } catch (err) {
+        console.error(err);
+        setError("Erreur lors de la récupération des membres.");
+      } finally {
+        setLoading(false);
+      }
     };
+    fetchMembers();
+  }, []);
 
-    // Filtrage des membres
-    const filteredMembers = members.filter((member) => {
-        const searchWords = searchTerm.toLowerCase().split(' ').filter(word => word.trim() !== '');
-        return searchWords.every((word) => {
-            const memberData = Object.values(member).join(' ').toLowerCase();
-            return memberData.includes(word);
-        });
+  // Filtrage : (texte libre) ET (discipline si choisie)
+  const filteredMembers = useMemo(() => {
+    const tokens = norm(searchTerm).split(/\s+/).filter(Boolean);
+    const tagNeedle = norm(selectedTag);
+
+    return members.filter((m) => {
+      const hay = buildHaystack(m);
+
+      // Filtre discipline : le mot doit apparaître quelque part dans la fiche
+      if (tagNeedle && !hay.includes(tagNeedle)) return false;
+
+      // Filtre texte libre (tous les mots doivent apparaitre)
+      if (tokens.length > 0 && !tokens.every((tok) => hay.includes(tok))) return false;
+
+      return true;
     });
+  }, [members, searchTerm, selectedTag]);
 
-    // Mélanger le map
-    const shuffledMembers = [...filteredMembers].sort(() => Math.random() - 0.5);
+  // Mélange simple (optionnel)
+  const shuffledMembers = useMemo(() => {
+    const arr = [...filteredMembers];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }, [filteredMembers]);
 
-    return (
-        <>
-            <Header />
-            <main className="members-container">
-                <section className="members-section">
-                    <aside className="members-aside">
-                        <div className="search-box">
-                            <div className="input-container">
-                                <i className="fa-solid fa-magnifying-glass"></i>
-                                <input
-                                    type="text"
-                                    placeholder="Rechercher un thème, un nom, un sujet..."
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                />
-                            </div>
-                        </div>
-                        
-                        {/* Afficher tous les tags de dataTags ici */}
-                        <div className="tags-display">
-                            <Tags
-                                tags={dataTags} // Passer tous les tags ici
-                                searchTerm={searchTerm}
-                                onTagClick={handleTagClick}
-                            />
-                        </div>
-                    </aside>
-                    
-                    <article className="members-article">
-  {shuffledMembers.map((member) => (
-    <div className="members-relative" key={member._id}>
-      <Link
-        to={{
-          pathname: `/Members/${member._id}`,
-        }}
-        state={{ memberData: member }} // Passer directement l'objet membre
-        className="member-card-link" // Classe optionnelle pour stylisation
-      >
-        <div className="member-card">
-          <img src={member.image} alt={member.name} />
-          <div className="member-card-info">
-            {member.pseudo ? (
-              <h2>{member.pseudo}</h2>
+  if (loading) return <div>Chargement des membres...</div>;
+  if (error) return <div>{error}</div>;
+
+  return (
+    <>
+      <Header />
+      <main className="members-container">
+        <section className="members-section">
+          <aside className="members-aside">
+            {/* Recherche texte libre */}
+            <div className="search-box">
+              <div className="input-container">
+                <input
+                  type="text"
+                  placeholder="Rechercher un thème, un nom, un sujet..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+            </div>
+
+            {/* Filtre par discipline — n'écrit PAS dans le champ de recherche */}
+            <div className="tags-dropdown">
+              <select
+                value={selectedTag}
+                onChange={(e) => setSelectedTag(e.target.value)}
+              >
+                <option value="">-- Filtrer par discipline --</option>
+                {dataTags.map((tag, index) => (
+                  <option key={index} value={tag}>
+                    {tag}
+                  </option>
+                ))}
+              </select>
+
+              {selectedTag && (
+                <button
+                  type="button"
+                  className="clear-tag-filter"
+                  onClick={() => setSelectedTag("")}
+                  aria-label="Effacer le filtre tag"
+                  style={{ marginTop: "8px" }}
+                >
+                  Effacer le filtre
+                </button>
+              )}
+            </div>
+          </aside>
+
+          <article className="members-article">
+            {shuffledMembers.length === 0 ? (
+              <p style={{ padding: "1rem" }}>
+                Aucun membre trouvé. Essaie d’alléger la recherche ou retire le filtre par discipline.
+              </p>
             ) : (
-              <h2>{member.name}</h2>
-            )}
-            {member.tags ? (
-              <Tags
-                tags={member.tags}
-                searchTerm={searchTerm}
-                onTagClick={handleTagClick}
-              />
-            ) : (
-              <p>Aucun tag disponible</p>
-            )}
-            <p>{member.shortdescription}</p>
-          </div>
-          {/* Bouton à l'intérieur */}
-          <Button
-            texte={`Découvrir ${member.pseudo || member.name}`}
-            onClick={(e) => e.stopPropagation()} // Empêche la propagation du clic au Link
-          />
-        </div>
-      </Link>
-    </div>
-  ))}
-</article>
+              shuffledMembers.map((member) => (
+                <div className="members-relative" key={member._id}>
+                  <Link
+                    to={{ pathname: `/Members/${member._id}` }}
+                    state={{ memberData: member }}
+                    className="member-card-link"
+                  >
+                    <div className="member-card">
+                      <img src={member.image} alt={member.name} />
+                      <div className="member-card-info">
+                        {member.pseudo ? <h2>{member.pseudo}</h2> : <h2>{member.name}</h2>}
 
+                        {member.tags ? (
+                          <Tags
+                            tags={member.tags}
+                            // On surligne le tag actif via searchTerm (composant Tags existant)
+                            searchTerm={selectedTag}
+                            onTagClick={handleTagFilterToggle} // toggle au clic
+                          />
+                        ) : (
+                          <p>Aucun tag disponible</p>
+                        )}
 
-                </section>
-            </main>
-        </>
-    );
+                        <p>{member.shortdescription}</p>
+                      </div>
+
+                      <Button
+                        texte={`Découvrir ${member.pseudo || member.name}`}
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                    </div>
+                  </Link>
+                </div>
+              ))
+            )}
+          </article>
+        </section>
+      </main>
+    </>
+  );
 }
 
 export default Members;

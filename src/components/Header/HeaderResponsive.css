@@ -1,24 +1,204 @@
-/* Breakpoint tablette */
-@media (max-width: 64em) {
- 
-    .logoNav {
-        height: 50px;
-    }
+/* HeaderResponsive.css
+   À importer APRÈS Header.css
+   - Hamburger + tiroir (drawer) pour mobile/tablette
+   - Nav horizontale en desktop
+   - Icône "utilisateur" en desktop, texte "Se connecter" en mobile/tablette
+*/
 
-    nav {
-        gap: 1.5em;
-    }
+/* ---------- Base utilitaires (hors MQ) ---------- */
+.hamburger {
+  display: none;
+  border: 0;
+  background: transparent;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: var(--primary);
+  cursor: pointer;
+}
+.hamburger:hover { color: var(--secondary); }
 
-    .fa-circle-user {
-        font-size: 28px;
-    }
+/* Overlay (masqué par défaut) */
+.nav-overlay { display: none; }
+
+/* Le nav reçoit la classe .nav-drawer en JSX */
+nav.nav-drawer {}
+
+/* Bouton croix dans le tiroir (masqué par défaut, visible en ≤1199px) */
+.drawer-close { display: none; }
+
+/* Variantes login : icône vs texte (valeurs par défaut, surchargées en MQ) */
+.login-icon { display: inline-flex; }
+.login-text { display: none; font-weight: 600; color: var(--primary); }
+.login-text:hover { color: var(--secondary); }
+
+
+
+/* =========================
+   Desktop (≥ 1200px)
+   ========================= */
+@media (min-width: 1200px) {
+  header {
+    height: auto;
+    min-height: clamp(50px, 3vh, 88px);
   }
 
+  .logoNav {
+    height: clamp(64px, 6vw, 88px);
+  }
 
-/* Breakpoint smartphone */
-@media (max-width: 48em) {
- 
-    
-  
+  /* Nav horizontale */
+  .hamburger { display: none; }
+  .nav-overlay { display: none !important; }
 
+  nav.nav-drawer {
+    display: flex;
+    gap: clamp(16px, 2.2vw, 40px);
+    max-width: 78%;
+    align-items: center;
+
+    position: static;
+    transform: none;
+    width: auto;
+    height: auto;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .underline-link { font-size: clamp(15px, 1.1vw, 20px); }
+
+  /* Desktop : icône visible, texte caché */
+  .login-icon { display: inline-flex; }
+  .login-text { display: none; }
+
+  /* Séparateur autorisé en desktop */
+  header nav hr { display: block; }
+}
+
+/* =======================================
+   Tablet & Mobile (≤ 1199px) — Drawer
+   ======================================= */
+@media (max-width: 1199px) {
+  header {
+    height: auto;
+    min-height: clamp(40px, 4vh, 76px);
+    padding: clamp(8px, 2.8vw, 14px) clamp(12px, 4vw, 18px);
+    padding-top: calc(env(safe-area-inset-top, 0px) + clamp(6px, 1.5vw, 10px));
+  }
+
+  .logoNav { height: clamp(44px, 10vw, 58px); }
+
+  /* Affiche le hamburger */
+  .hamburger { display: inline-flex; }
+
+  /* Drawer latéral droit */
+  nav.nav-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: clamp(260px, 70vw, 360px);
+    height: 100vh;
+    background: #fff;
+    border-left: 1px solid var(--light-primary);
+    box-shadow: -8px 0 24px rgba(0, 0, 0, 0.15);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 1100;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 72px 24px 24px; /* espace pour la croix */
+    overflow-y: auto;
+  }
+  nav.nav-drawer.open { transform: translateX(0); }
+
+  /* Overlay cliquable */
+  .nav-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    display: block;
+  }
+  .nav-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Bouton croix (fermeture drawer) */
+  .drawer-close {
+    display: inline-flex;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    font-size: 24px;
+    color: var(--primary);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+  }
+  .drawer-close:hover { color: var(--secondary); }
+
+  /* Liens du drawer */
+  nav.nav-drawer a {
+    font-size: clamp(15px, 1.8vw, 18px);
+    color: black;
+    padding: 8px 0;
+    display: inline-block;
+  }
+
+  /* Soulignement ajusté */
+  nav.nav-drawer .underline-link::after {
+    bottom: -2px;
+    height: 2px;
+    left: 2px;
+    width: calc(100% - 4px);
+  }
+
+  /* On retire le <hr> dans le tiroir */
+  header nav hr { display: none; }
+
+  /* Mobile/Tablet : texte "Se connecter" visible, icône masquée */
+  .login-icon { display: none; }
+  .login-text { display: inline-block; font-size: clamp(16px, 2vw, 18px); }
+}
+
+/* =======================================
+   Accessibilité : réduire les animations
+   ======================================= */
+@media (prefers-reduced-motion: reduce) {
+  .underline-link::after,
+  nav.nav-drawer,
+  .nav-overlay {
+    transition: none;
+  }
+}
+
+
+/* Forcer l’état en MOBILE uniquement */
+@media (max-width: 757px) {
+  /* le drawer remet display:inline-block sur les <a>, donc on écrase avec + de spécificité */
+  nav.nav-drawer .login-icon { 
+    display: none !important;
+  }
+  nav.nav-drawer .login-text { 
+    display: inline-block !important;
+  }
+}
+
+/* Et on re-bascule proprement dès 758px */
+@media (min-width: 758px) {
+  .login-icon { display: inline-flex !important; }
+  .login-text { display: none !important; }
 }

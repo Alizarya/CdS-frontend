@@ -1,18 +1,22 @@
-// Import des styles
-import "./ContactForm.css"
-import "./ContactFormResponsive.css"
+import "./ContactForm.css";
+import "./ContactFormResponsive.css";
 
-// Import des composants
-import React, { useState } from "react";
-import { Link } from 'react-router-dom';
-import Button from "../Button/Button"
-import Pen from "./pen.png"
+import { useState } from "react";
+import Button from "../Button/Button";
+import Pen from "./pen.png";
+import { sendContactForm } from "../../utils/formConnexion"; // 🔁 Import ici
 
 function ContactForm() {
-  //________________________________________
-  // Gestion des données des formulaires
-  const initialFormData = {};
+  const initialFormData = {
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  };
+
   const [formData, setFormData] = useState(initialFormData);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,31 +26,48 @@ function ContactForm() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData); // Envoi au backend à mettre ici
+    setSuccessMessage("");
+    setErrorMessage("");
 
-    // Réinitialise les champs du formulaire après la soumission
-    const emptyFormData = {};
-    Object.keys(formData).forEach((key) => {
-      emptyFormData[key] = "";
-    });
-    setFormData(emptyFormData);
+    const { name, email, subject, message } = formData;
+
+    try {
+      await sendContactForm(
+        { name, email, subject }, // contactFixed
+        { message }              // contactMessage
+      );
+
+      setSuccessMessage("Message bien envoyé !");
+      setFormData(initialFormData);
+    } catch (error) {
+      console.error("Erreur lors de l'envoi :", error);
+      setErrorMessage("Erreur, veuillez réessayer plus tard.");
+    }
   };
 
   return (
     <>
       <aside className="aside-contact">
         <img src={Pen} alt="Pen Doodle" />
-        <p> Pour nous contacter, merci d’utiliser le formulaire ci-contre ou d’envoyer un email à <b>association[at]cafe-sciences[point]org</b></p>
-        <p> Si vous souhaitez rejoindre l’association, veuillez prendre connaissance des conditions et du formulaire de <br></br> contact sur notre page<br></br>
-        <a href="/JoinUs"><em>"Nous rejoindre"</em></a>.</p>
+        <p>
+          Pour nous contacter, merci d’utiliser le formulaire ci-contre ou
+          d’envoyer un email à <b>association[at]cafe-sciences[point]org</b>
+        </p>
+        <p>
+          Si vous souhaitez rejoindre l’association, veuillez prendre
+          connaissance des conditions et du formulaire de <br />
+          contact sur notre page <br />
+          <a href="/JoinUs">
+            <em>"Nous rejoindre"</em>
+          </a>.
+        </p>
       </aside>
-      
+
       <form onSubmit={handleSubmit}>
-        {/* Prénom / Nom / Pseudo */}
         <div className="contactEntry contactFixed">
-          <label htmlFor="name">Prénom / Nom / Pseudo *</label>
+          <label htmlFor="name">Prénom / Nom / Pseudo</label>
           <input
             type="text"
             id="name"
@@ -57,56 +78,8 @@ function ContactForm() {
           />
         </div>
 
-        {/* Genre */}
-        <div className="contactEntry contactFixed contactGender">
-          <label>Genre</label>
-          <div className="genderBtn">
-            <label>
-              <input
-                type="radio"
-                name="gender"
-                value="female"
-                checked={formData.gender === "female"}
-                onChange={handleChange}
-              />
-              Femme
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="gender"
-                value="male"
-                checked={formData.gender === "male"}
-                onChange={handleChange}
-              />
-              Homme
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="gender"
-                value="nonBinary"
-                checked={formData.gender === "nonBinary"}
-                onChange={handleChange}
-              />
-              Non binaire
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="gender"
-                value="other"
-                checked={formData.gender === "other"}
-                onChange={handleChange}
-              />
-              Autre
-            </label>
-          </div>
-        </div>
-
-        {/* Adresse e-mail */}
         <div className="contactEntry contactFixed">
-          <label htmlFor="email">Adresse e-mail *</label>
+          <label htmlFor="email">Adresse e-mail</label>
           <input
             type="email"
             id="email"
@@ -117,9 +90,8 @@ function ContactForm() {
           />
         </div>
 
-        {/* Objet du message */}
         <div className="contactEntry contactFixed">
-          <label htmlFor="subject">Objet du message *</label>
+          <label htmlFor="subject">Objet du message</label>
           <input
             type="text"
             id="subject"
@@ -130,9 +102,8 @@ function ContactForm() {
           />
         </div>
 
-        {/* Message */}
         <div className="contactEntry contactMessage">
-          <label htmlFor="message">Message *</label>
+          <label htmlFor="message">Message</label>
           <textarea
             id="message"
             name="message"
@@ -145,9 +116,10 @@ function ContactForm() {
         <Button type="submit" texte="Envoyer votre message" />
       </form>
 
-      <hr></hr>
+      {successMessage && <p className="success-message">{successMessage}</p>}
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-      
+      <hr />
     </>
   );
 }

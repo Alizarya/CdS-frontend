@@ -1,81 +1,247 @@
+/* LandingResponsive.css — Mobile (≤ 48em ~ 768px) */
 @media (max-width: 48em) {
-    /*_____________________________________________________*/
-    /* Section accueil */
-    .banner {
-        font-size: 28px
-    }
+  /* Petites bases */
+  :root {
+    --pad: clamp(12px, 4vw, 20px);
+    --gap: clamp(12px, 4vw, 20px);
+    --radius: clamp(12px, 3vw, 20px);
+  }
 
-    .home .button-cta {
-        position: relative;
-        left: 60%; 
-        text-align: center;
-    }
+  /* =========================
+     Section accueil
+     ========================= */
+  .banner {
+    font-size: clamp(22px, 6vw, 30px);
+    line-height: 1.15;
+    padding-block: clamp(8px, 2.5vw, 14px);
+  }
 
-    /*_____________________________________________________*/
-    /* Section du membre random */
-    .loupe {
-        display: none;
-    }
+  .homeImg {
+    width: 100%;
+    display: block;
+    border-bottom-width: clamp(10px, 3vw, 16px);
+  }
 
-    .landingMemberCard {
-        margin: 5%;
-        flex-direction: column;
-        gap: 0;
-        padding: 0;
-    }
+  /* CTA sobre (outline) */
+  .home .button-cta {
+    display: none;
+  }
 
-    .landingMemberCardImgContainer {
-        width: 100%;
-        height: 100%;
-    }
+  /* Option: rendre tous les boutons sobres en mobile… */
+  .button-cta {
+    background: transparent !important;
+    color: var(--primary) !important;
+    border: 2px solid var(--primary) !important;
+    box-shadow: none !important;
+    border-radius: 999px;
+  }
+  .button-cta:hover {
+    background: rgba(0, 0, 0, 0.03) !important;
+  }
 
-    .landingMemberCardImg {
-        width: 100%; 
-        height: 100%; 
-    }
+  /* …sauf ceux des réseaux sociaux (icônes seules, sans encadré) */
+  .socials .button-cta {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    width: auto;
+    height: auto;
+    min-height: 0;
+    padding: 0;
+  }
 
-    .landingMemberCardInfo {
-        width: 100%;
-        text-align: center;
-    }
+  /* =========================
+     Section membre aléatoire
+     ========================= */
+  .loupe { display: none; }
 
-    .landingMemberCardImgBorder::before,
-    .landingMemberCardImgBorder::after {
-        content: none; 
-    }
+  .landingMember {
+    margin-top: 0;
+    padding: var(--pad);
+    padding-top: clamp(16px, 5vw, 28px);
+  }
 
-    .landingMemberCardInfoSocial {
-        justify-content: center;
-    }
+  .landingMemberCard {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    align-items: center;
+  }
 
-    /*_____________________________________________________*/
-    /* Section soutien et RS */
-    .helloasso {
-        flex-direction: column;
-        padding: 5%;
-        gap: 2em;
-    }
+  /* 👉 Remonter le bloc "Zoom sur + noms" au-dessus de l'image */
+  .landingMemberCardInfo {
+    width: 100%;
+    text-align: center;
+    order: -1; 
+    padding-inline: var(--pad);
+    max-width: 90%;
+  }
 
-    .helloasso a, .helloasso-text  {
-        width: 100%;
-    }
+  .randomTitle {
+    width: 100%;
+    border-bottom: 4px solid var(--secondary);
+    padding-bottom: 6px;
+    margin-bottom: var(--gap);
+  }
 
-    .helloasso a {
-        align-items:center;
-    }
+  .randomTitle h1 {
+    font-size: clamp(20px, 5.5vw, 26px);
+    margin: 0;
+  }
 
-    .socials{
-        padding: 5%;
-        margin-top: -3em;
-    }
-    
-    .socials .button-cta {
-        width: 30px;
-        height: 30px;
-    }
+  .landingMemberCardInfo h2 {
+    font-size: clamp(20px, 6vw, 28px);
+    margin: 6px 0 0 0;
+  }
 
-    .socials .button-cta i{
-        font-size: 30px;
-    }
-  
+  .landingMemberCardInfo h3 {
+    font-size: clamp(13px, 4.3vw, 17px);
+    margin: 2px 0 0 0;
+    opacity: 0.9;
+  }
+
+  .landingMemberCardInfo p {
+    margin: clamp(8px, 2.8vw, 14px) auto 0 auto;
+    font-size: clamp(14px, 4vw, 16px);
+    line-height: 1.5;
+    max-width: 65ch;
+  }
+
+  .landingMemberCardInfoSocial {
+    justify-content: center;
+    margin-top: var(--gap);
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(10px, 3.5vw, 16px);
+  }
+  .landingMemberCardInfoSocial i {
+    font-size: clamp(24px, 7vw, 36px);
+    transition: transform 0.2s ease;
+  }
+  .landingMemberCardInfoSocial i:active { transform: scale(0.96); }
+
+  /* Image un peu réduite et centrée */
+  .landingMemberCardImgContainer {
+    width: clamp(240px, 70vw, 360px);
+    height: auto;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius);
+  }
+  .landingMemberCardImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--radius);
+    box-shadow: -8px 0 18px rgba(0, 0, 0, 0.35), 0 8px 18px rgba(0, 0, 0, 0.35);
+  }
+  /* on retire les cadres animés en mobile */
+  .landingMemberCardImgBorder::before,
+  .landingMemberCardImgBorder::after { content: none; }
+
+  /* =========================
+     Section soutien & RS
+     ========================= */
+
+     .helloasso {
+    flex-direction: column;
+    align-items: center;
+    padding: clamp(16px, 5vw, 28px);
+    gap: clamp(16px, 5vw, 28px);
+    padding-top: 10%;
+    padding-bottom: 10%;
+    margin-top: 0;
+    border-bottom-width: clamp(10px, 3vw, 16px);
+  }
+
+  .helloasso-text {
+    width: 100%;
+  }
+  .helloasso-text p {
+    margin: 0 0 clamp(8px, 2.8vw, 12px) 0;
+    line-height: 1.5;
+  }
+
+  /* 👉 Le lien "Faire un don" devient un vrai CTA (outline) */
+  .helloasso a {
+    width: 100%;
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid var(--primary);
+    border-radius: 999px;
+    padding: 10px 16px;
+    gap: 10px;
+    text-align: center;
+  }
+  .helloasso a img {
+    width: clamp(120px, 55vw, 220px);
+  }
+  .helloasso a .supportTxt {
+    font-size: clamp(16px, 4.5vw, 20px);
+    color: var(--primary);
+    margin: 0;
+    font-weight: 700;
+  }
+  .helloasso a:hover .supportTxt {
+    color: var(--secondary);
+    text-decoration: none;
+  }
+
+/* Réseaux sociaux — 5 logos sur une ligne, sobres et responsives */
+.socials {
+  padding: var(--pad);
+  margin-top: clamp(8px, 3vw, 12px);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 colonnes fixes */
+  gap: clamp(8px, 3vw, 12px);
+  align-items: center;
+}
+
+/* Boutons sobres : pas d'encadré, remplissent leur cellule */
+.socials .button-cta {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Astuce : masque un éventuel texte du bouton, on ne garde que l'icône */
+  font-size: 0;
+}
+
+/* Icônes responsives (elles seules contrôlent la taille visuelle) */
+.socials .button-cta i {
+  font-size: clamp(20px, 15vw, 50px);
+  line-height: 1;
+}
+
+/* (Option) légère interaction tactile */
+.socials .button-cta:active i {
+  transform: scale(0.96);
+}
+
+
+  /* =========================
+     Section contact
+     ========================= */
+  .contact {
+    padding: var(--pad);
+    padding-top: clamp(8px, 3vw, 14px);
+  }
+
+  .contact hr {
+    display: none;
+  }
+
+  .contact form .button-cta{
+    margin-top: 3em !important;
+  }
 }

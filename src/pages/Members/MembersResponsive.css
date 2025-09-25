@@ -1,0 +1,180 @@
+/* MembersResponsive.css
+   À importer APRÈS Members.css
+*/
+
+/* =========================
+   Tablet (≤ 1199px)
+   ========================= */
+@media (max-width: 1199px) {
+  .members-section { width: 94%; }
+
+  .members-aside {
+    padding: 1rem;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .search-box { flex: 1 1 360px; min-width: 280px; }
+  .tags-dropdown { flex: 0 1 280px; min-width: 220px; }
+  .tags-dropdown select { width: 100%; }
+
+  .members-article { justify-content: space-between; row-gap: 3.5em; }
+  .members-relative { width: 48%; }
+}
+
+/* =========================
+   Mobile (≤ 767px) — anti-overflow total
+   ========================= */
+@media (max-width: 767px) {
+  /* 1) Couper tout scroll horizontal global */
+  html, body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* 2) Page et conteneurs : largeur 100%, boîte correcte */
+  .members-container,
+  .members-section,
+  .members-aside,
+  .members-article,
+  .members-relative,
+  .member-card,
+  .member-card-link {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* 3) Section centrée avec padding fluide (au lieu d'une width fixe) */
+  .members-section {
+    margin: 0 auto;
+    padding-left: 4vw;
+    padding-right: 4vw;
+  }
+
+  /* 4) Aside en colonne pleine largeur */
+  .members-aside {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 1.25rem;
+  }
+
+  /* 5) Form controls 100% + neutraliser min-width héritées */
+  .search-box,
+  .tags-dropdown,
+  .input-container,
+  .input-container input,
+  .tags-dropdown select {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .search-box, .tags-dropdown {
+    max-height: 50px;
+  }
+
+  .input-container input,
+  .tags-dropdown select {
+    padding: 12px 14px;
+    border-radius: 10px;
+  }
+
+  /* 6) Grille → 1 colonne stricte */
+  .members-article {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    row-gap: 2rem;
+    justify-content: initial;
+    margin: 0;
+  }
+
+  .members-relative { width: 100%; }
+
+  /* 7) Carte verticale, contenue et sans dépassement interne */
+  .member-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    border-radius: 1.5rem 1.5rem 0 0;
+    padding-inline: 1rem;      /* évite de coller aux bords du viewport */
+    overflow-wrap: anywhere;   /* casse les mots/URLs trop longues */
+    word-break: break-word;
+    contain: layout paint;     /* isole les effets internes */
+  }
+
+  /* 8) Images qui ne dépassent jamais */
+  .member-card img {
+    width: clamp(96px, 46vw, 160px);
+    height: clamp(96px, 46vw, 160px);
+    margin: 1rem 0 0 0;
+    border-radius: 1.25rem;
+    object-fit: cover;
+    max-width: 100%;
+  }
+
+  .member-card-info {
+    margin: 0 0 1rem 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .member-card h2 {
+    font-size: clamp(18px, 6vw, 22px);
+    margin: 0;
+  }
+
+  /* 9) Éviter qu’une liste de tags ou un paragraphe étire la carte */
+  .member-card-info p,
+  .member-card-info,
+  .member-card-info .tags-container,
+  .member-card-info .tags-container .tags-list {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  /* 10) CTA pleine largeur, plus d'absolu ni de scale */
+  .members-relative button,
+  .member-card .button-cta {
+    position: static !important;
+    transform: none !important;
+    width: 50% !important;
+    max-width: 100%;
+    display: block;
+    box-sizing: border-box;
+    margin-top: -1rem;
+    margin-bottom: 0.5rem;;
+    color: white !important;
+    border: 2px solid white !important;
+  }
+
+  .member-card-link:hover button { transform: none !important; }
+}
+
+/* =========================
+   Small phones (≤ 380px)
+   ========================= */
+@media (max-width: 380px) {
+  .member-card img {
+    width: clamp(88px, 48vw, 140px);
+    height: clamp(88px, 48vw, 140px);
+  }
+}
+
+/* =========================
+   Accessibilité
+   ========================= */
+@media (prefers-reduced-motion: reduce) {
+  .member-card,
+  .member-card h2,
+  .member-card-link button {
+    transition: none !important;
+  }
+}
+
+

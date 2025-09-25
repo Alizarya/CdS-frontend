@@ -9,7 +9,7 @@ const DataSocials = [
   {
     id: "gd56gf46",
     title: "BlueSky",
-    link: "https://bsky.app/profile/cafedessciences.bsky.social",
+    link: "https://bsky.app/profile/cafe-sciences.org",
     icon: "fa-brands fa-square-bluesky",
   },
 
