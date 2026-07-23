@@ -17,6 +17,18 @@ import ContactForm from "../../components/ContactForm/ContactForm";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react"; 
 
+// Gestion image
+const API_URL = "https://api.cafe-sciences.org/public";
+
+const DEFAULT_IMAGE =
+  "https://img.freepik.com/vecteurs-libre/aucune-illustration-concept-donnees_114360-2506.jpg?t=st=1728895997~exp=1728899597~hmac=5fbf097feef816adab0ec43d12d218ebe44fbe0e7b3a60c328c7bed612945f91&w=900";
+
+const getMemberImage = (image) => {
+  if (!image) return DEFAULT_IMAGE;
+  if (image.startsWith("http")) return image;
+  return `${API_URL}${image}`;
+};
+
 function Landing() {
   const [members, setMembers] = useState([]); 
   const [loading, setLoading] = useState(true); 
@@ -88,7 +100,7 @@ function Landing() {
                   <div className="landingMemberCardImgContainer">
                     <img
                       className="landingMemberCardImg"
-                      src={randomMember.image}
+                      src={getMemberImage(randomMember.image)}
                       alt={`profil de ${randomMember.pseudo || randomMember.name}`}
                     />
                     <p className="landingMemberCardImgBorder"></p>
@@ -101,7 +113,6 @@ function Landing() {
                   {randomMember.pseudo ? (
                     <>
                       <h2>{randomMember.pseudo}</h2>
-                      <h3>{randomMember.name}</h3>
                     </>
                   ) : (
                     <h2>{randomMember.name}</h2>

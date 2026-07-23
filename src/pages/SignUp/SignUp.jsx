@@ -1,16 +1,17 @@
-// src/pages/SignUp/SignUp.jsx
+
 
 // Import des styles
 import "./SignUp.css";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import Button from "../../components/Button/Button";
 import { registerUser } from "../../utils/userConnexion";
 
 function SignUp() {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const [userCode, setUserCode] = useState("");
   const [userMail, setUserMail] = useState("");
@@ -53,21 +54,37 @@ function SignUp() {
     return Math.min(score, 5); // 0..5
   };
 
-  const meetsPolicy = (pwd) =>
-    pwd.length >= 8 && /[a-z]/.test(pwd) && /[A-Z]/.test(pwd) && /[^A-Za-z0-9]/.test(pwd);
+  const PASSWORD_REGEX =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
 
-  const computeErrors = () => {
-    const newErrors = {};
-    if (!userCode.trim()) newErrors.userCode = "Le code d'inscription est requis.";
-    if (!userMail.trim()) newErrors.userMail = "L'adresse e-mail est requise.";
-    else if (!isValidEmail(userMail)) newErrors.userMail = "Adresse e-mail invalide.";
-    if (!userPassword) newErrors.userPassword = "Le mot de passe est requis.";
-    else if (!meetsPolicy(userPassword))
-      newErrors.userPassword =
-        "8+ caractères avec minuscule, MAJUSCULE et caractère spécial.";
-    if (!isAgreed) newErrors.isAgreed = "Tu dois accepter le règlement.";
-    return newErrors;
-  };
+  const meetsPolicy = (pwd) => PASSWORD_REGEX.test(pwd);
+
+const computeErrors = () => {
+  const newErrors = {};
+
+  if (!userCode.trim()) {
+    newErrors.userCode = "Le code d'inscription est requis.";
+  }
+
+  if (!userMail.trim()) {
+    newErrors.userMail = "L'adresse e-mail est requise.";
+  } else if (!isValidEmail(userMail)) {
+    newErrors.userMail = "Adresse e-mail invalide.";
+  }
+
+  if (!userPassword) {
+    newErrors.userPassword = "Le mot de passe est requis.";
+  } else if (!meetsPolicy(userPassword)) {
+    newErrors.userPassword =
+      "Le mot de passe doit contenir au moins 8 caractères, une minuscule, une majuscule, un chiffre et un caractère spécial.";
+  }
+
+  if (!isAgreed) {
+    newErrors.isAgreed = "Tu dois accepter le règlement.";
+  }
+
+  return newErrors;
+};
 
   // Focus sur le titre en cas de succès
   useEffect(() => {
@@ -75,6 +92,17 @@ function SignUp() {
       successHeadingRef.current.focus();
     }
   }, [registrationSuccess]);
+
+// Redirection automatique vers la page de connexion
+  useEffect(() => {
+  if (!registrationSuccess) return;
+
+  const timer = setTimeout(() => {
+    navigate("/login");
+  }, 5000);
+
+  return () => clearTimeout(timer);
+}, [registrationSuccess, navigate]);
 
   // Clear état “email déjà pris” quand l’email change
   useEffect(() => {
@@ -99,6 +127,7 @@ function SignUp() {
 
     try {
       setSubmitting(true);
+
       await registerUser(userCode.trim(), userMail.trim(), userPassword, isAgreed);
 
       // OK : reset + message
@@ -110,9 +139,8 @@ function SignUp() {
       setRegistrationSuccess(true);
     } catch (error) {
       const msg =
-        error?.response?.data?.message ||
-        error?.message ||
-        "Une erreur est survenue lors de l’inscription.";
+        error.message ||
+        "Une erreur est survenue lors de l'inscription.";
 
       // Détecte “email déjà enregistré”
       if (/déjà/i.test(msg) || /existe/i.test(msg) || /already/i.test(msg)) {
@@ -141,6 +169,7 @@ function SignUp() {
                 Inscription à l’espace membre
               </h2>
               <p>Votre inscription est réussie, un mail de confirmation vient de vous être envoyé.</p>
+              <p> Vous allez être redirigé.e automatiquement vers la page de connexion dans quelques secondes.</p>
               <Link to="/login">
                 <i className="fa-solid fa-right-to-bracket" /> Vous connecter
               </Link>
@@ -242,7 +271,7 @@ function SignUp() {
 
                   <p id="userPassword-help" className="passObligation">
                     Le mot de passe doit contenir au minimum 8 caractères, incluant au moins une
-                    lettre majuscule, une lettre minuscule et un caractère spécial.
+                    lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial.
                   </p>
 
                   {/* Indicateur de force */}
@@ -275,7 +304,7 @@ function SignUp() {
                     <span className="checkbox-text">
                       Je m’engage à respecter{" "}
                       <a
-                        href="https://new.cafe-sciences.org/static/media/Reglement-interieur-du-Cafe-des-Sciences.48277f6d25f05c55de87.pdf"
+                        href="https://cafe-sciences.org/static/media/Reglement-interieur-du-Cafe-des-Sciences.48277f6d25f05c55de87.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
                       >

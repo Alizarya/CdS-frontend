@@ -299,7 +299,7 @@ function UpdateData({ refresh, memberData }) {
           Pas de panique, tu peux enregistrer tes données à tout moment et y revenir plus
           tard pour les modifier.
         </p>
-        <p>Le bouton "enregistrer" se trouve maintenant dans les différentes sections du formulaire.</p>
+        <p>Un bouton "enregistrer" se trouve dans les différentes sections du formulaire.</p>
       </div>
 
       <div className="dashboard-main">

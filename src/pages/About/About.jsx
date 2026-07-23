@@ -86,7 +86,7 @@ function About() {
               <Link to="/JoinUs">On vous explique comment ici !</Link>
             </p>
 
-            <h3>Composition du bureau pour l’année 2024</h3>
+            <h3>Composition du bureau pour l’année {new Date().getFullYear()}</h3>
             <div className="bureau">
               {DataBureau.map((person) => (
                 <div key={person.id} className="bureau-person">

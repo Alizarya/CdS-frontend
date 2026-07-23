@@ -28,7 +28,7 @@ function DashboardNav({ onDelete, onPreview }) {
         </button>
 
         <NavLink className="button-nav" to="putOnline">
-          <i className="fa-solid fa-chalkboard-user" /> Gérer la mise en ligne
+          <i className="fa-solid fa-chalkboard-user" /> Mettre ta carte en ligne / hors ligne
         </NavLink>
 
         <button className="button-nav danger" onClick={onDelete}>

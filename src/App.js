@@ -1,9 +1,8 @@
-import { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
-  useLocation,
+  Navigate,
 } from "react-router-dom";
 
 // Import des styles
@@ -25,19 +24,32 @@ import ResetThePassword from "./pages/ResetThePassword/ResetThePassword";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import DashboardAdmin from "./pages/Dashboard/DashboardAdmin";
 
+//___________________________________________________
+// Composant protégeant les routes privées
+function ProtectedRoute({ children }) {
+  const token = sessionStorage.getItem("token");
+
+  if (!token) {
+    return <Navigate to="/Login" replace />;
+  }
+
+  return children;
+}
+
+//___________________________________________________
 // Création des routes
 function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path="/" element={<Landing />} />
+        {/* Pages publiques */}
+        <Route path="/" element={<Landing />} />
         <Route path="/About" element={<About />} />
         <Route path="/JoinUs" element={<JoinUs />} />
         <Route path="/Members" element={<Members />} />
         <Route path="/Members/:id" element={<MemberCard />} />
         <Route path="/Regulations" element={<Regulations />} />
         <Route path="/Legal" element={<Legal />} />
-        <Route path="/*" element={<Error404 />} />
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/ResetPassword" element={<ResetPassword />} />
@@ -45,8 +57,28 @@ function App() {
           path="/ResetPassword/:resetToken"
           element={<ResetThePassword />}
         />
-        <Route path="/Dashboard/*" element={<Dashboard />} />
-        <Route path="/DashboardAdmin/*" element={<DashboardAdmin />} />
+
+        {/* Pages protégées */}
+        <Route
+          path="/Dashboard/*"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/DashboardAdmin/*"
+          element={
+            <ProtectedRoute>
+              <DashboardAdmin />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* 404 */}
+        <Route path="*" element={<Error404 />} />
       </Routes>
     </Router>
   );

@@ -1,3 +1,9 @@
+.button-cta:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 .button-cta {
     padding: 10px 20px;
     font-size: 1.5vw;

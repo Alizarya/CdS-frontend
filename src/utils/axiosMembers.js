@@ -1,15 +1,19 @@
-import axios from "axios";
+import api from "./api";
 import baseURL from "./urlApi";
+
 const URL = `${baseURL}/members`;
 
 //_____________________________________________________________________
 // Récupérer tous les membres
 export async function getMembers() {
   try {
-    const response = await axios.get(URL);
+    const response = await api.get(URL);
     return response.data;
   } catch (error) {
-    console.error("Erreur lors de la récupération des membres :", error);
+    console.error(
+      "Erreur lors de la récupération des membres :",
+      error.message || error,
+    );
     throw error;
   }
 }
@@ -18,10 +22,13 @@ export async function getMembers() {
 // Récupérer un membre par son ID
 export async function getMember(id) {
   try {
-    const response = await axios.get(`${URL}/${id}`);
+    const response = await api.get(`${URL}/${id}`);
     return response.data;
   } catch (error) {
-    console.error("Erreur lors de la récupération du membre :", error);
+    console.error(
+      "Erreur lors de la récupération du membre :",
+      error.message || error,
+    );
     throw error;
   }
 }
@@ -30,22 +37,13 @@ export async function getMember(id) {
 // Fonction pour créer un nouveau membre
 export async function createMember(memberData) {
   try {
-    const response = await axios.post(URL, JSON.stringify(memberData), {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    // Si la requête réussit, renvoyer la réponse
+    const response = await api.post(URL, memberData);
     return response.data;
   } catch (error) {
-    // Gérer les erreurs
     console.error(
-      "Erreur lors de la création du membre:",
-      error.response?.data?.message || error.message
+      "Erreur lors de la création du membre :",
+      error.message || error,
     );
-
-    // Retourner l'erreur
     throw error;
   }
 }
@@ -54,26 +52,13 @@ export async function createMember(memberData) {
 // Fonction pour modifier un-e membre
 export async function updateMember(memberId, memberData) {
   try {
-    const response = await axios.put(
-      `${URL}/${memberId}`,
-      JSON.stringify(memberData),
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    // Si la requête réussit, renvoyer la réponse
+    const response = await api.put(`${URL}/${memberId}`, memberData);
     return response.data;
   } catch (error) {
-    // Gérer les erreurs
     console.error(
-      "Erreur lors de la modification du membre:",
-      error.response?.data?.message || error.message
+      "Erreur lors de la modification du membre :",
+      error.message || error,
     );
-
-    // Retourner l'erreur
     throw error;
   }
 }
@@ -82,18 +67,13 @@ export async function updateMember(memberId, memberData) {
 // Fonction pour supprimer un membre
 export async function deleteMember(memberId) {
   try {
-    const response = await axios.delete(`${URL}/${memberId}`);
-
-    // Si la requête réussit, renvoyer la réponse
+    const response = await api.delete(`${URL}/${memberId}`);
     return response.data;
   } catch (error) {
-    // Gérer les erreurs
     console.error(
-      "Erreur lors de la suppression du membre:",
-      error.response?.data?.message || error.message
+      "Erreur lors de la suppression du membre :",
+      error.message || error,
     );
-
-    // Retourner l'erreur
     throw error;
   }
 }

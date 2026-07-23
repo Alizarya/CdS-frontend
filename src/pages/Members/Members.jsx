@@ -13,15 +13,24 @@ import { Link } from "react-router-dom";
 import { getMembers } from "../../utils/axiosMembers";
 import dataTags from "../../data/DataTags";
 
+const API_URL = "https://api.cafe-sciences.org/public";
+
+const DEFAULT_IMAGE =
+  "https://img.freepik.com/vecteurs-libre/aucune-illustration-concept-donnees_114360-2506.jpg?t=st=1728895997~exp=1728899597~hmac=5fbf097feef816adab0ec43d12d218ebe44fbe0e7b3a60c328c7bed612945f91&w=900";
+
+const getMemberImage = (image) => {
+  if (!image) return DEFAULT_IMAGE;
+  if (image.startsWith("http")) return image;
+  return `${API_URL}${image}`;
+};
+
 function Members() {
-  // Recherche libre + filtre discipline indépendant
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTag, setSelectedTag] = useState("");
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Normalisation accent-insensible + trim + lower
   const norm = (v) =>
     (v ?? "")
       .toString()
@@ -30,41 +39,51 @@ function Members() {
       .normalize("NFD")
       .replace(/\p{Diacritic}/gu, "");
 
-  // Construit un "haystack" textuel de la fiche (tout ce qui est utile)
   const buildHaystack = (m) => {
-    const { name, pseudo, shortdescription, description, tags, links, content } = m || {};
+    const {
+      name,
+      pseudo,
+      shortdescription,
+      description,
+      tags,
+      links,
+      content,
+    } = m || {};
 
     const parts = [
       name,
       pseudo,
       shortdescription,
       description,
-      Array.isArray(tags) ? tags.join(" ") : tags, // tags peut être array ou string
-      ...Object.values(links || {}),               // valeurs des liens (URLs)
+      Array.isArray(tags) ? tags.join(" ") : tags,
+      ...Object.values(links || {}),
     ];
 
     if (Array.isArray(content)) {
       content.forEach((c) => {
-        parts.push(c?.title, c?.description, c?.link, c?.image, c?.content_format);
+        parts.push(
+          c?.title,
+          c?.description,
+          c?.link,
+          c?.image,
+          c?.content_format
+        );
       });
     }
 
     return norm(parts.filter(Boolean).join(" "));
   };
 
-  // Clic sur un tag d'une carte → active/désactive le filtre discipline
   const handleTagFilterToggle = (tag) => {
     const t = (tag ?? "").toString().trim();
     setSelectedTag((prev) => (norm(prev) === norm(t) ? "" : t));
   };
 
-  // Récupération des membres
   useEffect(() => {
     const fetchMembers = async () => {
       try {
         const data = await getMembers();
-        const active = data.filter((m) => !m.softDelete);
-        setMembers(active);
+        setMembers(data.filter((m) => !m.softDelete));
       } catch (err) {
         console.error(err);
         setError("Erreur lors de la récupération des membres.");
@@ -72,10 +91,10 @@ function Members() {
         setLoading(false);
       }
     };
+
     fetchMembers();
   }, []);
 
-  // Filtrage : (texte libre) ET (discipline si choisie)
   const filteredMembers = useMemo(() => {
     const tokens = norm(searchTerm).split(/\s+/).filter(Boolean);
     const tagNeedle = norm(selectedTag);
@@ -83,36 +102,47 @@ function Members() {
     return members.filter((m) => {
       const hay = buildHaystack(m);
 
-      // Filtre discipline : le mot doit apparaître quelque part dans la fiche
-      if (tagNeedle && !hay.includes(tagNeedle)) return false;
+      if (tagNeedle && !hay.includes(tagNeedle)) {
+        return false;
+      }
 
-      // Filtre texte libre (tous les mots doivent apparaitre)
-      if (tokens.length > 0 && !tokens.every((tok) => hay.includes(tok))) return false;
+      if (
+        tokens.length > 0 &&
+        !tokens.every((token) => hay.includes(token))
+      ) {
+        return false;
+      }
 
       return true;
     });
   }, [members, searchTerm, selectedTag]);
 
-  // Mélange simple (optionnel)
   const shuffledMembers = useMemo(() => {
     const arr = [...filteredMembers];
+
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [arr[i], arr[j]] = [arr[j], arr[i]];
     }
+
     return arr;
   }, [filteredMembers]);
 
-  if (loading) return <div>Chargement des membres...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading) {
+    return <div>Chargement des membres...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <>
       <Header />
+
       <main className="members-container">
         <section className="members-section">
           <aside className="members-aside">
-            {/* Recherche texte libre */}
             <div className="search-box">
               <div className="input-container">
                 <input
@@ -124,13 +154,13 @@ function Members() {
               </div>
             </div>
 
-            {/* Filtre par discipline — n'écrit PAS dans le champ de recherche */}
             <div className="tags-dropdown">
               <select
                 value={selectedTag}
                 onChange={(e) => setSelectedTag(e.target.value)}
               >
                 <option value="">-- Filtrer par discipline --</option>
+
                 {dataTags.map((tag, index) => (
                   <option key={index} value={tag}>
                     {tag}
@@ -143,7 +173,7 @@ function Members() {
                   type="button"
                   className="clear-tag-filter"
                   onClick={() => setSelectedTag("")}
-                  aria-label="Effacer le filtre tag"
+                  aria-label="Effacer le filtre"
                   style={{ marginTop: "8px" }}
                 >
                   Effacer le filtre
@@ -155,30 +185,34 @@ function Members() {
           <article className="members-article">
             {shuffledMembers.length === 0 ? (
               <p style={{ padding: "1rem" }}>
-                Aucun membre trouvé. Essaie d’alléger la recherche ou retire le filtre par discipline.
+                Aucun membre trouvé. Essaie d'alléger la recherche ou retire le
+                filtre par discipline.
               </p>
             ) : (
               shuffledMembers.map((member) => (
                 <div className="members-relative" key={member._id}>
                   <Link
-                    to={{ pathname: `/Members/${member._id}` }}
+                    to={`/Members/${member._id}`}
                     state={{ memberData: member }}
                     className="member-card-link"
                   >
                     <div className="member-card">
-                      <img src={member.image} alt={member.name} />
+                      <img
+                        src={getMemberImage(member.image)}
+                        alt={member.name}
+                      />
+
                       <div className="member-card-info">
-                        {member.pseudo ? <h2>{member.pseudo}</h2> : <h2>{member.name}</h2>}
+                        <h2>{member.pseudo || member.name}</h2>
 
                         {member.tags ? (
                           <Tags
                             tags={member.tags}
-                            // On surligne le tag actif via searchTerm (composant Tags existant)
                             searchTerm={selectedTag}
-                            onTagClick={handleTagFilterToggle} // toggle au clic
+                            onTagClick={handleTagFilterToggle}
                           />
                         ) : (
-                          <p>Aucun tag disponible</p>
+                          <p>Aucun tag disponible.</p>
                         )}
 
                         <p>{member.shortdescription}</p>
