@@ -126,7 +126,11 @@
     max-width: 33.33%;
 }
 
-.content-links a h4, .content-links a p  {
+.content-links a h4{
+margin-top: 1.2em;
+} 
+
+.content-links a p  {
     margin: 0;
 }
 

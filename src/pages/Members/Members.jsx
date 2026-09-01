@@ -20,7 +20,9 @@ const DEFAULT_IMAGE =
 
 const getMemberImage = (image) => {
   if (!image) return DEFAULT_IMAGE;
+
   if (image.startsWith("http")) return image;
+
   return `${API_URL}${image}`;
 };
 
@@ -31,6 +33,8 @@ function Members() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Normalisation des textes pour faciliter les recherches
+  // (minuscules + suppression des accents)
   const norm = (v) =>
     (v ?? "")
       .toString()
@@ -39,6 +43,7 @@ function Members() {
       .normalize("NFD")
       .replace(/\p{Diacritic}/gu, "");
 
+  // Construction du texte dans lequel effectuer la recherche générale
   const buildHaystack = (m) => {
     const {
       name,
@@ -74,15 +79,19 @@ function Members() {
     return norm(parts.filter(Boolean).join(" "));
   };
 
+  // Permet de cliquer sur un tag pour activer/désactiver le filtre
   const handleTagFilterToggle = (tag) => {
     const t = (tag ?? "").toString().trim();
+
     setSelectedTag((prev) => (norm(prev) === norm(t) ? "" : t));
   };
 
+  // Récupération des membres
   useEffect(() => {
     const fetchMembers = async () => {
       try {
         const data = await getMembers();
+
         setMembers(data.filter((m) => !m.softDelete));
       } catch (err) {
         console.error(err);
@@ -95,33 +104,68 @@ function Members() {
     fetchMembers();
   }, []);
 
+  // Tags du filtre triés alphabétiquement
+  const sortedTags = useMemo(() => {
+    return [...dataTags].sort((a, b) =>
+      a.localeCompare(b, "fr", { sensitivity: "base" })
+    );
+  }, []);
+
+  // Filtrage des membres
   const filteredMembers = useMemo(() => {
     const tokens = norm(searchTerm).split(/\s+/).filter(Boolean);
     const tagNeedle = norm(selectedTag);
 
     return members.filter((m) => {
-      const hay = buildHaystack(m);
+      /*
+       * FILTRE PAR DISCIPLINE
+       *
+       * On vérifie maintenant directement les tags du membre.
+       * Le filtre ne cherche donc plus le nom du tag dans toute
+       * la description du membre.
+       *
+       * Exemple :
+       * selectedTag = "Astronomie"
+       *
+       * Le membre doit réellement avoir "Astronomie" dans m.tags.
+       */
+      if (tagNeedle) {
+        const memberTags = Array.isArray(m.tags) ? m.tags : [];
 
-      if (tagNeedle && !hay.includes(tagNeedle)) {
-        return false;
+        const hasSelectedTag = memberTags.some(
+          (tag) => norm(tag) === tagNeedle
+        );
+
+        if (!hasSelectedTag) {
+          return false;
+        }
       }
 
-      if (
-        tokens.length > 0 &&
-        !tokens.every((token) => hay.includes(token))
-      ) {
-        return false;
+      /*
+       * RECHERCHE GÉNÉRALE
+       *
+       * La recherche libre continue à chercher dans le nom,
+       * pseudo, descriptions, tags, liens et contenus.
+       */
+      if (tokens.length > 0) {
+        const hay = buildHaystack(m);
+
+        if (!tokens.every((token) => hay.includes(token))) {
+          return false;
+        }
       }
 
       return true;
     });
   }, [members, searchTerm, selectedTag]);
 
+  // Mélange aléatoire des membres
   const shuffledMembers = useMemo(() => {
     const arr = [...filteredMembers];
 
     for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
+
       [arr[i], arr[j]] = [arr[j], arr[i]];
     }
 
@@ -159,9 +203,11 @@ function Members() {
                 value={selectedTag}
                 onChange={(e) => setSelectedTag(e.target.value)}
               >
-                <option value="">-- Filtrer par discipline --</option>
+                <option value="">
+                  -- Filtrer par discipline --
+                </option>
 
-                {dataTags.map((tag, index) => (
+                {sortedTags.map((tag, index) => (
                   <option key={index} value={tag}>
                     {tag}
                   </option>
@@ -185,12 +231,15 @@ function Members() {
           <article className="members-article">
             {shuffledMembers.length === 0 ? (
               <p style={{ padding: "1rem" }}>
-                Aucun membre trouvé. Essaie d'alléger la recherche ou retire le
-                filtre par discipline.
+                Aucun membre trouvé. Essaie d'alléger la recherche ou retire
+                le filtre par discipline.
               </p>
             ) : (
               shuffledMembers.map((member) => (
-                <div className="members-relative" key={member._id}>
+                <div
+                  className="members-relative"
+                  key={member._id}
+                >
                   <Link
                     to={`/Members/${member._id}`}
                     state={{ memberData: member }}
@@ -203,7 +252,9 @@ function Members() {
                       />
 
                       <div className="member-card-info">
-                        <h2>{member.pseudo || member.name}</h2>
+                        <h2>
+                          {member.pseudo || member.name}
+                        </h2>
 
                         {member.tags ? (
                           <Tags
@@ -219,7 +270,9 @@ function Members() {
                       </div>
 
                       <Button
-                        texte={`Découvrir ${member.pseudo || member.name}`}
+                        texte={`Découvrir ${
+                          member.pseudo || member.name
+                        }`}
                         onClick={(e) => e.stopPropagation()}
                       />
                     </div>
