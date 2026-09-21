@@ -14,6 +14,7 @@ import About from "./pages/About/About";
 import JoinUs from "./pages/JoinUs/JoinUs";
 import Members from "./pages/Members/Members";
 import MemberCard from "./pages/MemberCard/MemberCard";
+import Content from "./pages/Content/Content";
 import Regulations from "./pages/Regulations/Regulations";
 import Legal from "./pages/Legal/Legal";
 import Error404 from "./pages/Error404/Error404";
@@ -24,8 +25,9 @@ import ResetThePassword from "./pages/ResetThePassword/ResetThePassword";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import DashboardAdmin from "./pages/Dashboard/DashboardAdmin";
 
-//___________________________________________________
+// _______________________________________________
 // Composant protégeant les routes privées
+
 function ProtectedRoute({ children }) {
   const token = sessionStorage.getItem("token");
 
@@ -36,29 +38,44 @@ function ProtectedRoute({ children }) {
   return children;
 }
 
-//___________________________________________________
+// _______________________________________________
 // Création des routes
+
 function App() {
   return (
     <Router>
       <Routes>
         {/* Pages publiques */}
+
         <Route path="/" element={<Landing />} />
+
         <Route path="/About" element={<About />} />
+
         <Route path="/JoinUs" element={<JoinUs />} />
+
         <Route path="/Members" element={<Members />} />
+
         <Route path="/Members/:id" element={<MemberCard />} />
+
+        <Route path="/Content" element={<Content />} />
+
         <Route path="/Regulations" element={<Regulations />} />
+
         <Route path="/Legal" element={<Legal />} />
+
         <Route path="/SignUp" element={<SignUp />} />
+
         <Route path="/Login" element={<Login />} />
+
         <Route path="/ResetPassword" element={<ResetPassword />} />
+
         <Route
           path="/ResetPassword/:resetToken"
           element={<ResetThePassword />}
         />
 
         {/* Pages protégées */}
+
         <Route
           path="/Dashboard/*"
           element={
@@ -78,6 +95,7 @@ function App() {
         />
 
         {/* 404 */}
+
         <Route path="*" element={<Error404 />} />
       </Routes>
     </Router>
@@ -85,4 +103,5 @@ function App() {
 }
 
 // Export de l'application
+
 export default App;

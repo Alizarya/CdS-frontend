@@ -1,0 +1,339 @@
+/* =========================================================
+   PAGE CONTENT
+   ========================================================= */
+
+.content {
+  width: 90%;
+  max-width: 90em;
+  margin: auto;
+  margin-top: 2em;
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* =========================================================
+   FEATURED + FLUX RSS
+   ========================================================= */
+
+.content-featured-layout {
+  width: 90%;
+  max-width: 90em;
+
+  margin: 3em auto 4em;
+
+  display: grid;
+  grid-template-columns: 20% 1fr;
+
+  gap: 4em;
+
+  align-items: center;
+}
+
+
+/* =========================================================
+   FLUX RSS
+   ========================================================= */
+
+.content-rss {
+  width: 100%;
+}
+
+.rss-placeholder {
+  width: 100%;
+  min-height: 260px;
+
+  background-color: #e7f3fb;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 2em;
+
+  box-sizing: border-box;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   FEATURED
+   ========================================================= */
+
+.content-featured {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 52% 48%;
+
+  align-items: center;
+}
+
+
+/* =========================================================
+   IMAGE FEATURED
+   ========================================================= */
+
+.content-featured-image {
+  width: 100%;
+  height: 260px;
+
+  overflow: hidden;
+
+  border-radius: 30px 30px 30px 0;
+}
+
+.content-featured-image img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+}
+
+
+/* =========================================================
+   TEXTE FEATURED
+   ========================================================= */
+
+.content-featured-info {
+  padding-left: 2em;
+
+  box-sizing: border-box;
+}
+
+.content-featured-info h2 {
+  margin: 0 0 1em;
+
+  color: var(--dark-primary);
+
+  font-size: 1.8em;
+  line-height: 1.2;
+
+  font-weight: 800;
+}
+
+.content-featured-description {
+  margin: 0 0 2em;
+
+  font-size: 1em;
+  line-height: 1.5;
+}
+
+.content-author {
+  margin: 0;
+
+  font-weight: 700;
+}
+
+.content-author span {
+  color: var(--dark-primary);
+}
+
+
+/* =========================================================
+   GRILLE DES CONTENUS
+   ========================================================= */
+
+.content-grid {
+  width: 90%;
+  max-width: 90em;
+
+  margin: 0 auto 5em;
+
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  column-gap: 4em;
+  row-gap: 4em;
+}
+
+
+/* =========================================================
+   CARTE CONTENU
+   ========================================================= */
+
+.content-card {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: 48% 1fr;
+
+  column-gap: 1.5em;
+
+  align-items: start;
+}
+
+
+/* =========================================================
+   IMAGE CARTE
+   ========================================================= */
+
+.content-card-image {
+  width: 100%;
+  height: 145px;
+
+  overflow: hidden;
+
+  border-radius: 30px;
+}
+
+.content-card-image img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+}
+
+
+/* =========================================================
+   TEXTE CARTE
+   ========================================================= */
+
+.content-card-info {
+  min-width: 0;
+}
+
+.content-card-info h2 {
+  margin: 0 0 0.4em;
+
+  color: var(--primary);
+
+  font-size: 1em;
+  line-height: 1.2;
+
+  font-weight: 800;
+
+  text-transform: uppercase;
+}
+
+.content-card-author {
+  margin: 0 0 1.2em;
+
+  font-size: 0.9em;
+
+  font-weight: 700;
+}
+
+.content-card-author span {
+  color: var(--dark-primary);
+}
+
+.content-card-description {
+  margin: 0;
+
+  font-size: 0.9em;
+  line-height: 1.45;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1199px) {
+
+  .content-featured-layout {
+    width: 90%;
+
+    gap: 2.5em;
+  }
+
+  .content-grid {
+    width: 90%;
+
+    column-gap: 2.5em;
+  }
+
+  .content-featured-info {
+    padding-left: 1.5em;
+  }
+}
+
+
+/* =========================================================
+   TABLETTE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .content-featured-layout {
+    grid-template-columns: 1fr;
+
+    gap: 2em;
+  }
+
+  .content-rss {
+    order: 2;
+  }
+
+  .content-featured {
+    order: 1;
+  }
+
+  .rss-placeholder {
+    min-height: 120px;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  .content-featured-layout {
+    width: 90%;
+
+    margin-top: 2em;
+    margin-bottom: 3em;
+  }
+
+  .content-featured {
+    grid-template-columns: 1fr;
+
+    gap: 1.5em;
+  }
+
+  .content-featured-image {
+    height: 220px;
+  }
+
+  .content-featured-info {
+    padding-left: 0;
+  }
+
+  .content-featured-info h2 {
+    font-size: 1.5em;
+  }
+
+  .content-grid {
+    width: 90%;
+
+    grid-template-columns: 1fr;
+
+    row-gap: 3em;
+  }
+
+  .content-card {
+    grid-template-columns: 1fr;
+
+    gap: 1em;
+  }
+
+  .content-card-image {
+    height: 200px;
+  }
+}
