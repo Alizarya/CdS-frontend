@@ -22,12 +22,12 @@ import SignUp from "./pages/SignUp/SignUp";
 import Login from "./pages/Login/Login";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import ResetThePassword from "./pages/ResetThePassword/ResetThePassword";
+
 import Dashboard from "./pages/Dashboard/Dashboard";
 import DashboardAdmin from "./pages/Dashboard/DashboardAdmin";
+import DashboardContent from "./pages/DashboardContent/DashboardContent";
 
-// _______________________________________________
 // Composant protégeant les routes privées
-
 function ProtectedRoute({ children }) {
   const token = sessionStorage.getItem("token");
 
@@ -38,9 +38,7 @@ function ProtectedRoute({ children }) {
   return children;
 }
 
-// _______________________________________________
 // Création des routes
-
 function App() {
   return (
     <Router>
@@ -94,6 +92,17 @@ function App() {
           }
         />
 
+        <Route
+          path="/DashboardContent"
+          element={
+            <>
+              {/* <ProtectedRoute> */}
+              <DashboardContent />
+              {/* </ProtectedRoute> */}
+            </>
+          }
+        />
+
         {/* 404 */}
 
         <Route path="*" element={<Error404 />} />
@@ -101,7 +110,5 @@ function App() {
     </Router>
   );
 }
-
-// Export de l'application
 
 export default App;
