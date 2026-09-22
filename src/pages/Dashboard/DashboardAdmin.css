@@ -1,0 +1,121 @@
+.dashboard-admin {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+  box-sizing: border-box;
+}
+
+.dashboard-admin-header {
+  margin-bottom: 30px;
+}
+
+.dashboard-admin-header h1 {
+  margin: 0 0 8px;
+  font-size: 2rem;
+}
+
+.dashboard-admin-header p {
+  margin: 0;
+  color: #666;
+}
+
+.dashboard-admin-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dashboard-admin-section {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+}
+
+/* ==========================
+   MENU
+   ========================== */
+
+.dashboard-admin-menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  padding: 18px 20px;
+
+  border: none;
+  background: #fff;
+
+  color: #222;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 600;
+
+  text-align: left;
+  cursor: pointer;
+}
+
+.dashboard-admin-menu:hover {
+  background: #f7f7f7;
+}
+
+.dashboard-admin-menu-open {
+  border-bottom: 1px solid #ddd;
+  background: #f7f7f7;
+}
+
+.dashboard-admin-arrow {
+  margin-left: 20px;
+  font-size: 0.75rem;
+  color: #666;
+}
+
+/* ==========================
+   CONTENU DÉROULÉ
+   ========================== */
+
+.dashboard-admin-content {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/*
+ * Les composants AdminMember, AdminContent
+ * et AdminRss possèdent déjà leur propre
+ * largeur et leur propre padding.
+ *
+ * On neutralise ici leur marge extérieure
+ * éventuelle pour les intégrer au dashboard.
+ */
+
+.dashboard-admin-content .admin-member,
+.dashboard-admin-content .admin-rss {
+  max-width: none;
+  margin: 0;
+}
+
+.dashboard-admin-content .admin-member {
+  padding-top: 25px;
+}
+
+.dashboard-admin-content .admin-rss {
+  padding-top: 25px;
+}
+
+@media (max-width: 600px) {
+  .dashboard-admin {
+    padding: 25px 15px 40px;
+  }
+
+  .dashboard-admin-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .dashboard-admin-menu {
+    padding: 15px;
+    font-size: 0.95rem;
+  }
+}
