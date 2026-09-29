@@ -20,6 +20,7 @@
   color: #666;
 }
 
+
 /* ==========================
    CARTES
    ========================== */
@@ -49,6 +50,7 @@
   color: #777;
   font-size: 0.8rem;
 }
+
 
 /* ==========================
    FLUX ACTUEL
@@ -112,6 +114,7 @@
   text-decoration: underline;
 }
 
+
 /* ==========================
    BOUTON ACTUALISER
    ========================== */
@@ -135,6 +138,7 @@
   cursor: default;
 }
 
+
 /* ==========================
    ZONE SOURCES + SIDEBAR
    ========================== */
@@ -152,6 +156,7 @@
   gap: 25px;
 }
 
+
 /* ==========================
    SOURCES
    ========================== */
@@ -159,6 +164,53 @@
 .admin-rss-sources-card {
   min-width: 0;
 }
+
+
+/* ==========================
+   RECHERCHE + FILTRE
+   ========================== */
+
+.admin-rss-filters {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.admin-rss-search {
+  flex: 1;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 9px 11px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  font: inherit;
+  font-size: 0.85rem;
+}
+
+.admin-rss-search:focus {
+  outline: none;
+  border-color: #777;
+}
+
+.admin-rss-type-filter {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  padding: 9px 30px 9px 11px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.admin-rss-type-filter:focus {
+  outline: none;
+  border-color: #777;
+}
+
 
 .admin-rss-sources-list {
   display: flex;
@@ -179,13 +231,28 @@
   align-items: center;
   justify-content: space-between;
   gap: 15px;
-
-  padding: 11px 13px;
-
+  padding: 13px;
   border: 1px solid #e3e3e3;
   border-radius: 7px;
-
   background: #fafafa;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.admin-rss-source:hover {
+  border-color: #ccc;
+}
+
+/*
+ * Source actuellement masquée.
+ * On la rend légèrement plus discrète sans
+ * empêcher l'administrateur de la gérer.
+ */
+
+.admin-rss-source-offline {
+  background: #f5f5f5;
+  border-color: #ddd;
 }
 
 .admin-rss-source-content {
@@ -193,9 +260,15 @@
   flex: 1;
 }
 
-.admin-rss-source-content strong {
-  display: block;
+.admin-rss-source-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
   margin-bottom: 4px;
+}
+
+.admin-rss-source-content strong {
   font-size: 0.9rem;
 }
 
@@ -211,22 +284,161 @@
   text-decoration: underline;
 }
 
+
+/* ==========================
+   ÉTAT D'AFFICHAGE
+   ========================== */
+
+.admin-rss-visibility {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 7px;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.admin-rss-visibility-dot {
+  font-size: 0.65rem;
+}
+
+.admin-rss-visibility-online {
+  background: #eaf7ed;
+  color: #218739;
+}
+
+.admin-rss-visibility-hidden {
+  background: #eeeeee;
+  color: #777;
+}
+
+
+/* ==========================
+   ÉTAT TECHNIQUE DU FLUX
+   ========================== */
+
+.admin-rss-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 7px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.admin-rss-status-dot {
+  font-size: 0.7rem;
+}
+
+.admin-rss-status-ok {
+  color: #218739;
+}
+
+.admin-rss-status-error {
+  color: #c0392b;
+}
+
+.admin-rss-error-details {
+  margin-top: 5px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  background: #fff2f1;
+  color: #a33;
+  font-family: monospace;
+  font-size: 0.7rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+
+/* ==========================
+   ACTIONS DES SOURCES
+   ========================== */
+
+.admin-rss-source-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.admin-rss-source-actions button {
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.admin-rss-source-actions button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+
+/* Modifier */
+
+.admin-rss-edit {
+  border: 1px solid #bbb;
+  background: #fff;
+  color: #444;
+}
+
+.admin-rss-edit:hover:not(:disabled) {
+  background: #eee;
+  border-color: #999;
+}
+
+
+/* Masquer */
+
+.admin-rss-offline {
+  border: 1px solid #d6a23a;
+  background: #fff;
+  color: #9a6b00;
+}
+
+.admin-rss-offline:hover:not(:disabled) {
+  background: #d6a23a;
+  color: #fff;
+}
+
+
+/* Remettre en ligne */
+
+.admin-rss-online {
+  border: 1px solid #218739;
+  background: #fff;
+  color: #218739;
+}
+
+.admin-rss-online:hover:not(:disabled) {
+  background: #218739;
+  color: #fff;
+}
+
+
+/* Supprimer */
+
 .admin-rss-delete {
   flex-shrink: 0;
-
   padding: 6px 10px;
-
   border: 1px solid #d9534f;
   border-radius: 5px;
-
   background: #fff;
   color: #d9534f;
-
   font-size: 0.75rem;
   cursor: pointer;
 }
 
-.admin-rss-delete:hover {
+.admin-rss-delete:hover:not(:disabled) {
   background: #d9534f;
   color: #fff;
 }
@@ -235,6 +447,76 @@
   opacity: 0.6;
   cursor: default;
 }
+
+
+/* ==========================
+   ÉDITION D'UNE SOURCE
+   ========================== */
+
+.admin-rss-source-edit {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-rss-source-edit label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: #444;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.admin-rss-source-edit input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  font: inherit;
+  font-size: 0.82rem;
+}
+
+.admin-rss-source-edit input:focus {
+  outline: none;
+  border-color: #777;
+}
+
+.admin-rss-source-edit .admin-rss-source-actions {
+  justify-content: flex-start;
+  margin-top: 2px;
+}
+
+
+/* Enregistrer */
+
+.admin-rss-save {
+  border: 1px solid #218739;
+  background: #218739;
+  color: #fff;
+}
+
+.admin-rss-save:hover:not(:disabled) {
+  background: #17672a;
+  border-color: #17672a;
+}
+
+
+/* Annuler */
+
+.admin-rss-cancel {
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #555;
+}
+
+.admin-rss-cancel:hover:not(:disabled) {
+  background: #eee;
+}
+
 
 /* ==========================
    AJOUT SOURCE
@@ -250,7 +532,6 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-
   font-size: 0.85rem;
   font-weight: 600;
 }
@@ -258,12 +539,9 @@
 .admin-rss-form input {
   width: 100%;
   box-sizing: border-box;
-
   padding: 9px 11px;
-
   border: 1px solid #ccc;
   border-radius: 6px;
-
   font: inherit;
   font-size: 0.85rem;
 }
@@ -275,18 +553,15 @@
 
 .admin-rss-submit {
   padding: 9px 14px;
-
   border: none;
   border-radius: 6px;
-
   background: #222;
   color: #fff;
-
   font-size: 0.85rem;
   cursor: pointer;
 }
 
-.admin-rss-submit:hover {
+.admin-rss-submit:hover:not(:disabled) {
   background: #000;
 }
 
@@ -294,6 +569,7 @@
   opacity: 0.6;
   cursor: default;
 }
+
 
 /* ==========================
    AIDE RSS
@@ -339,14 +615,14 @@
   margin-top: 6px !important;
 }
 
+
 /* ==========================
-   ÉTATS
+   ÉTATS GÉNÉRAUX
    ========================== */
 
 .admin-rss-empty {
   margin: 0;
   padding: 20px 0;
-
   color: #777;
   text-align: center;
   font-size: 0.85rem;
@@ -355,25 +631,49 @@
 .admin-rss-error {
   margin-bottom: 20px;
   padding: 11px 14px;
-
   border: 1px solid #e5b7b5;
   border-radius: 6px;
-
   background: #fff2f1;
   color: #b42318;
-
   font-size: 0.85rem;
 }
+
 
 /* ==========================
    RESPONSIVE
    ========================== */
 
+@media (max-width: 1100px) {
+  .admin-rss-source {
+    align-items: flex-start;
+  }
+
+  .admin-rss-source-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-rss-source-actions button {
+    white-space: nowrap;
+  }
+}
+
+
 @media (max-width: 900px) {
   .admin-rss-management {
     grid-template-columns: 1fr;
   }
+
+  .admin-rss-source {
+    align-items: flex-start;
+  }
+
+  .admin-rss-source-actions {
+    flex-direction: row;
+    align-items: center;
+  }
 }
+
 
 @media (max-width: 600px) {
   .admin-rss {
@@ -389,12 +689,37 @@
     flex-direction: column;
   }
 
+  /*
+   * Recherche et filtre empilés sur mobile.
+   */
+  .admin-rss-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-rss-search,
+  .admin-rss-type-filter {
+    width: 100%;
+  }
+
   .admin-rss-source {
-    align-items: flex-start;
+    align-items: stretch;
     flex-direction: column;
   }
 
-  .admin-rss-delete {
+  .admin-rss-source-title {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .admin-rss-source-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-rss-source-actions button {
     width: 100%;
   }
 
@@ -402,37 +727,8 @@
     flex-direction: column;
     gap: 3px;
   }
-}
 
-.admin-rss-status {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 6px;
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.admin-rss-status-dot {
-  font-size: 0.7rem;
-}
-
-.admin-rss-status-ok {
-  color: #218739;
-}
-
-.admin-rss-status-error {
-  color: #c0392b;
-}
-
-.admin-rss-error-details {
-  margin-top: 5px;
-  padding: 6px 8px;
-  border-radius: 4px;
-  background: #fff2f1;
-  color: #a33;
-  font-family: monospace;
-  font-size: 0.7rem;
-  line-height: 1.4;
-  overflow-wrap: anywhere;
+  .admin-rss-delete {
+    width: 100%;
+  }
 }

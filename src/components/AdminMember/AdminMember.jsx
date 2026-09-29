@@ -128,10 +128,11 @@ function AdminMember() {
   // Recherche + filtres
   // ==========================
 
-  const filteredMembers = useMemo(() => {
-    const query = searchTerm.trim().toLowerCase();
+const filteredMembers = useMemo(() => {
+  const query = searchTerm.trim().toLowerCase();
 
-    return members.filter((member) => {
+  return members
+    .filter((member) => {
       const visible = !member.softDelete;
       const filled = hasAnyInfo(member);
 
@@ -174,8 +175,16 @@ function AdminMember() {
         default:
           return true;
       }
+    })
+    .sort((a, b) => {
+      const nameA = getDisplayName(a);
+      const nameB = getDisplayName(b);
+
+      return nameA.localeCompare(nameB, "fr", {
+        sensitivity: "base",
+      });
     });
-  }, [members, filter, searchTerm]);
+}, [members, filter, searchTerm]);
 
   // ==========================
   // Masquer / remettre en ligne

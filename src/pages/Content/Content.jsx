@@ -59,7 +59,33 @@ function Content() {
       try {
         const data = await getRss();
 
-        setRssItems(data.items || []);
+        const feeds = Array.isArray(data?.feeds)
+          ? data.feeds
+          : [];
+
+        const items = Array.isArray(data?.items)
+          ? data.items
+          : [];
+
+        /*
+         * Seules les sources non masquées alimentent
+         * le flux RSS affiché sur le site.
+         */
+        const onlineFeeds = feeds.filter(
+          (feed) => feed.online !== false
+        );
+
+        /*
+         * On conserve uniquement les publications
+         * provenant d'une source actuellement en ligne.
+         */
+        const visibleItems = items.filter((item) =>
+          onlineFeeds.some(
+            (feed) => feed.name === item.source
+          )
+        );
+
+        setRssItems(visibleItems);
       } catch (error) {
         console.error(
           "Erreur lors du chargement du flux RSS :",
@@ -133,18 +159,18 @@ function Content() {
 
   // Récupérer le texte du post RSS
   function getRssText(item) {
-  const text =
-    item.contentSnippet ||
-    item.content ||
-    item.description ||
-    item.title ||
-    "";
+    const text =
+      item.contentSnippet ||
+      item.content ||
+      item.description ||
+      item.title ||
+      "";
 
-  return text
-    .replace(/<[^>]*>/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-}
+    return text
+      .replace(/<[^>]*>/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
 
   if (loading) {
     return (
@@ -198,7 +224,10 @@ function Content() {
         {/* Featured + flux RSS */}
         <div className="content-featured-layout">
 
-          {/* Flux RSS */}
+          {/* ==========================
+              FLUX RSS
+              ========================== */}
+
           <aside
             className="content-rss"
             style={
@@ -224,53 +253,61 @@ function Content() {
 
               {!rssError && rssItems.length > 0 && (
                 <div className="rss-list">
-  {rssItems.map((item, index) => (
-    <article
-      className="rss-item"
-      key={`${item.link || item.title}-${index}`}
-    >
-      {item.link ? (
-        <a
-          className="rss-item-link"
-          href={item.link}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <p className="rss-item-source">
-            {item.source}
-          </p>
+                  {rssItems.map((item, index) => (
+                    <article
+                      className="rss-item"
+                      key={`${item.link || item.title}-${index}`}
+                    >
+                      {item.link ? (
+                        <a
+                          className="rss-item-link"
+                          href={item.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <p className="rss-item-source">
+                            {item.source}
+                          </p>
 
-          <p className="rss-item-text">
-            {getRssText(item)}
-          </p>
-        </a>
-      ) : (
-        <>
-          <p className="rss-item-source">
-            {item.source}
-          </p>
+                          <p className="rss-item-text">
+                            {getRssText(item)}
+                          </p>
+                        </a>
+                      ) : (
+                        <>
+                          <p className="rss-item-source">
+                            {item.source}
+                          </p>
 
-          <p className="rss-item-text">
-            {getRssText(item)}
-          </p>
-        </>
-      )}
-    </article>
-  ))}
-</div>
+                          <p className="rss-item-text">
+                            {getRssText(item)}
+                          </p>
+                        </>
+                      )}
+                    </article>
+                  ))}
+                </div>
               )}
             </div>
           </aside>
 
-          {/* Contenu mis en avant */}
+          {/* ==========================
+              CONTENU MIS EN AVANT
+              ========================== */}
+
           {featuredContent && (
-            <article
+            <a
               className="content-featured"
               ref={featuredRef}
+              href={featuredContent.url}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <div className="content-featured-image">
                 <img
-                  src={getContentImage(featuredContent.image)}
+                  src={getContentImage(
+                    featuredContent.image
+                  )}
                   alt={featuredContent.title}
                 />
               </div>
@@ -286,21 +323,31 @@ function Content() {
 
                 <p className="content-author">
                   Par{" "}
-                  <span>{featuredContent.author}</span>
+                  <span>
+                    {featuredContent.author}
+                  </span>
                 </p>
               </div>
-            </article>
+            </a>
           )}
         </div>
 
-        {/* Contenus non featured */}
+        {/* ==========================
+            CONTENUS NON FEATURED
+            ========================== */}
+
         <section className="content-grid">
           {contents
-            .filter((content) => content.featured !== true)
+            .filter(
+              (content) => content.featured !== true
+            )
             .map((content) => (
-              <article
+              <a
                 className="content-card"
                 key={content.id}
+                href={content.url}
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <div className="content-card-image">
                   <img
@@ -316,14 +363,16 @@ function Content() {
 
                   <p className="content-card-author">
                     Par{" "}
-                    <span>{content.author}</span>
+                    <span>
+                      {content.author}
+                    </span>
                   </p>
 
                   <p className="content-card-description">
                     {content.description}
                   </p>
                 </div>
-              </article>
+              </a>
             ))}
         </section>
       </main>

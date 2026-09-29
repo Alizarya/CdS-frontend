@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { getRss, addRss, deleteRss } from "../../utils/axiosRss";
+
+import {
+  getRss,
+  addRss,
+  updateRss,
+  deleteRss,
+} from "../../utils/axiosRss";
+
 import "./AdminRss.css";
 
 function AdminRss() {
@@ -16,6 +23,16 @@ function AdminRss() {
 
   const [submitting, setSubmitting] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
+  const [updatingId, setUpdatingId] = useState(null);
+
+  const [editingId, setEditingId] = useState(null);
+  const [editForm, setEditForm] = useState({
+    name: "",
+    url: "",
+  });
+
+  const [search, setSearch] = useState("");
+  const [typeFilter, setTypeFilter] = useState("Tous");
 
   async function loadRss() {
     try {
@@ -77,6 +94,83 @@ function AdminRss() {
     }
   }
 
+  function handleEditStart(feed) {
+    setError("");
+
+    setEditingId(feed.id);
+
+    setEditForm({
+      name: feed.name || "",
+      url: feed.url || "",
+    });
+  }
+
+  function handleEditCancel() {
+    setEditingId(null);
+
+    setEditForm({
+      name: "",
+      url: "",
+    });
+  }
+
+  async function handleEditSave(feed) {
+    const name = editForm.name.trim();
+    const url = editForm.url.trim();
+
+    if (!name || !url) {
+      setError("Le nom et l'URL sont obligatoires.");
+      return;
+    }
+
+    try {
+      setUpdatingId(feed.id);
+      setError("");
+
+      await updateRss(feed.id, {
+        name,
+        url,
+      });
+
+      handleEditCancel();
+
+      await loadRss();
+    } catch (err) {
+      console.error(err);
+
+      const message =
+        err?.response?.data?.message ||
+        "Impossible de modifier ce flux RSS.";
+
+      setError(message);
+    } finally {
+      setUpdatingId(null);
+    }
+  }
+
+  async function handleToggleOnline(feed) {
+    try {
+      setUpdatingId(feed.id);
+      setError("");
+
+      await updateRss(feed.id, {
+        online: feed.online === false,
+      });
+
+      await loadRss();
+    } catch (err) {
+      console.error(err);
+
+      const message =
+        err?.response?.data?.message ||
+        "Impossible de modifier l'état de ce flux RSS.";
+
+      setError(message);
+    } finally {
+      setUpdatingId(null);
+    }
+  }
+
   async function handleDelete(feed) {
     const confirmed = window.confirm(
       `Supprimer le flux « ${feed.name} » ?`
@@ -91,6 +185,10 @@ function AdminRss() {
       setError("");
 
       await deleteRss(feed.id);
+
+      if (editingId === feed.id) {
+        handleEditCancel();
+      }
 
       await loadRss();
     } catch (err) {
@@ -124,6 +222,106 @@ function AdminRss() {
     }).format(parsedDate);
   }
 
+  function getFeedType(feed) {
+    const name = (feed.name || "").toLowerCase();
+    const url = (feed.url || "").toLowerCase();
+
+    if (
+      url.includes("youtube.com") ||
+      url.includes("youtu.be")
+    ) {
+      return "Youtube";
+    }
+
+    if (url.includes("bsky.app")) {
+      return "Bluesky";
+    }
+
+    if (
+      url.includes("instagram.com") ||
+      name.includes("instagram")
+    ) {
+      return "Instagram";
+    }
+
+    if (
+      url.includes("tiktok.com") ||
+      name.includes("tiktok")
+    ) {
+      return "Tiktok";
+    }
+
+    if (
+      url.includes("podcast") ||
+      name.includes("podcast")
+    ) {
+      return "Podcast";
+    }
+
+    if (
+      url.includes("blog") ||
+      name.includes("blog")
+    ) {
+      return "Blog";
+    }
+
+    if (
+      url.includes("rss") ||
+      url.includes("feed") ||
+      url.includes(".xml")
+    ) {
+      return "Autre";
+    }
+
+    return "Site";
+  }
+
+  /*
+   * Sources visibles sur le site.
+   *
+   * Les sources masquées restent présentes dans
+   * "Sources présentes", mais leurs publications
+   * ne doivent pas apparaître dans "Flux actuel".
+   */
+  const onlineFeeds = feeds.filter(
+    (feed) => feed.online !== false
+  );
+
+  /*
+   * On conserve uniquement les publications provenant
+   * d'une source actuellement en ligne.
+   */
+  const currentItems = items.filter((item) =>
+    onlineFeeds.some(
+      (feed) => feed.name === item.source
+    )
+  );
+
+  /*
+   * Recherche et filtre des sources dans le panneau
+   * d'administration.
+   *
+   * La recherche porte à la fois sur le nom et l'URL.
+   */
+  const filteredFeeds = feeds.filter((feed) => {
+    const searchValue = search.trim().toLowerCase();
+
+    const matchesSearch =
+      !searchValue ||
+      (feed.name || "")
+        .toLowerCase()
+        .includes(searchValue) ||
+      (feed.url || "")
+        .toLowerCase()
+        .includes(searchValue);
+
+    const matchesType =
+      typeFilter === "Tous" ||
+      getFeedType(feed) === typeFilter;
+
+    return matchesSearch && matchesType;
+  });
+
   return (
     <section className="admin-rss">
       <div className="admin-rss-header">
@@ -148,9 +346,10 @@ function AdminRss() {
         <div className="admin-rss-section-header">
           <div>
             <h2>Flux actuel</h2>
+
             <span>
-              {items.length} publication
-              {items.length > 1 ? "s" : ""}
+              {currentItems.length} publication
+              {currentItems.length > 1 ? "s" : ""}
             </span>
           </div>
 
@@ -160,7 +359,9 @@ function AdminRss() {
             onClick={loadRss}
             disabled={loading}
           >
-            {loading ? "Actualisation..." : "Actualiser"}
+            {loading
+              ? "Actualisation..."
+              : "Actualiser"}
           </button>
         </div>
 
@@ -168,44 +369,48 @@ function AdminRss() {
           <p className="admin-rss-empty">
             Chargement du flux...
           </p>
-        ) : items.length === 0 ? (
+        ) : currentItems.length === 0 ? (
           <p className="admin-rss-empty">
             Aucun contenu RSS disponible.
           </p>
         ) : (
           <div className="admin-rss-current-list">
-            {items.slice(0, 8).map((item, index) => (
-              <article
-                className="admin-rss-current-item"
-                key={`${item.link || item.title}-${index}`}
-              >
-                <div className="admin-rss-current-source">
-                  {item.source || "Source inconnue"}
+            {currentItems
+              .slice(0, 8)
+              .map((item, index) => (
+                <article
+                  className="admin-rss-current-item"
+                  key={`${item.link || item.title}-${index}`}
+                >
+                  <div className="admin-rss-current-source">
+                    {item.source || "Source inconnue"}
 
-                  {item.date && (
-                    <span>{formatDate(item.date)}</span>
+                    {item.date && (
+                      <span>
+                        {formatDate(item.date)}
+                      </span>
+                    )}
+                  </div>
+
+                  {item.title && (
+                    <h3>{item.title}</h3>
                   )}
-                </div>
 
-                {item.title && (
-                  <h3>{item.title}</h3>
-                )}
+                  {item.content && (
+                    <p>{item.content}</p>
+                  )}
 
-                {item.content && (
-                  <p>{item.content}</p>
-                )}
-
-                {item.link && (
-                  <a
-                    href={item.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Voir la publication
-                  </a>
-                )}
-              </article>
-            ))}
+                  {item.link && (
+                    <a
+                      href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Voir la publication
+                    </a>
+                  )}
+                </article>
+              ))}
           </div>
         )}
       </section>
@@ -226,67 +431,247 @@ function AdminRss() {
               <h2>Sources présentes</h2>
 
               <span>
-                {feeds.length} source
-                {feeds.length > 1 ? "s" : ""}
+                {filteredFeeds.length} source
+                {filteredFeeds.length > 1 ? "s" : ""}
+                {filteredFeeds.length !== feeds.length &&
+                  ` sur ${feeds.length}`}
               </span>
             </div>
+          </div>
+
+          <div className="admin-rss-filters">
+            <input
+              type="search"
+              className="admin-rss-search"
+              value={search}
+              onChange={(event) =>
+                setSearch(event.target.value)
+              }
+              placeholder="Rechercher une source..."
+            />
+
+            <select
+              className="admin-rss-type-filter"
+              value={typeFilter}
+              onChange={(event) =>
+                setTypeFilter(event.target.value)
+              }
+            >
+              <option value="Tous">Tous</option>
+              <option value="Podcast">Podcast</option>
+              <option value="Youtube">Youtube</option>
+              <option value="Bluesky">Bluesky</option>
+              <option value="Blog">Blog</option>
+              <option value="Site">Site</option>
+              <option value="Instagram">Instagram</option>
+              <option value="Tiktok">Tiktok</option>
+              <option value="Autre">Autre</option>
+            </select>
           </div>
 
           {feeds.length === 0 ? (
             <p className="admin-rss-empty">
               Aucune source RSS configurée.
             </p>
+          ) : filteredFeeds.length === 0 ? (
+            <p className="admin-rss-empty">
+              Aucune source ne correspond à votre recherche.
+            </p>
           ) : (
             <div className="admin-rss-sources-list">
-              {feeds.map((feed) => (
-<div className="admin-rss-source">
-  <div className="admin-rss-source-content">
-    <strong>{feed.name}</strong>
+              {filteredFeeds.map((feed) => {
+                const isEditing =
+                  editingId === feed.id;
 
-    <a
-      href={feed.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="admin-rss-source-url"
-    >
-      {feed.url}
-    </a>
+                const isUpdating =
+                  updatingId === feed.id;
 
-    <div
-      className={`admin-rss-status ${
-        feed.status === "ok"
-          ? "admin-rss-status-ok"
-          : "admin-rss-status-error"
-      }`}
-    >
-      <span className="admin-rss-status-dot">
-        ●
-      </span>
+                const isDeleting =
+                  deletingId === feed.id;
 
-      {feed.status === "ok"
-        ? "Flux OK"
-        : "Flux inaccessible ou URL invalide"}
-    </div>
+                return (
+                  <div
+                    className={`admin-rss-source ${
+                      feed.online === false
+                        ? "admin-rss-source-offline"
+                        : ""
+                    }`}
+                    key={feed.id}
+                  >
+                    {isEditing ? (
+                      <div className="admin-rss-source-edit">
+                        <label>
+                          Nom de la source
 
-    {feed.status === "error" && feed.error && (
-      <div className="admin-rss-error-details">
-        {feed.error}
-      </div>
-    )}
-  </div>
+                          <input
+                            type="text"
+                            value={editForm.name}
+                            onChange={(event) =>
+                              setEditForm({
+                                ...editForm,
+                                name: event.target.value,
+                              })
+                            }
+                            disabled={isUpdating}
+                          />
+                        </label>
 
-  <button
-    type="button"
-    className="admin-rss-delete"
-    onClick={() => handleDelete(feed)}
-    disabled={deletingId === feed.id}
-  >
-    {deletingId === feed.id
-      ? "Suppression..."
-      : "Supprimer"}
-  </button>
-</div>
-              ))}
+                        <label>
+                          URL du flux RSS
+
+                          <input
+                            type="url"
+                            value={editForm.url}
+                            onChange={(event) =>
+                              setEditForm({
+                                ...editForm,
+                                url: event.target.value,
+                              })
+                            }
+                            disabled={isUpdating}
+                          />
+                        </label>
+
+                        <div className="admin-rss-source-actions">
+                          <button
+                            type="button"
+                            className="admin-rss-save"
+                            onClick={() =>
+                              handleEditSave(feed)
+                            }
+                            disabled={isUpdating}
+                          >
+                            {isUpdating
+                              ? "Enregistrement..."
+                              : "Enregistrer"}
+                          </button>
+
+                          <button
+                            type="button"
+                            className="admin-rss-cancel"
+                            onClick={handleEditCancel}
+                            disabled={isUpdating}
+                          >
+                            Annuler
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="admin-rss-source-content">
+                          <div className="admin-rss-source-title">
+                            <strong>
+                              {feed.name}
+                            </strong>
+
+                            <span
+                              className={`admin-rss-visibility ${
+                                feed.online === false
+                                  ? "admin-rss-visibility-hidden"
+                                  : "admin-rss-visibility-online"
+                              }`}
+                            >
+                              <span className="admin-rss-visibility-dot">
+                                ●
+                              </span>
+
+                              {feed.online === false
+                                ? "MASQUÉ"
+                                : "EN LIGNE"}
+                            </span>
+                          </div>
+
+                          <a
+                            href={feed.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="admin-rss-source-url"
+                          >
+                            {feed.url}
+                          </a>
+
+                          <div
+                            className={`admin-rss-status ${
+                              feed.status === "ok"
+                                ? "admin-rss-status-ok"
+                                : "admin-rss-status-error"
+                            }`}
+                          >
+                            <span className="admin-rss-status-dot">
+                              ●
+                            </span>
+
+                            {feed.status === "ok"
+                              ? "Flux OK"
+                              : "Flux inaccessible ou URL invalide"}
+                          </div>
+
+                          {feed.status === "error" &&
+                            feed.error && (
+                              <div className="admin-rss-error-details">
+                                {feed.error}
+                              </div>
+                            )}
+                        </div>
+
+                        <div className="admin-rss-source-actions">
+                          <button
+                            type="button"
+                            className="admin-rss-edit"
+                            onClick={() =>
+                              handleEditStart(feed)
+                            }
+                            disabled={
+                              isUpdating ||
+                              isDeleting
+                            }
+                          >
+                            Modifier
+                          </button>
+
+                          <button
+                            type="button"
+                            className={
+                              feed.online === false
+                                ? "admin-rss-online"
+                                : "admin-rss-offline"
+                            }
+                            onClick={() =>
+                              handleToggleOnline(feed)
+                            }
+                            disabled={
+                              isUpdating ||
+                              isDeleting
+                            }
+                          >
+                            {isUpdating
+                              ? "Modification..."
+                              : feed.online === false
+                              ? "Mettre en ligne"
+                              : "Masquer"}
+                          </button>
+
+                          <button
+                            type="button"
+                            className="admin-rss-delete"
+                            onClick={() =>
+                              handleDelete(feed)
+                            }
+                            disabled={
+                              isDeleting ||
+                              isUpdating
+                            }
+                          >
+                            {isDeleting
+                              ? "Suppression..."
+                              : "Supprimer"}
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           )}
         </section>

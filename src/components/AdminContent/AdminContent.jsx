@@ -8,8 +8,12 @@ import {
 } from "../../utils/axiosContent";
 
 import baseURL from "../../utils/urlApi";
+import { createLandscapeImage } from "./ImageContent";
 
 import "./AdminContent.css";
+
+const MAX_DESCRIPTION_LENGTH = 250;
+const MAX_DISPLAYED_CONTENTS = 13;
 
 function AdminContent() {
   const [contents, setContents] = useState([]);
@@ -27,6 +31,7 @@ function AdminContent() {
   });
 
   const [submitting, setSubmitting] = useState(false);
+  const [preparingImage, setPreparingImage] = useState(false);
 
   const [draggedId, setDraggedId] = useState(null);
   const [dragOverId, setDragOverId] = useState(null);
@@ -37,6 +42,7 @@ function AdminContent() {
   // =========================
 
   const [editingContent, setEditingContent] = useState(null);
+
   const [editForm, setEditForm] = useState({
     title: "",
     description: "",
@@ -48,6 +54,7 @@ function AdminContent() {
   });
 
   const [updating, setUpdating] = useState(false);
+  const [preparingEditImage, setPreparingEditImage] = useState(false);
 
   // =========================
   // Récupérer les contenus
@@ -112,7 +119,12 @@ function AdminContent() {
 
     setForm((previousForm) => ({
       ...previousForm,
-      [name]: type === "checkbox" ? checked : value,
+      [name]:
+        type === "checkbox"
+          ? checked
+          : name === "description"
+          ? value.slice(0, MAX_DESCRIPTION_LENGTH)
+          : value,
     }));
   }
 
@@ -120,23 +132,96 @@ function AdminContent() {
   // Gestion de l'image
   // =========================
 
-  function handleImageChange(event) {
+  async function prepareImage(file) {
+    if (!file) {
+      return null;
+    }
+
+    const imageUrl = URL.createObjectURL(file);
+
+    try {
+      const image = await new Promise((resolve, reject) => {
+        const img = new Image();
+
+        img.onload = () => {
+          resolve(img);
+        };
+
+        img.onerror = () => {
+          reject(
+            new Error(
+              "Impossible de charger l'image."
+            )
+          );
+        };
+
+        img.src = imageUrl;
+      });
+
+      /*
+       * Si l'image est déjà en paysage,
+       * on conserve le fichier original.
+       */
+      if (image.width > image.height) {
+        return file;
+      }
+
+      /*
+       * Image carrée ou portrait :
+       * création d'une image 16:9 avec
+       * arrière-plan flou.
+       */
+      return await createLandscapeImage(file);
+    } finally {
+      URL.revokeObjectURL(imageUrl);
+    }
+  }
+
+  async function handleImageChange(event) {
     const file = event.target.files?.[0];
 
     if (!file) {
       return;
     }
 
-    const reader = new FileReader();
+    try {
+      setPreparingImage(true);
+      setError("");
 
-    reader.onload = () => {
-      setForm((previousForm) => ({
-        ...previousForm,
-        image: reader.result,
-      }));
-    };
+      const preparedFile = await prepareImage(file);
 
-    reader.readAsDataURL(file);
+      if (!preparedFile) {
+        return;
+      }
+
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        setForm((previousForm) => ({
+          ...previousForm,
+          image: reader.result,
+        }));
+      };
+
+      reader.onerror = () => {
+        setError(
+          "Impossible de lire l'image préparée."
+        );
+      };
+
+      reader.readAsDataURL(preparedFile);
+    } catch (error) {
+      console.error(
+        "Erreur lors de la préparation de l'image :",
+        error
+      );
+
+      setError(
+        "Impossible de préparer l'image."
+      );
+    } finally {
+      setPreparingImage(false);
+    }
   }
 
   // =========================
@@ -152,7 +237,10 @@ function AdminContent() {
 
       const newContent = {
         title: form.title,
-        description: form.description,
+        description: form.description.slice(
+          0,
+          MAX_DESCRIPTION_LENGTH
+        ),
         image: form.image,
         author: form.author,
         url: form.url,
@@ -160,7 +248,8 @@ function AdminContent() {
         featured: form.featured,
       };
 
-      const createdContent = await createContent(newContent);
+      const createdContent =
+        await createContent(newContent);
 
       setContents((previousContents) =>
         [...previousContents, createdContent].sort(
@@ -227,7 +316,10 @@ function AdminContent() {
 
     setEditForm({
       title: content.title || "",
-      description: content.description || "",
+      description: (content.description || "").slice(
+        0,
+        MAX_DESCRIPTION_LENGTH
+      ),
       image: "",
       author: content.author || "",
       url: content.url || "",
@@ -241,7 +333,7 @@ function AdminContent() {
   // =========================
 
   function handleCloseEdit() {
-    if (updating) {
+    if (updating || preparingEditImage) {
       return;
     }
 
@@ -267,7 +359,12 @@ function AdminContent() {
 
     setEditForm((previousForm) => ({
       ...previousForm,
-      [name]: type === "checkbox" ? checked : value,
+      [name]:
+        type === "checkbox"
+          ? checked
+          : name === "description"
+          ? value.slice(0, MAX_DESCRIPTION_LENGTH)
+          : value,
     }));
   }
 
@@ -275,23 +372,51 @@ function AdminContent() {
   // Image modification
   // =========================
 
-  function handleEditImageChange(event) {
+  async function handleEditImageChange(event) {
     const file = event.target.files?.[0];
 
     if (!file) {
       return;
     }
 
-    const reader = new FileReader();
+    try {
+      setPreparingEditImage(true);
+      setError("");
 
-    reader.onload = () => {
-      setEditForm((previousForm) => ({
-        ...previousForm,
-        image: reader.result,
-      }));
-    };
+      const preparedFile = await prepareImage(file);
 
-    reader.readAsDataURL(file);
+      if (!preparedFile) {
+        return;
+      }
+
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        setEditForm((previousForm) => ({
+          ...previousForm,
+          image: reader.result,
+        }));
+      };
+
+      reader.onerror = () => {
+        setError(
+          "Impossible de lire l'image préparée."
+        );
+      };
+
+      reader.readAsDataURL(preparedFile);
+    } catch (error) {
+      console.error(
+        "Erreur lors de la préparation de l'image :",
+        error
+      );
+
+      setError(
+        "Impossible de préparer l'image."
+      );
+    } finally {
+      setPreparingEditImage(false);
+    }
   }
 
   // =========================
@@ -311,14 +436,18 @@ function AdminContent() {
 
       const contentData = {
         title: editForm.title,
-        description: editForm.description,
+        description: editForm.description.slice(
+          0,
+          MAX_DESCRIPTION_LENGTH
+        ),
         author: editForm.author,
         url: editForm.url,
         date: editForm.date,
         featured: editForm.featured,
       };
 
-      // On envoie l'image uniquement si elle a été remplacée.
+      // On envoie l'image uniquement
+      // si elle a été remplacée.
       if (editForm.image) {
         contentData.image = editForm.image;
       }
@@ -366,6 +495,7 @@ function AdminContent() {
     setDraggedId(id);
 
     event.dataTransfer.effectAllowed = "move";
+
     event.dataTransfer.setData(
       "text/plain",
       String(id)
@@ -375,7 +505,10 @@ function AdminContent() {
   function handleDragOver(event, id) {
     event.preventDefault();
 
-    if (draggedId === null || draggedId === id) {
+    if (
+      draggedId === null ||
+      draggedId === id
+    ) {
       return;
     }
 
@@ -418,10 +551,11 @@ function AdminContent() {
 
     const newContents = [...oldContents];
 
-    const [draggedContent] = newContents.splice(
-      draggedIndex,
-      1
-    );
+    const [draggedContent] =
+      newContents.splice(
+        draggedIndex,
+        1
+      );
 
     newContents.splice(
       targetIndex,
@@ -429,12 +563,13 @@ function AdminContent() {
       draggedContent
     );
 
-    const reorderedContents = newContents.map(
-      (content, index) => ({
-        ...content,
-        order: index + 1,
-      })
-    );
+    const reorderedContents =
+      newContents.map(
+        (content, index) => ({
+          ...content,
+          order: index + 1,
+        })
+      );
 
     setContents(reorderedContents);
 
@@ -446,7 +581,8 @@ function AdminContent() {
     try {
       const newOrder =
         reorderedContents.findIndex(
-          (content) => content.id === draggedId
+          (content) =>
+            content.id === draggedId
         ) + 1;
 
       await updateContent(draggedId, {
@@ -513,6 +649,12 @@ function AdminContent() {
   // Affichage
   // =========================
 
+  const displayedContents =
+    contents.slice(
+      0,
+      MAX_DISPLAYED_CONTENTS
+    );
+
   return (
     <section className="admin-content">
       <h1>Gestion des contenus</h1>
@@ -541,128 +683,143 @@ function AdminContent() {
             <p>Aucun contenu actuellement.</p>
           ) : (
             <div className="admin-content-list">
-              {contents.map((content, index) => (
-                <article
-                  key={content.id}
-                  className={[
-                    "admin-content-card",
-                    draggedId === content.id
-                      ? "admin-content-card-dragging"
-                      : "",
-                    dragOverId === content.id
-                      ? "admin-content-card-drag-over"
-                      : "",
-                  ]
-                    .filter(Boolean)
-                    .join(" ")}
-                  draggable={!reordering}
-                  onDragStart={(event) =>
-                    handleDragStart(
-                      event,
-                      content.id
-                    )
-                  }
-                  onDragOver={(event) =>
-                    handleDragOver(
-                      event,
-                      content.id
-                    )
-                  }
-                  onDrop={(event) =>
-                    handleDrop(
-                      event,
-                      content.id
-                    )
-                  }
-                  onDragEnd={handleDragEnd}
-                >
-                  <div className="admin-content-drag-handle">
-                    ☰
-                  </div>
-
-                  <div className="admin-content-order">
-                    {index + 1}
-                  </div>
-
-                  {content.image && (
-                    <img
-                      src={getContentImage(
-                        content.image
-                      )}
-                      alt={content.title}
-                      className="admin-content-card-image"
-                    />
-                  )}
-
-                  <div className="admin-content-card-body">
-                    <div className="admin-content-card-header">
-                      <h3>{content.title}</h3>
-
-                      {content.featured && (
-                        <span className="admin-content-featured">
-                          Mis en avant
-                        </span>
-                      )}
+              {displayedContents.map(
+                (content, index) => (
+                  <article
+                    key={content.id}
+                    className={[
+                      "admin-content-card",
+                      draggedId === content.id
+                        ? "admin-content-card-dragging"
+                        : "",
+                      dragOverId === content.id
+                        ? "admin-content-card-drag-over"
+                        : "",
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
+                    draggable={!reordering}
+                    onDragStart={(event) =>
+                      handleDragStart(
+                        event,
+                        content.id
+                      )
+                    }
+                    onDragOver={(event) =>
+                      handleDragOver(
+                        event,
+                        content.id
+                      )
+                    }
+                    onDrop={(event) =>
+                      handleDrop(
+                        event,
+                        content.id
+                      )
+                    }
+                    onDragEnd={handleDragEnd}
+                  >
+                    <div className="admin-content-drag-handle">
+                      ☰
                     </div>
 
-                    {content.author && (
-                      <p className="admin-content-author">
-                        {content.author}
-                      </p>
-                    )}
-
-                    {content.description && (
-                      <p className="admin-content-description">
-                        {content.description}
-                      </p>
-                    )}
-
-                    {content.date && (
-                      <p className="admin-content-date">
-                        {formatDate(content.date)}
-                      </p>
-                    )}
-
-                    {content.url && (
-                      <a
-                        href={content.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="admin-content-link"
-                      >
-                        Voir le contenu
-                      </a>
-                    )}
-
-                    <div className="admin-content-actions">
-                      <button
-                        type="button"
-                        className="admin-content-edit"
-                        onClick={() =>
-                          handleEdit(content)
-                        }
-                        disabled={reordering}
-                      >
-                        Modifier
-                      </button>
-
-                      <button
-                        type="button"
-                        className="admin-content-delete"
-                        onClick={() =>
-                          handleDelete(
-                            content.id
-                          )
-                        }
-                        disabled={reordering}
-                      >
-                        Supprimer
-                      </button>
+                    <div className="admin-content-order">
+                      {index + 1}
                     </div>
-                  </div>
-                </article>
-              ))}
+
+                    {content.image && (
+                      <img
+                        src={getContentImage(
+                          content.image
+                        )}
+                        alt={content.title}
+                        className="admin-content-card-image"
+                      />
+                    )}
+
+                    <div className="admin-content-card-body">
+                      <div className="admin-content-card-header">
+                        <h3>
+                          {content.title}
+                        </h3>
+
+                        {content.featured && (
+                          <span className="admin-content-featured">
+                            Mis en avant
+                          </span>
+                        )}
+                      </div>
+
+                      {content.author && (
+                        <p className="admin-content-author">
+                          {content.author}
+                        </p>
+                      )}
+
+                      {content.description && (
+                        <p className="admin-content-description">
+                          {content.description}
+                        </p>
+                      )}
+
+                      {content.date && (
+                        <p className="admin-content-date">
+                          {formatDate(
+                            content.date
+                          )}
+                        </p>
+                      )}
+
+                      {content.url && (
+                        <a
+                          href={content.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="admin-content-link"
+                        >
+                          Voir le contenu
+                        </a>
+                      )}
+
+                      <div className="admin-content-actions">
+                        <button
+                          type="button"
+                          className="admin-content-edit"
+                          onClick={() =>
+                            handleEdit(content)
+                          }
+                          disabled={reordering}
+                        >
+                          Modifier
+                        </button>
+
+                        <button
+                          type="button"
+                          className="admin-content-delete"
+                          onClick={() =>
+                            handleDelete(
+                              content.id
+                            )
+                          }
+                          disabled={reordering}
+                        >
+                          Supprimer
+                        </button>
+                      </div>
+                    </div>
+                  </article>
+                )
+              )}
             </div>
+          )}
+
+          {contents.length >
+            MAX_DISPLAYED_CONTENTS && (
+            <p className="admin-content-list-limit">
+              Affichage des{" "}
+              {MAX_DISPLAYED_CONTENTS} premiers
+              contenus sur {contents.length}.
+            </p>
           )}
         </div>
 
@@ -701,13 +858,21 @@ function AdminContent() {
                 name="description"
                 value={form.description}
                 onChange={handleChange}
+                maxLength={
+                  MAX_DESCRIPTION_LENGTH
+                }
                 rows="5"
               />
+
+              <span className="admin-content-character-count">
+                {form.description.length} /{" "}
+                {MAX_DESCRIPTION_LENGTH}
+              </span>
             </div>
 
             <div className="admin-content-field">
               <label htmlFor="author">
-                Auteur
+                Auteur / Autrice
               </label>
 
               <input
@@ -759,7 +924,14 @@ function AdminContent() {
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
+                disabled={preparingImage}
               />
+
+              {preparingImage && (
+                <p>
+                  Préparation de l'image...
+                </p>
+              )}
             </div>
 
             {form.image && (
@@ -787,7 +959,10 @@ function AdminContent() {
             <button
               type="submit"
               className="admin-content-submit"
-              disabled={submitting}
+              disabled={
+                submitting ||
+                preparingImage
+              }
             >
               {submitting
                 ? "Ajout en cours..."
@@ -806,7 +981,8 @@ function AdminContent() {
           className="admin-content-modal-overlay"
           onMouseDown={(event) => {
             if (
-              event.target === event.currentTarget
+              event.target ===
+              event.currentTarget
             ) {
               handleCloseEdit();
             }
@@ -814,13 +990,18 @@ function AdminContent() {
         >
           <div className="admin-content-modal">
             <div className="admin-content-modal-header">
-              <h2>Modifier le contenu</h2>
+              <h2>
+                Modifier le contenu
+              </h2>
 
               <button
                 type="button"
                 className="admin-content-modal-close"
                 onClick={handleCloseEdit}
-                disabled={updating}
+                disabled={
+                  updating ||
+                  preparingEditImage
+                }
                 aria-label="Fermer"
               >
                 ×
@@ -853,10 +1034,23 @@ function AdminContent() {
                 <textarea
                   id="edit-description"
                   name="description"
-                  value={editForm.description}
-                  onChange={handleEditChange}
+                  value={
+                    editForm.description
+                  }
+                  onChange={
+                    handleEditChange
+                  }
+                  maxLength={
+                    MAX_DESCRIPTION_LENGTH
+                  }
                   rows="5"
                 />
+
+                <span className="admin-content-character-count">
+                  {editForm.description.length}{" "}
+                  /{" "}
+                  {MAX_DESCRIPTION_LENGTH}
+                </span>
               </div>
 
               <div className="admin-content-field">
@@ -928,7 +1122,16 @@ function AdminContent() {
                   onChange={
                     handleEditImageChange
                   }
+                  disabled={
+                    preparingEditImage
+                  }
                 />
+
+                {preparingEditImage && (
+                  <p>
+                    Préparation de l'image...
+                  </p>
+                )}
               </div>
 
               {editForm.image && (
@@ -944,8 +1147,12 @@ function AdminContent() {
                 <input
                   type="checkbox"
                   name="featured"
-                  checked={editForm.featured}
-                  onChange={handleEditChange}
+                  checked={
+                    editForm.featured
+                  }
+                  onChange={
+                    handleEditChange
+                  }
                 />
 
                 <span>
@@ -957,8 +1164,13 @@ function AdminContent() {
                 <button
                   type="button"
                   className="admin-content-cancel"
-                  onClick={handleCloseEdit}
-                  disabled={updating}
+                  onClick={
+                    handleCloseEdit
+                  }
+                  disabled={
+                    updating ||
+                    preparingEditImage
+                  }
                 >
                   Annuler
                 </button>
@@ -966,7 +1178,10 @@ function AdminContent() {
                 <button
                   type="submit"
                   className="admin-content-submit"
-                  disabled={updating}
+                  disabled={
+                    updating ||
+                    preparingEditImage
+                  }
                 >
                   {updating
                     ? "Enregistrement..."

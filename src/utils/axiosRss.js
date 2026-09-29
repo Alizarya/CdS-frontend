@@ -29,6 +29,19 @@ export async function addRss(rssData) {
   }
 }
 
+export async function updateRss(rssId, rssData) {
+  try {
+    const response = await api.put(`${URL}/${rssId}`, rssData);
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Erreur lors de la modification du flux RSS :",
+      error.message || error,
+    );
+    throw error;
+  }
+}
+
 export async function deleteRss(rssId) {
   try {
     const response = await api.delete(`${URL}/${rssId}`);
