@@ -7,7 +7,6 @@
   max-width: 90em;
   margin: auto;
   margin-top: 2em;
-
   display: flex;
   flex-direction: column;
 }
@@ -27,9 +26,7 @@
 .content-featured-layout {
   width: 90%;
   max-width: 90em;
-
   margin: 3em auto 4em;
-
 
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -38,10 +35,10 @@
 }
 
 
-
 /* =========================================================
    FLUX RSS
    ========================================================= */
+
 .content-rss {
   width: 100%;
   min-width: 0;
@@ -52,12 +49,15 @@
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+
   padding: 1.2em;
+
   background-color: var(--light-primary);
   border-radius: 8px;
 
   display: flex;
   flex-direction: column;
+
   overflow: hidden;
 }
 
@@ -120,6 +120,7 @@
   line-height: 1.3;
 
   display: -webkit-box;
+
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 
@@ -133,20 +134,29 @@
 .rss-error,
 .rss-empty {
   margin: 0;
-
   font-size: 0.8em;
 }
+
+
 /* =========================================================
    FEATURED
    ========================================================= */
 
 .content-featured {
   width: 100%;
+}
+
+.content-featured-link {
+  width: 100%;
 
   display: grid;
   grid-template-columns: 52% 48%;
 
   align-items: center;
+
+  color: inherit;
+  text-decoration: none;
+  font: inherit;
 }
 
 
@@ -179,36 +189,54 @@
 
 .content-featured-info {
   padding-left: 2em;
-
   box-sizing: border-box;
 }
 
 .content-featured-info h2 {
-  margin: 0 0 1em;
+  margin: 0 0 0.4em;
 
   color: var(--dark-primary);
 
   font-size: 1.8em;
   line-height: 1.2;
-
   font-weight: 800;
 }
 
 .content-featured-description {
-  margin: 0 0 2em;
+  margin: 0;
 
   font-size: 1em;
   line-height: 1.5;
 }
 
 .content-author {
-  margin: 0;
+  margin: 0 0 1.5em;
 
   font-weight: 700;
 }
 
 .content-author span {
   color: var(--dark-primary);
+}
+
+
+/* =========================================================
+   LIEN AUTEUR
+   ========================================================= */
+
+.content-author-link,
+.content-card-author a {
+  color: var(--dark-primary);
+
+  text-decoration: none;
+  font: inherit;
+}
+
+.content-author-link:hover,
+.content-card-author a:hover {
+  color: var(--secondary);
+
+  text-decoration: none;
 }
 
 
@@ -224,7 +252,8 @@
 
   display: grid;
 
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
 
   column-gap: 4em;
   row-gap: 4em;
@@ -237,6 +266,10 @@
 
 .content-card {
   width: 100%;
+}
+
+.content-card-link {
+  width: 100%;
 
   display: grid;
 
@@ -245,6 +278,10 @@
   column-gap: 1.5em;
 
   align-items: start;
+
+  color: inherit;
+  text-decoration: none;
+  font: inherit;
 }
 
 
@@ -286,7 +323,6 @@
 
   font-size: 1em;
   line-height: 1.2;
-
   font-weight: 800;
 
   text-transform: uppercase;
@@ -296,7 +332,6 @@
   margin: 0 0 1.2em;
 
   font-size: 0.9em;
-
   font-weight: 700;
 }
 
@@ -313,6 +348,86 @@
 
 
 /* =========================================================
+   HOVER IMAGE CARTE
+   ========================================================= */
+
+.content-card-image {
+  position: relative;
+
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.content-card-image::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 6px;
+
+  background: var(--secondary);
+
+  border-radius: 0 0 12px 12px;
+
+  transform: scaleX(0);
+  transform-origin: center;
+
+  transition: transform 0.25s ease;
+
+  pointer-events: none;
+}
+
+.content-card:hover
+.content-card-image::after {
+  transform: scaleX(1);
+}
+
+
+/* =========================================================
+   HOVER IMAGE FEATURED
+   ========================================================= */
+
+.content-featured-image {
+  position: relative;
+
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.content-featured-image::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 8px;
+
+  background: var(--secondary);
+
+  border-radius: 0 0 12px 12px;
+
+  transform: scaleX(0);
+  transform-origin: center;
+
+  transition: transform 0.25s ease;
+
+  pointer-events: none;
+}
+
+.content-featured:hover
+.content-featured-image::after {
+  transform: scaleX(1);
+}
+
+
+/* =========================================================
    RESPONSIVE
    ========================================================= */
 
@@ -320,13 +435,11 @@
 
   .content-featured-layout {
     width: 90%;
-
     gap: 2.5em;
   }
 
   .content-grid {
     width: 90%;
-
     column-gap: 2.5em;
   }
 
@@ -344,7 +457,6 @@
 
   .content-featured-layout {
     grid-template-columns: 1fr;
-
     gap: 2em;
   }
 
@@ -379,9 +491,8 @@
     margin-bottom: 3em;
   }
 
-  .content-featured {
+  .content-featured-link {
     grid-template-columns: 1fr;
-
     gap: 1.5em;
   }
 
@@ -405,76 +516,12 @@
     row-gap: 3em;
   }
 
-  .content-card {
+  .content-card-link {
     grid-template-columns: 1fr;
-
     gap: 1em;
   }
 
   .content-card-image {
     height: 200px;
   }
-}
-.content-featured,
-.content-card {
-  color: inherit;
-  text-decoration: none;
-  font: inherit;
-}
-
-.content-featured h2,
-.content-featured p,
-.content-card h2,
-.content-card p {
-  color: inherit;
-}
-
-.content-card-image {
-  position: relative;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.content-card-image::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 6px;
-  background: var(--secondary);
-  border-radius: 0 0 12px 12px;
-  transform: scaleX(0);
-  transform-origin: center;
-  transition: transform 0.25s ease;
-  pointer-events: none;
-}
-
-.content-card:hover .content-card-image::after {
-  transform: scaleX(1);
-}
-
-.content-featured-image {
-  position: relative;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.content-featured-image::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 8px;
-  background: var(--secondary);
-  border-radius: 0 0 12px 12px;
-  transform: scaleX(0);
-  transform-origin: center;
-  transition: transform 0.25s ease;
-  pointer-events: none;
-}
-
-.content-featured:hover .content-featured-image::after {
-  transform: scaleX(1);
 }

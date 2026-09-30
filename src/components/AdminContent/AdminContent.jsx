@@ -7,6 +7,8 @@ import {
   updateContent,
 } from "../../utils/axiosContent";
 
+import { getMembers } from "../../utils/axiosMembers";
+
 import baseURL from "../../utils/urlApi";
 import { createLandscapeImage } from "./ImageContent";
 
@@ -17,6 +19,8 @@ const MAX_DISPLAYED_CONTENTS = 13;
 
 function AdminContent() {
   const [contents, setContents] = useState([]);
+  const [members, setMembers] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -54,7 +58,8 @@ function AdminContent() {
   });
 
   const [updating, setUpdating] = useState(false);
-  const [preparingEditImage, setPreparingEditImage] = useState(false);
+  const [preparingEditImage, setPreparingEditImage] =
+    useState(false);
 
   // =========================
   // Récupérer les contenus
@@ -67,8 +72,11 @@ function AdminContent() {
 
       const data = await getContents();
 
-      const sortedContents = [...(data.contents || [])].sort(
-        (a, b) => (a.order || 0) - (b.order || 0)
+      const sortedContents = [
+        ...(data.contents || []),
+      ].sort(
+        (a, b) =>
+          (a.order || 0) - (b.order || 0)
       );
 
       setContents(sortedContents);
@@ -78,14 +86,55 @@ function AdminContent() {
         error
       );
 
-      setError("Impossible de récupérer les contenus.");
+      setError(
+        "Impossible de récupérer les contenus."
+      );
     } finally {
       setLoading(false);
     }
   }
 
+  // =========================
+  // Récupérer les membres
+  // =========================
+
+  async function loadMembers() {
+    try {
+      const data = await getMembers();
+
+      const visibleMembers = (
+        Array.isArray(data) ? data : []
+      )
+        .filter(
+          (member) => !member.softDelete
+        )
+        .filter(
+          (member) => member.pseudo
+        )
+        .sort((a, b) =>
+          a.pseudo.localeCompare(
+            b.pseudo,
+            "fr",
+            {
+              sensitivity: "base",
+            }
+          )
+        );
+
+      setMembers(visibleMembers);
+    } catch (error) {
+      console.error(
+        "Erreur lors du chargement des membres :",
+        error
+      );
+
+      setMembers([]);
+    }
+  }
+
   useEffect(() => {
     loadContents();
+    loadMembers();
   }, []);
 
   // =========================
@@ -115,7 +164,12 @@ function AdminContent() {
   // =========================
 
   function handleChange(event) {
-    const { name, value, type, checked } = event.target;
+    const {
+      name,
+      value,
+      type,
+      checked,
+    } = event.target;
 
     setForm((previousForm) => ({
       ...previousForm,
@@ -123,7 +177,10 @@ function AdminContent() {
         type === "checkbox"
           ? checked
           : name === "description"
-          ? value.slice(0, MAX_DESCRIPTION_LENGTH)
+          ? value.slice(
+              0,
+              MAX_DESCRIPTION_LENGTH
+            )
           : value,
     }));
   }
@@ -137,26 +194,29 @@ function AdminContent() {
       return null;
     }
 
-    const imageUrl = URL.createObjectURL(file);
+    const imageUrl =
+      URL.createObjectURL(file);
 
     try {
-      const image = await new Promise((resolve, reject) => {
-        const img = new Image();
+      const image = await new Promise(
+        (resolve, reject) => {
+          const img = new Image();
 
-        img.onload = () => {
-          resolve(img);
-        };
+          img.onload = () => {
+            resolve(img);
+          };
 
-        img.onerror = () => {
-          reject(
-            new Error(
-              "Impossible de charger l'image."
-            )
-          );
-        };
+          img.onerror = () => {
+            reject(
+              new Error(
+                "Impossible de charger l'image."
+              )
+            );
+          };
 
-        img.src = imageUrl;
-      });
+          img.src = imageUrl;
+        }
+      );
 
       /*
        * Si l'image est déjà en paysage,
@@ -188,7 +248,8 @@ function AdminContent() {
       setPreparingImage(true);
       setError("");
 
-      const preparedFile = await prepareImage(file);
+      const preparedFile =
+        await prepareImage(file);
 
       if (!preparedFile) {
         return;
@@ -237,10 +298,11 @@ function AdminContent() {
 
       const newContent = {
         title: form.title,
-        description: form.description.slice(
-          0,
-          MAX_DESCRIPTION_LENGTH
-        ),
+        description:
+          form.description.slice(
+            0,
+            MAX_DESCRIPTION_LENGTH
+          ),
         image: form.image,
         author: form.author,
         url: form.url,
@@ -252,8 +314,13 @@ function AdminContent() {
         await createContent(newContent);
 
       setContents((previousContents) =>
-        [...previousContents, createdContent].sort(
-          (a, b) => (a.order || 0) - (b.order || 0)
+        [
+          ...previousContents,
+          createdContent,
+        ].sort(
+          (a, b) =>
+            (a.order || 0) -
+            (b.order || 0)
         )
       );
 
@@ -272,7 +339,9 @@ function AdminContent() {
         error
       );
 
-      setError("Impossible de créer le contenu.");
+      setError(
+        "Impossible de créer le contenu."
+      );
     } finally {
       setSubmitting(false);
     }
@@ -303,7 +372,9 @@ function AdminContent() {
         error
       );
 
-      setError("Impossible de supprimer le contenu.");
+      setError(
+        "Impossible de supprimer le contenu."
+      );
     }
   }
 
@@ -316,7 +387,9 @@ function AdminContent() {
 
     setEditForm({
       title: content.title || "",
-      description: (content.description || "").slice(
+      description: (
+        content.description || ""
+      ).slice(
         0,
         MAX_DESCRIPTION_LENGTH
       ),
@@ -333,7 +406,10 @@ function AdminContent() {
   // =========================
 
   function handleCloseEdit() {
-    if (updating || preparingEditImage) {
+    if (
+      updating ||
+      preparingEditImage
+    ) {
       return;
     }
 
@@ -355,7 +431,12 @@ function AdminContent() {
   // =========================
 
   function handleEditChange(event) {
-    const { name, value, type, checked } = event.target;
+    const {
+      name,
+      value,
+      type,
+      checked,
+    } = event.target;
 
     setEditForm((previousForm) => ({
       ...previousForm,
@@ -363,7 +444,10 @@ function AdminContent() {
         type === "checkbox"
           ? checked
           : name === "description"
-          ? value.slice(0, MAX_DESCRIPTION_LENGTH)
+          ? value.slice(
+              0,
+              MAX_DESCRIPTION_LENGTH
+            )
           : value,
     }));
   }
@@ -383,7 +467,8 @@ function AdminContent() {
       setPreparingEditImage(true);
       setError("");
 
-      const preparedFile = await prepareImage(file);
+      const preparedFile =
+        await prepareImage(file);
 
       if (!preparedFile) {
         return;
@@ -436,10 +521,11 @@ function AdminContent() {
 
       const contentData = {
         title: editForm.title,
-        description: editForm.description.slice(
-          0,
-          MAX_DESCRIPTION_LENGTH
-        ),
+        description:
+          editForm.description.slice(
+            0,
+            MAX_DESCRIPTION_LENGTH
+          ),
         author: editForm.author,
         url: editForm.url,
         date: editForm.date,
@@ -449,23 +535,28 @@ function AdminContent() {
       // On envoie l'image uniquement
       // si elle a été remplacée.
       if (editForm.image) {
-        contentData.image = editForm.image;
+        contentData.image =
+          editForm.image;
       }
 
-      const updatedContent = await updateContent(
-        editingContent.id,
-        contentData
-      );
+      const updatedContent =
+        await updateContent(
+          editingContent.id,
+          contentData
+        );
 
       setContents((previousContents) =>
         previousContents
           .map((content) =>
-            content.id === updatedContent.id
+            content.id ===
+            updatedContent.id
               ? updatedContent
               : content
           )
           .sort(
-            (a, b) => (a.order || 0) - (b.order || 0)
+            (a, b) =>
+              (a.order || 0) -
+              (b.order || 0)
           )
       );
 
@@ -476,7 +567,9 @@ function AdminContent() {
         error
       );
 
-      setError("Impossible de modifier le contenu.");
+      setError(
+        "Impossible de modifier le contenu."
+      );
     } finally {
       setUpdating(false);
     }
@@ -494,7 +587,8 @@ function AdminContent() {
 
     setDraggedId(id);
 
-    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.effectAllowed =
+      "move";
 
     event.dataTransfer.setData(
       "text/plain",
@@ -514,10 +608,14 @@ function AdminContent() {
 
     setDragOverId(id);
 
-    event.dataTransfer.dropEffect = "move";
+    event.dataTransfer.dropEffect =
+      "move";
   }
 
-  async function handleDrop(event, targetId) {
+  async function handleDrop(
+    event,
+    targetId
+  ) {
     event.preventDefault();
 
     if (
@@ -532,13 +630,17 @@ function AdminContent() {
 
     const oldContents = [...contents];
 
-    const draggedIndex = oldContents.findIndex(
-      (content) => content.id === draggedId
-    );
+    const draggedIndex =
+      oldContents.findIndex(
+        (content) =>
+          content.id === draggedId
+      );
 
-    const targetIndex = oldContents.findIndex(
-      (content) => content.id === targetId
-    );
+    const targetIndex =
+      oldContents.findIndex(
+        (content) =>
+          content.id === targetId
+      );
 
     if (
       draggedIndex === -1 ||
@@ -549,7 +651,9 @@ function AdminContent() {
       return;
     }
 
-    const newContents = [...oldContents];
+    const newContents = [
+      ...oldContents,
+    ];
 
     const [draggedContent] =
       newContents.splice(
@@ -585,9 +689,12 @@ function AdminContent() {
             content.id === draggedId
         ) + 1;
 
-      await updateContent(draggedId, {
-        order: newOrder,
-      });
+      await updateContent(
+        draggedId,
+        {
+          order: newOrder,
+        }
+      );
 
       await loadContents();
     } catch (error) {
@@ -640,7 +747,9 @@ function AdminContent() {
       <section className="admin-content">
         <h1>Gestion des contenus</h1>
 
-        <p>Chargement des contenus...</p>
+        <p>
+          Chargement des contenus...
+        </p>
       </section>
     );
   }
@@ -680,7 +789,9 @@ function AdminContent() {
           </p>
 
           {contents.length === 0 ? (
-            <p>Aucun contenu actuellement.</p>
+            <p>
+              Aucun contenu actuellement.
+            </p>
           ) : (
             <div className="admin-content-list">
               {displayedContents.map(
@@ -786,9 +897,13 @@ function AdminContent() {
                           type="button"
                           className="admin-content-edit"
                           onClick={() =>
-                            handleEdit(content)
+                            handleEdit(
+                              content
+                            )
                           }
-                          disabled={reordering}
+                          disabled={
+                            reordering
+                          }
                         >
                           Modifier
                         </button>
@@ -801,7 +916,9 @@ function AdminContent() {
                               content.id
                             )
                           }
-                          disabled={reordering}
+                          disabled={
+                            reordering
+                          }
                         >
                           Supprimer
                         </button>
@@ -879,9 +996,20 @@ function AdminContent() {
                 id="author"
                 name="author"
                 type="text"
+                list="content-authors"
                 value={form.author}
                 onChange={handleChange}
+                placeholder="Pseudo de l'auteur ou autrice"
               />
+
+              <datalist id="content-authors">
+                {members.map((member) => (
+                  <option
+                    key={member._id}
+                    value={member.pseudo}
+                  />
+                ))}
+              </datalist>
             </div>
 
             <div className="admin-content-field">
@@ -923,8 +1051,12 @@ function AdminContent() {
                 name="image"
                 type="file"
                 accept="image/*"
-                onChange={handleImageChange}
-                disabled={preparingImage}
+                onChange={
+                  handleImageChange
+                }
+                disabled={
+                  preparingImage
+                }
               />
 
               {preparingImage && (
@@ -989,6 +1121,7 @@ function AdminContent() {
           }}
         >
           <div className="admin-content-modal">
+
             <div className="admin-content-modal-header">
               <h2>
                 Modifier le contenu
@@ -1022,7 +1155,9 @@ function AdminContent() {
                   name="title"
                   type="text"
                   value={editForm.title}
-                  onChange={handleEditChange}
+                  onChange={
+                    handleEditChange
+                  }
                 />
               </div>
 
@@ -1055,16 +1190,29 @@ function AdminContent() {
 
               <div className="admin-content-field">
                 <label htmlFor="edit-author">
-                  Auteur
+                  Auteur / Autrice
                 </label>
 
                 <input
                   id="edit-author"
                   name="author"
                   type="text"
+                  list="edit-content-authors"
                   value={editForm.author}
-                  onChange={handleEditChange}
+                  onChange={
+                    handleEditChange
+                  }
+                  placeholder="Pseudo de l'auteur ou autrice"
                 />
+
+                <datalist id="edit-content-authors">
+                  {members.map((member) => (
+                    <option
+                      key={member._id}
+                      value={member.pseudo}
+                    />
+                  ))}
+                </datalist>
               </div>
 
               <div className="admin-content-field">
@@ -1077,7 +1225,9 @@ function AdminContent() {
                   name="url"
                   type="url"
                   value={editForm.url}
-                  onChange={handleEditChange}
+                  onChange={
+                    handleEditChange
+                  }
                   placeholder="https://..."
                 />
               </div>
@@ -1092,7 +1242,9 @@ function AdminContent() {
                   name="date"
                   type="date"
                   value={editForm.date}
-                  onChange={handleEditChange}
+                  onChange={
+                    handleEditChange
+                  }
                 />
               </div>
 
@@ -1104,7 +1256,9 @@ function AdminContent() {
                     src={getContentImage(
                       editingContent.image
                     )}
-                    alt={editingContent.title}
+                    alt={
+                      editingContent.title
+                    }
                   />
                 </div>
               )}
