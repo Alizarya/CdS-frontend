@@ -23,6 +23,10 @@ const DEFAULT_MEMBER_IMAGE =
 const DEFAULT_CONTENT_IMAGE =
   "/images/Landing/science.jpg";
 
+// =========================
+// Images
+// =========================
+
 function getMemberImage(image) {
   if (!image) {
     return DEFAULT_MEMBER_IMAGE;
@@ -47,12 +51,41 @@ function getContentImage(image) {
   return `${baseURL}/data${image}`;
 }
 
+// =========================
+// Création du slug membre
+// =========================
+
+function createMemberSlug(value) {
+  if (!value) {
+    return "";
+  }
+
+  return value
+    .toString()
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+// =========================
+// Landing
+// =========================
+
 function Landing() {
   const [members, setMembers] = useState([]);
-  const [featuredContent, setFeaturedContent] = useState(null);
+  const [featuredContent, setFeaturedContent] =
+    useState(null);
 
-  const [loadingMembers, setLoadingMembers] = useState(true);
-  const [loadingContent, setLoadingContent] = useState(true);
+  const [loadingMembers, setLoadingMembers] =
+    useState(true);
+
+  const [loadingContent, setLoadingContent] =
+    useState(true);
 
   const location = useLocation();
 
@@ -287,75 +320,93 @@ function Landing() {
           ) : randomMember ? (
             <div className="landing-member-content">
 
-  <div className="landing-member-main">
+              <div className="landing-member-main">
 
-    <Link
-      to={`/Members/${randomMember._id}`}
-      className="landing-member-image-link"
-    >
-      <div className="landing-member-image-container">
-        <img
-          className="landing-member-image"
-          src={getMemberImage(randomMember.image)}
-          alt={`Profil de ${
-            randomMember.pseudo ||
-            randomMember.name ||
-            "membre"
-          }`}
-        />
+                {/*
+                 * Le pseudo sert d'URL.
+                 * Si le pseudo est vide, on utilise le nom.
+                 */}
+                <Link
+                  to={`/Members/${
+                    createMemberSlug(
+                      randomMember.pseudo ||
+                      randomMember.nom
+                    )
+                  }`}
+                  className="landing-member-image-link"
+                >
+                  <div className="landing-member-image-container">
+                    <img
+                      className="landing-member-image"
+                      src={getMemberImage(
+                        randomMember.image
+                      )}
+                      alt={`Profil de ${
+                        randomMember.pseudo ||
+                        randomMember.nom ||
+                        "membre"
+                      }`}
+                    />
 
-        <span className="landing-member-image-border" />
-      </div>
-    </Link>
+                    <span className="landing-member-image-border" />
+                  </div>
+                </Link>
 
-    {randomMember.links && (
-      <div className="landing-member-socials">
-        {Object.keys(randomMember.links)
-          .filter(
-            (link) => randomMember.links[link]
-          )
-          .map((link) => (
-            <a
-              key={link}
-              href={randomMember.links[link]}
-              target="_blank"
-              rel="noreferrer"
-              title={
-                link.charAt(0).toUpperCase() +
-                link.slice(1)
-              }
-            >
-              {SocialsLogos[link] && (
-                <i className={SocialsLogos[link]} />
-              )}
-            </a>
-          ))}
-      </div>
-    )}
-  </div>
+                {randomMember.links && (
+                  <div className="landing-member-socials">
+                    {Object.keys(randomMember.links)
+                      .filter(
+                        (link) =>
+                          randomMember.links[link]
+                      )
+                      .map((link) => (
+                        <a
+                          key={link}
+                          href={randomMember.links[link]}
+                          target="_blank"
+                          rel="noreferrer"
+                          title={
+                            link.charAt(0).toUpperCase() +
+                            link.slice(1)
+                          }
+                        >
+                          {SocialsLogos[link] && (
+                            <i
+                              className={
+                                SocialsLogos[link]
+                              }
+                            />
+                          )}
+                        </a>
+                      ))}
+                  </div>
+                )}
 
-  <div className="landing-member-info">
+              </div>
 
-    <div className="landing-member-name">
-      {randomMember.pseudo ||
-        randomMember.name}
-    </div>
+              <div className="landing-member-info">
 
-    {randomMember.shortdescription && (
-      <p>
-        {randomMember.shortdescription}
-      </p>
-    )}
+                <div className="landing-member-name">
+                  {randomMember.pseudo ||
+                    randomMember.nom}
+                </div>
 
-  </div>
+                {randomMember.shortdescription && (
+                  <p>
+                    {randomMember.shortdescription}
+                  </p>
+                )}
 
-</div>
+              </div>
+
+            </div>
           ) : (
             <p className="landing-empty">
               Aucun membre disponible.
             </p>
           )}
         </div>
+
       </section>
 
       {/* ========================================

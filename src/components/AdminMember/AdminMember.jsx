@@ -457,18 +457,6 @@ const filteredMembers = useMemo(() => {
                 {/* Actions */}
 
                 <div className="admin-member-actions">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      alert(
-                        "Fonction bientôt disponible"
-                      )
-                    }
-                    title="Modifier"
-                  >
-                    Modifier
-                  </button>
-
                   {visible ? (
                     <button
                       type="button"

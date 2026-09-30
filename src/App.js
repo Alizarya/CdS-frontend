@@ -22,7 +22,6 @@ import SignUp from "./pages/SignUp/SignUp";
 import Login from "./pages/Login/Login";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import ResetThePassword from "./pages/ResetThePassword/ResetThePassword";
-
 import Dashboard from "./pages/Dashboard/Dashboard";
 import DashboardAdmin from "./pages/Dashboard/DashboardAdmin";
 import DashboardContent from "./pages/DashboardContent/DashboardContent";
@@ -53,7 +52,7 @@ function App() {
 
         <Route path="/Members" element={<Members />} />
 
-        <Route path="/Members/:id" element={<MemberCard />} />
+        <Route path="/Members/:pseudo" element={<MemberCard />} />
 
         <Route path="/Content" element={<Content />} />
 

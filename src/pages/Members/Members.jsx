@@ -1,15 +1,18 @@
-// Import des styles
 import "./Members.css";
 import "./MembersResponsive.css";
 
-// Import des composants
 import Header from "../../components/Header/Header";
 import Tags from "../../components/Tags/Tags";
-import React, { useState, useEffect, useMemo } from "react";
+
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+} from "react";
+
 import Button from "../../components/Button/Button";
 import { Link } from "react-router-dom";
 
-// Import des données
 import { getMembers } from "../../utils/axiosMembers";
 import dataTags from "../../data/DataTags";
 
@@ -18,13 +21,97 @@ const API_URL = "https://api.cafe-sciences.org/public";
 const DEFAULT_IMAGE =
   "https://img.freepik.com/vecteurs-libre/aucune-illustration-concept-donnees_114360-2506.jpg?t=st=1728895997~exp=1728899597~hmac=5fbf097feef816adab0ec43d12d218ebe44fbe0e7b3a60c328c7bed612945f91&w=900";
 
-const getMemberImage = (image) => {
-  if (!image) return DEFAULT_IMAGE;
+// =========================
+// Image membre
+// =========================
 
-  if (image.startsWith("http")) return image;
+const getMemberImage = (image) => {
+  if (!image) {
+    return DEFAULT_IMAGE;
+  }
+
+  if (image.startsWith("http")) {
+    return image;
+  }
 
   return `${API_URL}${image}`;
 };
+
+// =========================
+// Normalisation des textes
+// =========================
+
+const norm = (value) =>
+  (value ?? "")
+    .toString()
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "");
+
+// =========================
+// Création du slug membre
+// =========================
+
+const createMemberSlug = (value) => {
+  if (!value) {
+    return "";
+  }
+
+  return value
+    .toString()
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+};
+
+// =========================
+// Texte utilisé pour la recherche
+// =========================
+
+const buildHaystack = (member) => {
+  const {
+    nom,
+    pseudo,
+    shortdescription,
+    description,
+    tags,
+    links,
+    content,
+  } = member || {};
+
+  const parts = [
+    nom,
+    pseudo,
+    shortdescription,
+    description,
+    Array.isArray(tags) ? tags.join(" ") : tags,
+    ...Object.values(links || {}),
+  ];
+
+  if (Array.isArray(content)) {
+    content.forEach((item) => {
+      parts.push(
+        item?.title,
+        item?.description,
+        item?.link,
+        item?.image,
+        item?.content_format
+      );
+    });
+  }
+
+  return norm(parts.filter(Boolean).join(" "));
+};
+
+// =========================
+// Composant
+// =========================
 
 function Members() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -33,69 +120,38 @@ function Members() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Normalisation des textes pour faciliter les recherches
-  // (minuscules + suppression des accents)
-  const norm = (v) =>
-    (v ?? "")
-      .toString()
-      .trim()
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/\p{Diacritic}/gu, "");
+  // =========================
+  // Filtre par tag
+  // =========================
 
-  // Construction du texte dans lequel effectuer la recherche générale
-  const buildHaystack = (m) => {
-    const {
-      name,
-      pseudo,
-      shortdescription,
-      description,
-      tags,
-      links,
-      content,
-    } = m || {};
-
-    const parts = [
-      name,
-      pseudo,
-      shortdescription,
-      description,
-      Array.isArray(tags) ? tags.join(" ") : tags,
-      ...Object.values(links || {}),
-    ];
-
-    if (Array.isArray(content)) {
-      content.forEach((c) => {
-        parts.push(
-          c?.title,
-          c?.description,
-          c?.link,
-          c?.image,
-          c?.content_format
-        );
-      });
-    }
-
-    return norm(parts.filter(Boolean).join(" "));
-  };
-
-  // Permet de cliquer sur un tag pour activer/désactiver le filtre
   const handleTagFilterToggle = (tag) => {
-    const t = (tag ?? "").toString().trim();
+    const selected = (tag ?? "").toString().trim();
 
-    setSelectedTag((prev) => (norm(prev) === norm(t) ? "" : t));
+    setSelectedTag((previous) =>
+      norm(previous) === norm(selected)
+        ? ""
+        : selected
+    );
   };
 
+  // =========================
   // Récupération des membres
+  // =========================
+
   useEffect(() => {
     const fetchMembers = async () => {
       try {
         const data = await getMembers();
 
-        setMembers(data.filter((m) => !m.softDelete));
+        setMembers(
+          data.filter((member) => !member.softDelete)
+        );
       } catch (err) {
         console.error(err);
-        setError("Erreur lors de la récupération des membres.");
+
+        setError(
+          "Erreur lors de la récupération des membres."
+        );
       } finally {
         setLoading(false);
       }
@@ -104,33 +160,38 @@ function Members() {
     fetchMembers();
   }, []);
 
-  // Tags du filtre triés alphabétiquement
+  // =========================
+  // Tags du filtre
+  // =========================
+
   const sortedTags = useMemo(() => {
     return [...dataTags].sort((a, b) =>
-      a.localeCompare(b, "fr", { sensitivity: "base" })
+      a.localeCompare(b, "fr", {
+        sensitivity: "base",
+      })
     );
   }, []);
 
+  // =========================
   // Filtrage des membres
+  // =========================
+
   const filteredMembers = useMemo(() => {
-    const tokens = norm(searchTerm).split(/\s+/).filter(Boolean);
+    const tokens = norm(searchTerm)
+      .split(/\s+/)
+      .filter(Boolean);
+
     const tagNeedle = norm(selectedTag);
 
-    return members.filter((m) => {
-      /*
-       * FILTRE PAR DISCIPLINE
-       *
-       * On vérifie maintenant directement les tags du membre.
-       * Le filtre ne cherche donc plus le nom du tag dans toute
-       * la description du membre.
-       *
-       * Exemple :
-       * selectedTag = "Astronomie"
-       *
-       * Le membre doit réellement avoir "Astronomie" dans m.tags.
-       */
+    return members.filter((member) => {
+      // =========================
+      // FILTRE PAR DISCIPLINE
+      // =========================
+
       if (tagNeedle) {
-        const memberTags = Array.isArray(m.tags) ? m.tags : [];
+        const memberTags = Array.isArray(member.tags)
+          ? member.tags
+          : [];
 
         const hasSelectedTag = memberTags.some(
           (tag) => norm(tag) === tagNeedle
@@ -141,44 +202,70 @@ function Members() {
         }
       }
 
-      /*
-       * RECHERCHE GÉNÉRALE
-       *
-       * La recherche libre continue à chercher dans le nom,
-       * pseudo, descriptions, tags, liens et contenus.
-       */
-      if (tokens.length > 0) {
-        const hay = buildHaystack(m);
+      // =========================
+      // RECHERCHE GÉNÉRALE
+      // =========================
 
-        if (!tokens.every((token) => hay.includes(token))) {
+      if (tokens.length > 0) {
+        const haystack = buildHaystack(member);
+
+        const matches = tokens.every((token) =>
+          haystack.includes(token)
+        );
+
+        if (!matches) {
           return false;
         }
       }
 
       return true;
     });
-  }, [members, searchTerm, selectedTag]);
+  }, [
+    members,
+    searchTerm,
+    selectedTag,
+  ]);
 
-  // Mélange aléatoire des membres
+  // =========================
+  // Mélange aléatoire
+  // =========================
+
   const shuffledMembers = useMemo(() => {
-    const arr = [...filteredMembers];
+    const array = [...filteredMembers];
 
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(
+        Math.random() * (i + 1)
+      );
 
-      [arr[i], arr[j]] = [arr[j], arr[i]];
+      [array[i], array[j]] = [
+        array[j],
+        array[i],
+      ];
     }
 
-    return arr;
+    return array;
   }, [filteredMembers]);
 
+  // =========================
+  // Chargement
+  // =========================
+
   if (loading) {
-    return <div>Chargement des membres...</div>;
+    return (
+      <div>
+        Chargement des membres...
+      </div>
+    );
   }
 
   if (error) {
     return <div>{error}</div>;
   }
+
+  // =========================
+  // Affichage
+  // =========================
 
   return (
     <>
@@ -186,14 +273,18 @@ function Members() {
 
       <main className="members-container">
         <section className="members-section">
+
           <aside className="members-aside">
+
             <div className="search-box">
               <div className="input-container">
                 <input
                   type="text"
                   placeholder="Rechercher un thème, un nom, un sujet..."
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={(event) =>
+                    setSearchTerm(event.target.value)
+                  }
                 />
               </div>
             </div>
@@ -201,14 +292,19 @@ function Members() {
             <div className="tags-dropdown">
               <select
                 value={selectedTag}
-                onChange={(e) => setSelectedTag(e.target.value)}
+                onChange={(event) =>
+                  setSelectedTag(event.target.value)
+                }
               >
                 <option value="">
                   -- Filtrer par discipline --
                 </option>
 
                 {sortedTags.map((tag, index) => (
-                  <option key={index} value={tag}>
+                  <option
+                    key={index}
+                    value={tag}
+                  >
                     {tag}
                   </option>
                 ))}
@@ -218,69 +314,117 @@ function Members() {
                 <button
                   type="button"
                   className="clear-tag-filter"
-                  onClick={() => setSelectedTag("")}
+                  onClick={() =>
+                    setSelectedTag("")
+                  }
                   aria-label="Effacer le filtre"
-                  style={{ marginTop: "8px" }}
+                  style={{
+                    marginTop: "8px",
+                  }}
                 >
                   Effacer le filtre
                 </button>
               )}
             </div>
+
           </aside>
 
           <article className="members-article">
+
             {shuffledMembers.length === 0 ? (
               <p style={{ padding: "1rem" }}>
-                Aucun membre trouvé. Essaie d'alléger la recherche ou retire
+                Aucun membre trouvé. Essaie
+                d'alléger la recherche ou retire
                 le filtre par discipline.
               </p>
             ) : (
-              shuffledMembers.map((member) => (
-                <div
-                  className="members-relative"
-                  key={member._id}
-                >
-                  <Link
-                    to={`/Members/${member._id}`}
-                    state={{ memberData: member }}
-                    className="member-card-link"
+              shuffledMembers.map((member) => {
+
+                // Le pseudo sert d'URL.
+                // Si le pseudo est vide, on utilise le nom.
+                const slugSource =
+                  member.pseudo || member.nom;
+
+                const memberSlug =
+                  createMemberSlug(slugSource);
+
+                return (
+                  <div
+                    className="members-relative"
+                    key={member._id}
                   >
-                    <div className="member-card">
-                      <img
-                        src={getMemberImage(member.image)}
-                        alt={member.name}
-                      />
+                    <Link
+                      to={`/Members/${memberSlug}`}
+                      state={{
+                        memberData: member,
+                      }}
+                      className="member-card-link"
+                    >
+                      <div className="member-card">
 
-                      <div className="member-card-info">
-                        <h2>
-                          {member.pseudo || member.name}
-                        </h2>
+                        <img
+                          src={getMemberImage(
+                            member.image
+                          )}
+                          alt={
+                            member.pseudo ||
+                            member.nom ||
+                            "Membre"
+                          }
+                        />
 
-                        {member.tags ? (
-                          <Tags
-                            tags={member.tags}
-                            searchTerm={selectedTag}
-                            onTagClick={handleTagFilterToggle}
-                          />
-                        ) : (
-                          <p>Aucun tag disponible.</p>
-                        )}
+                        <div className="member-card-info">
 
-                        <p>{member.shortdescription}</p>
+                          <h2>
+                            {member.pseudo ||
+                              member.nom}
+                          </h2>
+
+                          {member.tags ? (
+                            <Tags
+                              tags={member.tags}
+                              searchTerm={
+                                selectedTag
+                              }
+                              onTagClick={
+                                handleTagFilterToggle
+                              }
+                            />
+                          ) : (
+                            <p>
+                              Aucun tag
+                              disponible.
+                            </p>
+                          )}
+
+                          <p>
+                            {
+                              member.shortdescription
+                            }
+                          </p>
+
+                        </div>
+
+                        <Button
+                          texte={`Découvrir ${
+                            member.pseudo ||
+                            member.nom
+                          }`}
+                          onClick={(event) => {
+                            event.preventDefault();
+                            event.stopPropagation();
+                          }}
+                        />
+
                       </div>
-
-                      <Button
-                        texte={`Découvrir ${
-                          member.pseudo || member.name
-                        }`}
-                        onClick={(e) => e.stopPropagation()}
-                      />
-                    </div>
-                  </Link>
-                </div>
-              ))
+                    </Link>
+                  </div>
+                );
+              })
             )}
+
           </article>
+
         </section>
       </main>
     </>
