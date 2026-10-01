@@ -17,7 +17,7 @@ import "./AdminContent.css";
 const MAX_DESCRIPTION_LENGTH = 250;
 const MAX_DISPLAYED_CONTENTS = 13;
 
-function AdminContent() {
+function AdminContent({ token }) {
   const [contents, setContents] = useState([]);
   const [members, setMembers] = useState([]);
 
@@ -311,7 +311,7 @@ function AdminContent() {
       };
 
       const createdContent =
-        await createContent(newContent);
+        await createContent(newContent, token);
 
       setContents((previousContents) =>
         [
@@ -363,7 +363,7 @@ function AdminContent() {
     try {
       setError("");
 
-      await deleteContent(id);
+      await deleteContent(id, token);
 
       await loadContents();
     } catch (error) {
@@ -542,7 +542,8 @@ function AdminContent() {
       const updatedContent =
         await updateContent(
           editingContent.id,
-          contentData
+          contentData,
+          token
         );
 
       setContents((previousContents) =>
@@ -693,7 +694,8 @@ function AdminContent() {
         draggedId,
         {
           order: newOrder,
-        }
+        },
+        token
       );
 
       await loadContents();

@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 
 import {
@@ -9,7 +10,7 @@ import {
 
 import "./AdminRss.css";
 
-function AdminRss() {
+function AdminRss({ token }) {
   const [items, setItems] = useState([]);
   const [feeds, setFeeds] = useState([]);
 
@@ -34,6 +35,10 @@ function AdminRss() {
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState("Tous");
 
+  // =========================
+  // Récupérer les flux RSS
+  // =========================
+
   async function loadRss() {
     try {
       setLoading(true);
@@ -55,6 +60,10 @@ function AdminRss() {
     loadRss();
   }, []);
 
+  // =========================
+  // Ajouter une source
+  // =========================
+
   async function handleSubmit(event) {
     event.preventDefault();
 
@@ -70,10 +79,13 @@ function AdminRss() {
       setSubmitting(true);
       setError("");
 
-      await addRss({
-        name,
-        url,
-      });
+      await addRss(
+        {
+          name,
+          url,
+        },
+        token
+      );
 
       setForm({
         name: "",
@@ -94,9 +106,12 @@ function AdminRss() {
     }
   }
 
+  // =========================
+  // Modifier une source
+  // =========================
+
   function handleEditStart(feed) {
     setError("");
-
     setEditingId(feed.id);
 
     setEditForm({
@@ -127,13 +142,16 @@ function AdminRss() {
       setUpdatingId(feed.id);
       setError("");
 
-      await updateRss(feed.id, {
-        name,
-        url,
-      });
+      await updateRss(
+        feed.id,
+        {
+          name,
+          url,
+        },
+        token
+      );
 
       handleEditCancel();
-
       await loadRss();
     } catch (err) {
       console.error(err);
@@ -148,14 +166,22 @@ function AdminRss() {
     }
   }
 
+  // =========================
+  // Masquer / Mettre en ligne
+  // =========================
+
   async function handleToggleOnline(feed) {
     try {
       setUpdatingId(feed.id);
       setError("");
 
-      await updateRss(feed.id, {
-        online: feed.online === false,
-      });
+      await updateRss(
+        feed.id,
+        {
+          online: feed.online === false,
+        },
+        token
+      );
 
       await loadRss();
     } catch (err) {
@@ -171,6 +197,10 @@ function AdminRss() {
     }
   }
 
+  // =========================
+  // Supprimer une source
+  // =========================
+
   async function handleDelete(feed) {
     const confirmed = window.confirm(
       `Supprimer le flux « ${feed.name} » ?`
@@ -184,7 +214,7 @@ function AdminRss() {
       setDeletingId(feed.id);
       setError("");
 
-      await deleteRss(feed.id);
+      await deleteRss(feed.id, token);
 
       if (editingId === feed.id) {
         handleEditCancel();
@@ -204,6 +234,10 @@ function AdminRss() {
     }
   }
 
+  // =========================
+  // Formater les dates
+  // =========================
+
   function formatDate(date) {
     if (!date) {
       return "";
@@ -221,6 +255,10 @@ function AdminRss() {
       year: "numeric",
     }).format(parsedDate);
   }
+
+  // =========================
+  // Déterminer le type de source
+  // =========================
 
   function getFeedType(feed) {
     const name = (feed.name || "").toLowerCase();
@@ -276,33 +314,24 @@ function AdminRss() {
     return "Site";
   }
 
-  /*
-   * Sources visibles sur le site.
-   *
-   * Les sources masquées restent présentes dans
-   * "Sources présentes", mais leurs publications
-   * ne doivent pas apparaître dans "Flux actuel".
-   */
+  // =========================
+  // Flux actuel
+  // =========================
+
   const onlineFeeds = feeds.filter(
     (feed) => feed.online !== false
   );
 
-  /*
-   * On conserve uniquement les publications provenant
-   * d'une source actuellement en ligne.
-   */
   const currentItems = items.filter((item) =>
     onlineFeeds.some(
       (feed) => feed.name === item.source
     )
   );
 
-  /*
-   * Recherche et filtre des sources dans le panneau
-   * d'administration.
-   *
-   * La recherche porte à la fois sur le nom et l'URL.
-   */
+  // =========================
+  // Recherche et filtres
+  // =========================
+
   const filteredFeeds = feeds.filter((feed) => {
     const searchValue = search.trim().toLowerCase();
 
@@ -321,6 +350,10 @@ function AdminRss() {
 
     return matchesSearch && matchesType;
   });
+
+  // =========================
+  // Affichage
+  // =========================
 
   return (
     <section className="admin-rss">
@@ -359,9 +392,7 @@ function AdminRss() {
             onClick={loadRss}
             disabled={loading}
           >
-            {loading
-              ? "Actualisation..."
-              : "Actualiser"}
+            {loading ? "Actualisation..." : "Actualiser"}
           </button>
         </div>
 
@@ -375,42 +406,34 @@ function AdminRss() {
           </p>
         ) : (
           <div className="admin-rss-current-list">
-            {currentItems
-              .slice(0, 8)
-              .map((item, index) => (
-                <article
-                  className="admin-rss-current-item"
-                  key={`${item.link || item.title}-${index}`}
-                >
-                  <div className="admin-rss-current-source">
-                    {item.source || "Source inconnue"}
+            {currentItems.slice(0, 8).map((item, index) => (
+              <article
+                className="admin-rss-current-item"
+                key={`${item.link || item.title}-${index}`}
+              >
+                <div className="admin-rss-current-source">
+                  {item.source || "Source inconnue"}
 
-                    {item.date && (
-                      <span>
-                        {formatDate(item.date)}
-                      </span>
-                    )}
-                  </div>
-
-                  {item.title && (
-                    <h3>{item.title}</h3>
+                  {item.date && (
+                    <span>{formatDate(item.date)}</span>
                   )}
+                </div>
 
-                  {item.content && (
-                    <p>{item.content}</p>
-                  )}
+                {item.title && <h3>{item.title}</h3>}
 
-                  {item.link && (
-                    <a
-                      href={item.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Voir la publication
-                    </a>
-                  )}
-                </article>
-              ))}
+                {item.content && <p>{item.content}</p>}
+
+                {item.link && (
+                  <a
+                    href={item.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Voir la publication
+                  </a>
+                )}
+              </article>
+            ))}
           </div>
         )}
       </section>
@@ -420,7 +443,6 @@ function AdminRss() {
           ========================== */}
 
       <div className="admin-rss-management">
-
         {/* ==========================
             SOURCES PRÉSENTES
             ========================== */}
@@ -480,14 +502,9 @@ function AdminRss() {
           ) : (
             <div className="admin-rss-sources-list">
               {filteredFeeds.map((feed) => {
-                const isEditing =
-                  editingId === feed.id;
-
-                const isUpdating =
-                  updatingId === feed.id;
-
-                const isDeleting =
-                  deletingId === feed.id;
+                const isEditing = editingId === feed.id;
+                const isUpdating = updatingId === feed.id;
+                const isDeleting = deletingId === feed.id;
 
                 return (
                   <div
@@ -536,9 +553,7 @@ function AdminRss() {
                           <button
                             type="button"
                             className="admin-rss-save"
-                            onClick={() =>
-                              handleEditSave(feed)
-                            }
+                            onClick={() => handleEditSave(feed)}
                             disabled={isUpdating}
                           >
                             {isUpdating
@@ -560,9 +575,7 @@ function AdminRss() {
                       <>
                         <div className="admin-rss-source-content">
                           <div className="admin-rss-source-title">
-                            <strong>
-                              {feed.name}
-                            </strong>
+                            <strong>{feed.name}</strong>
 
                             <span
                               className={`admin-rss-visibility ${
@@ -606,25 +619,19 @@ function AdminRss() {
                               : "Flux inaccessible ou URL invalide"}
                           </div>
 
-                          {feed.status === "error" &&
-                            feed.error && (
-                              <div className="admin-rss-error-details">
-                                {feed.error}
-                              </div>
-                            )}
+                          {feed.status === "error" && feed.error && (
+                            <div className="admin-rss-error-details">
+                              {feed.error}
+                            </div>
+                          )}
                         </div>
 
                         <div className="admin-rss-source-actions">
                           <button
                             type="button"
                             className="admin-rss-edit"
-                            onClick={() =>
-                              handleEditStart(feed)
-                            }
-                            disabled={
-                              isUpdating ||
-                              isDeleting
-                            }
+                            onClick={() => handleEditStart(feed)}
+                            disabled={isUpdating || isDeleting}
                           >
                             Modifier
                           </button>
@@ -636,13 +643,8 @@ function AdminRss() {
                                 ? "admin-rss-online"
                                 : "admin-rss-offline"
                             }
-                            onClick={() =>
-                              handleToggleOnline(feed)
-                            }
-                            disabled={
-                              isUpdating ||
-                              isDeleting
-                            }
+                            onClick={() => handleToggleOnline(feed)}
+                            disabled={isUpdating || isDeleting}
                           >
                             {isUpdating
                               ? "Modification..."
@@ -654,13 +656,8 @@ function AdminRss() {
                           <button
                             type="button"
                             className="admin-rss-delete"
-                            onClick={() =>
-                              handleDelete(feed)
-                            }
-                            disabled={
-                              isDeleting ||
-                              isUpdating
-                            }
+                            onClick={() => handleDelete(feed)}
+                            disabled={isDeleting || isUpdating}
                           >
                             {isDeleting
                               ? "Suppression..."
@@ -681,7 +678,6 @@ function AdminRss() {
             ========================== */}
 
         <aside className="admin-rss-side">
-
           {/* AJOUTER UNE SOURCE */}
 
           <section className="admin-rss-card">
@@ -734,9 +730,7 @@ function AdminRss() {
                 className="admin-rss-submit"
                 disabled={submitting}
               >
-                {submitting
-                  ? "Ajout..."
-                  : "Ajouter la source"}
+                {submitting ? "Ajout..." : "Ajouter la source"}
               </button>
             </form>
           </section>
@@ -757,9 +751,7 @@ function AdminRss() {
               <p className="admin-rss-example">
                 Exemple :
                 <br />
-                <code>
-                  https://bsky.app/profile/nom/rss
-                </code>
+                <code>https://bsky.app/profile/nom/rss</code>
               </p>
             </div>
 
@@ -803,7 +795,6 @@ function AdminRss() {
               </p>
             </div>
           </section>
-
         </aside>
       </div>
     </section>

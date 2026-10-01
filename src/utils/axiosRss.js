@@ -3,6 +3,18 @@ import baseURL from "./urlApi";
 
 const URL = `${baseURL}/rss`;
 
+// Configuration de l'authentification
+const getAuthConfig = (token) => {
+  if (!token) return {};
+
+  return {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+};
+
+// Récupérer les flux RSS
 export async function getRss() {
   try {
     const response = await api.get(URL);
@@ -16,9 +28,10 @@ export async function getRss() {
   }
 }
 
-export async function addRss(rssData) {
+// Ajouter une source RSS
+export async function addRss(rssData, token) {
   try {
-    const response = await api.post(URL, rssData);
+    const response = await api.post(URL, rssData, getAuthConfig(token));
     return response.data;
   } catch (error) {
     console.error(
@@ -29,9 +42,14 @@ export async function addRss(rssData) {
   }
 }
 
-export async function updateRss(rssId, rssData) {
+// Modifier une source RSS
+export async function updateRss(rssId, rssData, token) {
   try {
-    const response = await api.put(`${URL}/${rssId}`, rssData);
+    const response = await api.put(
+      `${URL}/${rssId}`,
+      rssData,
+      getAuthConfig(token),
+    );
     return response.data;
   } catch (error) {
     console.error(
@@ -42,9 +60,10 @@ export async function updateRss(rssId, rssData) {
   }
 }
 
-export async function deleteRss(rssId) {
+// Supprimer une source RSS
+export async function deleteRss(rssId, token) {
   try {
-    const response = await api.delete(`${URL}/${rssId}`);
+    const response = await api.delete(`${URL}/${rssId}`, getAuthConfig(token));
     return response.data;
   } catch (error) {
     console.error(

@@ -8,10 +8,20 @@ const api = axios.create({
   },
 });
 
-// Ajoute automatiquement le JWT à chaque requête
+// Ajoute automatiquement le JWT si aucun token
+// n'a été transmis explicitement.
 api.interceptors.request.use(
   (config) => {
-    const token = sessionStorage.getItem("token");
+    if (config.headers.Authorization) {
+      return config;
+    }
+
+    // Détermine le token selon l'espace utilisé.
+    const isCommunicationRequest = config.url?.includes("/communication/");
+
+    const tokenKey = isCommunicationRequest ? "communicationToken" : "token";
+
+    const token = sessionStorage.getItem(tokenKey);
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -22,14 +32,23 @@ api.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
-// Gestion centralisée des erreurs
+// Gestion centralisée des erreurs.
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // JWT expiré ou invalide
     if (error.response?.status === 401) {
-      sessionStorage.removeItem("token");
-      window.location.href = "/login";
+      const isCommunicationRequest =
+        error.config?.url?.includes("/communication/") ||
+        error.config?.headers?.Authorization ===
+          `Bearer ${sessionStorage.getItem("communicationToken")}`;
+
+      if (isCommunicationRequest) {
+        sessionStorage.removeItem("communicationToken");
+        window.location.href = "/loginCom";
+      } else {
+        sessionStorage.removeItem("token");
+        window.location.href = "/login";
+      }
     }
 
     return Promise.reject(error.response?.data || error);

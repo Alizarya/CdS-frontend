@@ -25,6 +25,7 @@ import ResetThePassword from "./pages/ResetThePassword/ResetThePassword";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import DashboardAdmin from "./pages/Dashboard/DashboardAdmin";
 import DashboardContent from "./pages/DashboardContent/DashboardContent";
+import AdminCom from "./pages/AdminCom/AdminCom";
 
 // Composant protégeant les routes privées
 function ProtectedRoute({ children }) {
@@ -97,6 +98,17 @@ function App() {
             <>
               {/* <ProtectedRoute> */}
               <DashboardContent />
+              {/* </ProtectedRoute> */}
+            </>
+          }
+        />
+
+        <Route
+          path="/AdminCom"
+          element={
+            <>
+              {/* <ProtectedRoute> */}
+              <AdminCom />
               {/* </ProtectedRoute> */}
             </>
           }
